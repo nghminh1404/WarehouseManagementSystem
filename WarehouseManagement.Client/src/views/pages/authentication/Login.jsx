@@ -1,14 +1,15 @@
+import ima from '../../../assets/images/logo.png';
 const Login = () => {
     return (
         <section className="h-100">
             <div className="container-fluid">
                 <div className="row p-5">
-                    <div className="col-sm-6 px-0 d-none d-sm-block">
+                    <div className="col-sm-6 px-0 d-lg-flex align-items-center justify-content-center ">
                         <div
-                            className="w-100 h-100  d-flex align-items-center justify-content-center"
-                            style={{ backgroundColor: '#f0f0f0' }}
+                            className="w-100 d-flex align-items-center justify-content-center custom-rounded"
+                            style={{ backgroundColor: '#f0f0f0', height: '80vh' }}
                         >
-                            <h1>WAREHOUSE MANAGEMENT SYSTEM</h1>
+                            <img className="img-fluid" src={ima} alt="WAREHOUSE MANAGEMENT SYSTEM" />
                         </div>
                     </div>
                     <div className="col-sm-6 d-flex align-items-center">
@@ -19,7 +20,7 @@ const Login = () => {
                                 </div>
 
                                 <h5 className="fw-normal mb-3 pb-3">
-                                    Vui lòng đăng nhập tài khoản để tiếp túc sử dụng dịch vụ
+                                    Vui lòng đăng nhập tài khoản để tiếp tục sử dụng dịch vụ
                                 </h5>
 
                                 <div className="form-outline mb-4">
@@ -33,7 +34,6 @@ const Login = () => {
                                     <label className="form-label" htmlFor="form2Example27">
                                         Mật khẩu
                                     </label>
-
                                     <input
                                         type="password"
                                         id="form2Example27"
@@ -48,7 +48,7 @@ const Login = () => {
                                 </div>
 
                                 <a className="small text-muted" href="#!">
-                                    Lấy lại mật khẩu ?
+                                    Lấy lại mật khẩu?
                                 </a>
                             </form>
                         </div>
