@@ -1,0 +1,31 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --primary: #24cbc7;
+}
+
+html {
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-optical-sizing: auto;
+}
+
+.custom-rounded {
+    border-radius: 15px; /* Chỉnh độ cong của góc */
+}
+.color-primary {
+    background-color: #24cbc7 !important;
+    border-color: #24cbc7;
+    color: white !important;
+}
+.italic {
+    font-style: italic !important;
+}
+
+.warning {
+    font-style: italic !important;
+    color: #db4437;
+}
