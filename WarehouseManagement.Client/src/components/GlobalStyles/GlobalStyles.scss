@@ -16,3 +16,16 @@ body {
 .custom-rounded {
     border-radius: 15px; /* Chỉnh độ cong của góc */
 }
+.color-primary {
+    background-color: #24cbc7 !important;
+    border-color: #24cbc7;
+    color: white !important;
+}
+.italic {
+    font-style: italic !important;
+}
+
+.warning {
+    font-style: italic !important;
+    color: #db4437;
+}
