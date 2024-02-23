@@ -1,7 +1,7 @@
 import logo from '../../../assets/images/logo.png';
 import shape from '../../../assets/images/Shape.png';
 
-const Login = () => {
+const ResetPassword = () => {
     return (
         <section className="h-100">
             <div className="container-fluid">
@@ -34,42 +34,37 @@ const Login = () => {
                         <div className="card-body p-4 p-lg-5 text-black">
                             <form>
                                 <div className="d-flex align-items-center mb-3 pb-1">
-                                    <span className="h1 fw-bold mb-0">Chào mừng tới với WMS!</span>
+                                    <span className="h1 fw-bold mb-0">Đặt lại mật khẩu</span>
                                 </div>
 
-                                <h5 className="fw-normal mb-3 pb-3">
-                                    Vui lòng đăng nhập tài khoản để tiếp tục sử dụng dịch vụ
-                                </h5>
+                                <h5 className="fw-normal mb-3 pb-3">Vui lòng nhập mật khẩu mà bạn muốn đặt</h5>
 
                                 <div className="form-outline mb-4">
                                     <label className="form-label" htmlFor="form2Example17">
-                                        Tên đăng nhập
+                                        Mật khẩu
                                     </label>
-                                    <input type="email" id="form2Example17" className="form-control form-control-lg" />
+                                    <div className="input-group">
+                                        <input
+                                            type="password"
+                                            id="password1"
+                                            className="form-control form-control-lg"
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="form-outline mb-4">
                                     <label className="form-label" htmlFor="form2Example27">
-                                        Mật khẩu
+                                        Nhập lại mật khẩu
                                     </label>
-                                    <input
-                                        type="password"
-                                        id="form2Example27"
-                                        className="form-control form-control-lg"
-                                    />
-                                    <a className="small text-muted" href="#!">
-                                        Quên mật khẩu?
-                                    </a>
+                                    <input type="password" id="password2" className="form-control form-control-lg" />
+                                    <p className="warning">Nhập lại mật khẩu không đúng!</p>
                                 </div>
 
                                 <div className="pt-1 mb-4">
                                     <button className="btn  btn-lg btn-block w-100 color-primary" type="button">
-                                        Đăng nhập
+                                        Đặt lại mật khẩu
                                     </button>
                                 </div>
-                                <p className="warning d-lg-flex align-items-center justify-content-center">
-                                    Sai tên tài khoản hoặc mật khẩu!
-                                </p>
                             </form>
                         </div>
                     </div>
@@ -79,4 +74,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default ResetPassword;
