@@ -1,15 +1,17 @@
 import logo from '../../../assets/images/logo.png';
 import shape from '../../../assets/images/Shape.png';
+import { Form, Button } from 'react-bootstrap';
 
 const ForgotPassword = () => {
     return (
         <section className="h-100">
             <div className="container-fluid">
-                <div className="row" style={{ padding: '100px', paddingLeft: '300px', paddingRight: '300px' }}>
-                    <div className="col-sm-6 px-0 d-lg-flex align-items-center justify-content-center custom-rounded">
+                <div className="row" style={{ padding: '50px' }}>
+                    <div className="col-lg-2"></div>
+                    <div className="col-lg-4 d-flex align-items-center justify-content-center">
                         <div
                             className="w-100 d-flex flex-column align-items-center justify-content-center custom-rounded"
-                            style={{ backgroundColor: '#f8f7fa', height: '80vh', position: 'relative' }}
+                            style={{ backgroundColor: '#f8f7fa', minHeight: '80vh', position: 'relative' }}
                         >
                             <img
                                 className="mb-5"
@@ -30,11 +32,11 @@ const ForgotPassword = () => {
                             </h1>
                         </div>
                     </div>
-                    <div className="col-sm-6 d-flex align-items-center">
+                    <div className="col-lg-4 d-flex align-items-center justify-content-center">
                         <div className="card-body p-4 p-lg-5 text-black">
-                            <form>
+                            <Form>
                                 <div className="d-flex align-items-center mb-3 pb-1">
-                                    <span className="h1 fw-bold mb-0">Bạn quên mật khẩu?</span>
+                                    <h2 className="fw-bold mb-0">Bạn quên mật khẩu?</h2>
                                 </div>
 
                                 <h5 className="fw-normal mb-3 pb-3">
@@ -42,38 +44,31 @@ const ForgotPassword = () => {
                                     tài khoản
                                 </h5>
 
-                                <div className="form-outline mb-4">
-                                    <label className="form-label" htmlFor="form2Example17">
-                                        Email
-                                    </label>
+                                <Form.Group className="mb-4">
+                                    <Form.Label>Email</Form.Label>
                                     <div className="input-group">
-                                        <input
-                                            type="email"
-                                            id="form2Example17"
-                                            className="form-control form-control-lg"
-                                        />
-                                        <button className="btn color-primary" type="button">
+                                        <Form.Control type="email" required placeholder="Nhập email" />
+                                        <Button className="btn color-primary" type="submit">
                                             Gửi
-                                        </button>
+                                        </Button>
                                     </div>
                                     <p className="warning">Vui lòng nhập email hợp lệ!</p>
-                                </div>
+                                </Form.Group>
 
-                                <div className="form-outline mb-4">
-                                    <label className="form-label" htmlFor="form2Example27">
-                                        Mã khôi phục
-                                    </label>
-                                    <input type="number" className="form-control form-control-lg" />
-                                </div>
+                                <Form.Group className="mb-4">
+                                    <Form.Label>Mã khôi phục</Form.Label>
+                                    <Form.Control type="number" required placeholder="Nhập mã khôi phục" />
+                                </Form.Group>
 
                                 <div className="pt-1 mb-4">
-                                    <button className="btn  btn-lg btn-block w-100 color-primary" type="button">
+                                    <Button className="btn btn-lg btn-block w-100 color-primary" type="submit">
                                         Lấy lại mật khẩu
-                                    </button>
+                                    </Button>
                                 </div>
-                            </form>
+                            </Form>
                         </div>
                     </div>
+                    <div className="col-lg-2"></div>
                 </div>
             </div>
         </section>
