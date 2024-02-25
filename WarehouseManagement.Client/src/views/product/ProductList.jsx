@@ -3,7 +3,6 @@ import { Table } from 'react-bootstrap';
 
 function MyTable() {
     return (
-
         <div className="container">
             <div className="row justify-content-center">
                 <div className="col-sm-12">
@@ -80,12 +79,9 @@ function MyTable() {
                         </tbody>
                     </Table>
                 </div>
-
             </div>
-          </div>
         </div>
-      </div>
     );
-  }
-  
+}
+
 export default MyTable;
