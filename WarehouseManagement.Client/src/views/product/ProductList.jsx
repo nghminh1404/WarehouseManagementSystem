@@ -3,89 +3,84 @@ import { Table } from 'react-bootstrap';
 
 function MyTable() {
     return (
-      <div className="container text-center">
-        <div className="row">
-          <div className="col-sm-9">
-            <div className="row">
-              <div className="col">
-              <div className="input-group" style={{ position: "relative" }}>
-              <button className="btn btn-outline-secondary bg-white border-end-0 border-top-0 border ms-n5" type="button" style={{  left: 0 }}>
-                <i className="fa fa-search"></i>
-              </button>
-                     <input className="form-control border-start-0 border" type="search" defaultValue="search" id="example-search-input" />
-               </div>
 
-                <h5 style={{ marginTop: '20px', textAlign: 'left' }}>Trang chủ/Quản lý hàng hóa</h5>
-                <Table bordered style={{ border: '1px solid #dee2e6'}} hover>
-                  <thead>
-                    <tr>
-                      <th className="text-nowrap">Mã SP</th>
-                      <th className="text-nowrap">TÊN SẢN PHẨM</th>
-                      <th className="text-nowrap">NHÀ CUNG CẤP</th>
-                      <th className="text-nowrap">LOẠI</th>
-                      <th className="text-nowrap">TỒN KHO</th>
-                      <th className="text-nowrap">ĐƠN VỊ</th>
-                      <th className="text-nowrap">NGÀY KHỞI TẠO</th>
-                      <th className="text-nowrap">ORDER STATUS</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-primary">SP1</td>
-                      <td>OnePlues 7Pro</td>
-                      <td>OnePlues</td>
-                      <td>SmartPhone</td>
-                      <td>102</td>
-                      <td>Chiec</td>
-                      <td>17/02/2003</td>
-                      <td className="text-success">Đang giao dịch</td>
-                      <td style={{ padding: '20px' }}>
-                        <i className="fa-solid fa-pen-to-square"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-primary">SP2</td>
-                      <td>OnePlues 7Pro</td>
-                      <td>OnePlues</td>
-                      <td>SmartPhone</td>
-                      <td>102</td>
-                      <td>Chiec</td>
-                      <td>17/02/2003</td>
-                      <td className="text-danger">Dừng giao dịch</td>
-                      <td style={{ padding: '20px' }}>
-                        <i className="fa-solid fa-pen-to-square"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-primary">SP3</td>
-                      <td>OnePlues 7Pro</td>
-                      <td>OnePlues</td>
-                      <td>SmartPhone</td>
-                      <td>102</td>
-                      <td>Chiec</td>
-                      <td>17/02/2003</td>
-                      <td className="text-danger">Dừng giao dịch</td>
-                      <td style={{ padding: '20px' }}>
-                        <i className="fa-solid fa-pen-to-square"></i>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-primary">SP4</td>
-                      <td>OnePlues 7Pro</td>
-                      <td>OnePlues</td>
-                      <td>SmartPhone</td>
-                      <td>102</td>
-                      <td>Chiec</td>
-                      <td>17/02/2003</td>
-                      <td className="text-success">Đang giao dịch</td>
-                      <td style={{ padding: '20px' }}>
-                        <i className="fa-solid fa-pen-to-square"></i>
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </div>
+        <div className="container">
+            <div className="row justify-content-center">
+                <div className="col-sm-12">
+                    <h5 className="my-3" style={{ color: '#a5a2ad' }}>
+                        Trang chủ/Quản lý hàng hóa
+                    </h5>
+                    <Table className="table text-center table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th className="align-middle text-nowrap">Mã SP</th>
+                                <th className="align-middle text-nowrap">TÊN SẢN PHẨM</th>
+                                <th className="align-middle text-nowrap">NHÀ CUNG CẤP</th>
+                                <th className="align-middle text-nowrap">LOẠI</th>
+                                <th className="align-middle text-nowrap">TỒN KHO</th>
+                                <th className="align-middle text-nowrap">ĐƠN VỊ</th>
+                                <th className="align-middle text-nowrap">NGÀY KHỞI TẠO</th>
+                                <th className="align-middle text-nowrap">ORDER STATUS</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="text-primary align-middle">SP1</td>
+                                <td className="align-middle">OnePlues 7Pro</td>
+                                <td className="align-middle">OnePlues</td>
+                                <td className="align-middle">SmartPhone</td>
+                                <td className="align-middle">102</td>
+                                <td className="align-middle">Chiec</td>
+                                <td className="align-middle">17/02/2003</td>
+                                <td className="text-success align-middle">Đang giao dịch</td>
+                                <td className="align-middle" style={{ padding: '20px' }}>
+                                    <i className="fa-solid fa-pen-to-square"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="text-primary align-middle">SP2</td>
+                                <td className="align-middle">OnePlues 7Pro</td>
+                                <td className="align-middle">OnePlues</td>
+                                <td className="align-middle">SmartPhone</td>
+                                <td className="align-middle">102</td>
+                                <td className="align-middle">Chiec</td>
+                                <td className="align-middle">17/02/2003</td>
+                                <td className="text-danger align-middle">Dừng giao dịch</td>
+                                <td className="align-middle" style={{ padding: '20px' }}>
+                                    <i className="fa-solid fa-pen-to-square"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="text-primary align-middle">SP3</td>
+                                <td className="align-middle">OnePlues 7Pro</td>
+                                <td className="align-middle">OnePlues</td>
+                                <td className="align-middle">SmartPhone</td>
+                                <td className="align-middle">102</td>
+                                <td className="align-middle">Chiec</td>
+                                <td className="align-middle">17/02/2003</td>
+                                <td className="text-danger align-middle">Dừng giao dịch</td>
+                                <td className="align-middle" style={{ padding: '20px' }}>
+                                    <i className="fa-solid fa-pen-to-square"></i>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="text-primary align-middle">SP4</td>
+                                <td className="align-middle">OnePlues 7Pro</td>
+                                <td className="align-middle">OnePlues</td>
+                                <td className="align-middle">SmartPhone</td>
+                                <td className="align-middle">102</td>
+                                <td className="align-middle">Chiec</td>
+                                <td className="align-middle">17/02/2003</td>
+                                <td className="text-success align-middle">Đang giao dịch</td>
+                                <td className="align-middle" style={{ padding: '20px' }}>
+                                    <i className="fa-solid fa-pen-to-square"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </div>
+
             </div>
           </div>
         </div>
