@@ -4,9 +4,11 @@ import ResetPassword from './views/pages/authentication/ResetPassword';
 import { Routes, Route } from 'react-router-dom';
 import NavbarCom from './views/components/NavbarCom';
 import ProductList from './views/product/ProductList'
+import Sidebar from './views/components/Sidebar';
 function App() {
     return (
         <div className="app">
+            <Sidebar/>
             <NavbarCom />
             <Routes>
                 <Route path="/" element={<Login />} />
