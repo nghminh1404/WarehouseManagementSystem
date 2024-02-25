@@ -4,8 +4,6 @@ import { Container, Row, Col, Nav, NavDropdown, Image } from 'react-bootstrap';
 const Sidebar = () => {
     return (
 
-        <Container fluid>
-            <Row className="flex-nowrap">
                 <Col sm={3} md={3} xl={2} className="px-sm-2 px-0 bg-info bg-gradient">
                     <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                         <a href="/" className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-black text-decoration-none">
@@ -110,17 +108,8 @@ const Sidebar = () => {
                         </Nav>
                     </div>
                 </Col>
-                <Col className="py-3">
-                    <h3>Left Sidebar with Submenus</h3>
-                    <p className="lead">
-                        An example 2-level sidebar with collasible menu items. The menu functions like an "accordion" where only a single
-                        menu is be open at a time. While the sidebar itself is not toggle-able, it does responsively shrink in width on smaller screens.</p>
-                    <ul className="list-unstyled">
-                        <li><h5>Responsive</h5> shrinks in width, hides text labels and collapses to icons only on mobile</li>
-                    </ul>
-                </Col>
-            </Row>
-        </Container>
+                
+
 
     );
 

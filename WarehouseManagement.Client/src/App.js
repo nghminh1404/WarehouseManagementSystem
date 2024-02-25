@@ -5,17 +5,25 @@ import { Routes, Route } from 'react-router-dom';
 import NavbarCom from './views/components/NavbarCom';
 import ProductList from './views/product/ProductList'
 import Sidebar from './views/components/Sidebar';
+import { Container, Row, Col } from 'react-bootstrap';
 function App() {
     return (
         <div className="app">
-            <Sidebar/>
-            <NavbarCom />
+            <Container fluid>
+                <Row className="flex-nowrap">
+                    <Sidebar/>
+                    <Col className='py-3'>
+                        <ProductList/>
+                    </Col>               
+                </Row>
+            </Container>
+            {/* <NavbarCom />
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/ProductList" element={<ProductList />} />
-            </Routes>
+            </Routes> */}
         </div>
     );
 }
