@@ -54,10 +54,10 @@ const Login = () => {
                                     <Form.Label>Mật khẩu</Form.Label>
                                     <div className="input-group">
                                         <Form.Control type="password" required placeholder="Mật khẩu" />
-                                        <a className="small text-muted" href="#!">
-                                            Quên mật khẩu?
-                                        </a>
                                     </div>
+                                    <a className="small text-muted" href="#!">
+                                        Quên mật khẩu?
+                                    </a>
                                 </Form.Group>
 
                                 <div className="pt-1 mb-4">
