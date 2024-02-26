@@ -1,19 +1,47 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, DropdownButton, Dropdown } from 'react-bootstrap';
 
 function MyTable() {
     return (
         <div className="container">
             <div className="row justify-content-center">
                 <div className="col-sm-12">
-                    <div className="row no-gutters">
+                    
+                    <h5 style={{ color: '#a5a2ad' }}>
+                        Trang chủ/Quản lý hàng hóa
+                    </h5>
+                    <div className="row no-gutters my-3">
+                        <div className='col'>
+                            <DropdownButton title="Kho" variant="success">
+                                    <Dropdown.Item href="#">HTML</Dropdown.Item>
+                                    <Dropdown.Item href="#">CSS</Dropdown.Item>
+                                    <Dropdown.Item href="#">JavaScript</Dropdown.Item>
+                                </DropdownButton>
+                        </div>
                         <div className="col">
+
+                                <DropdownButton title="Nhà cung cấp" variant="success">
+                                    <Dropdown.Item href="#">HTML</Dropdown.Item>
+                                    <Dropdown.Item href="#">CSS</Dropdown.Item>
+                                    <Dropdown.Item href="#">JavaScript</Dropdown.Item>
+                                </DropdownButton>
+
+                                
+                        </div>
+                        <div className='col'>
+                            <DropdownButton title="Thể loại" variant="success">
+                                    <Dropdown.Item href="#">HTML</Dropdown.Item>
+                                    <Dropdown.Item href="#">CSS</Dropdown.Item>
+                                    <Dropdown.Item href="#">JavaScript</Dropdown.Item>
+                            </DropdownButton>     
+                        </div>
+                        <div className='col'>
                             <input
-                                className="form-control border-secondary border-right-0 rounded-0"
-                                type="search"
-                                defaultValue="search"
-                                id="example-search-input4"
-                                readOnly={false}
+                                    className="form-control border-secondary border-right-0 rounded-0"
+                                    type="search"
+                                    defaultValue="search"
+                                    id="example-search-input4"
+                                    readOnly={false}
                             />
                         </div>
                         <div className="col-auto">
@@ -25,11 +53,8 @@ function MyTable() {
                             </button>
                         </div>
                     </div>
-                    <h5 className="my-3" style={{ color: '#a5a2ad' }}>
-                        Trang chủ/Quản lý hàng hóa
-                    </h5>
                     <div className="table-responsive ">
-                        <Table className="table text-center  table-bordered table-hover">
+                        <Table className="table text-center  table-bordered table-hover table-striped  border-primary table-sm">
                             <thead>
                                 <tr>
                                     <th className="align-middle   text-nowrap">Mã SP</th>
