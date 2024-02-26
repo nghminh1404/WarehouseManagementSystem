@@ -21,7 +21,7 @@ function MyTable() {
                                 className="btn btn-outline-secondary border-left-0 rounded-0 rounded-right"
                                 type="button"
                             >
-                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <i className="fa-solid fa-magnifying-glass"></i>
                             </button>
                         </div>
                     </div>
@@ -54,7 +54,7 @@ function MyTable() {
                                     <td className="align-middle">17/02/2003</td>
                                     <td className=" text-color-primary align-middle">Đang giao dịch</td>
                                     <td className="align-middle" style={{ padding: '20px' }}>
-                                        <i class="fa-duotone fa-pen-to-square"></i>
+                                        <i className="fa-duotone fa-pen-to-square"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -67,7 +67,7 @@ function MyTable() {
                                     <td className="align-middle">17/02/2003</td>
                                     <td className="text-danger align-middle">Dừng giao dịch</td>
                                     <td className="align-middle" style={{ padding: '20px' }}>
-                                        <i class="fa-duotone fa-pen-to-square"></i>
+                                        <i className="fa-duotone fa-pen-to-square"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -80,7 +80,7 @@ function MyTable() {
                                     <td className="align-middle">17/02/2003</td>
                                     <td className="text-danger align-middle">Dừng giao dịch</td>
                                     <td className="align-middle" style={{ padding: '20px' }}>
-                                        <i class="fa-duotone fa-pen-to-square"></i>
+                                        <i className="fa-duotone fa-pen-to-square"></i>
                                     </td>
                                 </tr>
                                 <tr>
@@ -93,7 +93,7 @@ function MyTable() {
                                     <td className="align-middle">17/02/2003</td>
                                     <td className="text-color-primary align-middle">Đang giao dịch</td>
                                     <td className="align-middle" style={{ padding: '20px' }}>
-                                        <i class="fa-duotone fa-pen-to-square"></i>
+                                        <i className="fa-duotone fa-pen-to-square"></i>
                                     </td>
                                 </tr>
                             </tbody>
