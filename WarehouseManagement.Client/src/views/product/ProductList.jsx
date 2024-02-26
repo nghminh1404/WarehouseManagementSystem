@@ -6,9 +6,20 @@ function MyTable() {
         <div className="container">
             <div className="row justify-content-center">
                 <div className="col-sm-12">
+                <div className="row no-gutters">
+             <div className="col">
+               <input className="form-control border-secondary border-right-0 rounded-0" type="search" defaultValue="search" id="example-search-input4" readOnly={false} />
+            </div>
+        <div className="col-auto">
+            <button className="btn btn-outline-secondary border-left-0 rounded-0 rounded-right" type="button">
+                <i className="fa fa-search"></i>
+            </button>
+           </div>
+        </div>
                     <h5 className="my-3" style={{ color: '#a5a2ad' }}>
                         Trang chủ/Quản lý hàng hóa
                     </h5>
+                    <div className="table-responsive">
                     <Table className="table text-center table-bordered table-hover">
                         <thead>
                             <tr>
@@ -78,6 +89,7 @@ function MyTable() {
                             </tr>
                         </tbody>
                     </Table>
+                    </div>
                 </div>
             </div>
         </div>
