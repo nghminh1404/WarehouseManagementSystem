@@ -63,7 +63,7 @@ const ResetPassword = () => {
                                 </Form.Group>
 
                                 <div className="pt-1 mb-4">
-                                    <Button className="btn btn-lg btn-block w-100 color-primary" type="button">
+                                    <Button className="btn btn-lg btn-block w-100 box-color-primary" type="button">
                                         Đặt lại mật khẩu
                                     </Button>
                                 </div>
