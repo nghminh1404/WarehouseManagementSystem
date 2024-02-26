@@ -3,27 +3,56 @@ import ForgotPassword from './views/pages/authentication/ForgotPassword';
 import ResetPassword from './views/pages/authentication/ResetPassword';
 import { Routes, Route } from 'react-router-dom';
 import NavbarCom from './views/components/NavbarCom';
-import ProductList from './views/product/ProductList'
+import ProductList from './views/product/ProductList';
 import Sidebar from './views/components/Sidebar';
 import { Container, Row, Col } from 'react-bootstrap';
 function App() {
     return (
         <div className="app">
-            <Container fluid>
-                <Row className="flex-nowrap">
-                    <Sidebar/>
-                    <Col className='py-3'>
-                        <ProductList/>
-                    </Col>               
-                </Row>
-            </Container>
-            {/* <NavbarCom />
             <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
-                <Route path="/ProductList" element={<ProductList />} />
-            </Routes> */}
+                <Route
+                    path="/"
+                    element={
+                        <Container fluid>
+                            <NavbarCom />
+                            <Login />
+                        </Container>
+                    }
+                />
+                <Route
+                    path="/forgot-password"
+                    element={
+                        <Container fluid>
+                            <NavbarCom />
+                            <ForgotPassword />
+                        </Container>
+                    }
+                />
+                <Route
+                    path="/reset-password"
+                    element={
+                        <Container fluid>
+                            <NavbarCom />
+                            <ResetPassword />
+                        </Container>
+                    }
+                />
+                <Route
+                    path="/ProductList"
+                    element={
+                        <Container fluid>
+                            <Row className="flex-nowrap">
+                                <Sidebar />
+
+                                <Col className="py-3 background-primary">
+                                    <NavbarCom />
+                                    <ProductList />
+                                </Col>
+                            </Row>
+                        </Container>
+                    }
+                />
+            </Routes>
         </div>
     );
 }
