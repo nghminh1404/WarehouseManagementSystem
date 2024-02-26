@@ -7,9 +7,6 @@ function NavbarCom() {
             <Container>
                 <Navbar.Toggle aria-controls="navbarSupportedContent" />
                 <Navbar.Collapse id="navbarSupportedContent">
-                    <Navbar.Brand href="#">
-                        <img src={logo} height="30" alt="MDB Logo" loading="lazy" />
-                    </Navbar.Brand>
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/">
                             Login

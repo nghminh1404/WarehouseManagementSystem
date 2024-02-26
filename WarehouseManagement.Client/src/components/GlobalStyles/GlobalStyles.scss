@@ -1,8 +1,8 @@
-@import 'normalize.css';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
     --primary: #24cbc7;
+    --secondary: #5d586c;
 }
 
 html {
@@ -14,12 +14,18 @@ body {
 }
 
 .custom-rounded {
-    border-radius: 15px; /* Chỉnh độ cong của góc */
+    border-radius: 15px;
 }
-.color-primary {
-    background-color: #24cbc7 !important;
-    border-color: #24cbc7;
+.box-color-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
     color: white !important;
+}
+.text-color-primary {
+    color: var(--primary) !important;
+}
+.text-color {
+    color: var(--secondary) !important;
 }
 .italic {
     font-style: italic !important;
@@ -28,4 +34,26 @@ body {
 .warning {
     font-style: italic !important;
     color: #db4437;
+}
+
+.background-primary {
+    background-color: #f8f7fa !important;
+}
+.text-sidebar {
+    color: #4b465c !important;
+}
+
+/* CSS cho sidebar */
+.sidebar-item {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-item > div {
+    transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-item:hover > div {
+    transform: translateX(10px);
+    color: var(--primary);
 }
