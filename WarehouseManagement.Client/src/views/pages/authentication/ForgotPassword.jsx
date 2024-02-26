@@ -48,7 +48,7 @@ const ForgotPassword = () => {
                                     <Form.Label>Email</Form.Label>
                                     <div className="input-group">
                                         <Form.Control type="email" required placeholder="Nhập email" />
-                                        <Button className="btn color-primary" type="submit">
+                                        <Button className="btn box-color-primary" type="submit">
                                             Gửi
                                         </Button>
                                     </div>
@@ -61,7 +61,7 @@ const ForgotPassword = () => {
                                 </Form.Group>
 
                                 <div className="pt-1 mb-4">
-                                    <Button className="btn btn-lg btn-block w-100 color-primary" type="submit">
+                                    <Button className="btn btn-lg btn-block w-100 box-color-primary" type="submit">
                                         Lấy lại mật khẩu
                                     </Button>
                                 </div>
