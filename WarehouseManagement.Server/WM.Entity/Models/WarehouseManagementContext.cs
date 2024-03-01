@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace WM.Entity.Models;
 
@@ -67,10 +66,8 @@ public partial class WarehouseManagementContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        var ConnectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("SqlConnection");
-        optionsBuilder.UseSqlServer(ConnectionString);
-    }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("server = KTMING\\SQLEXPRESS; database = WarehouseManagement; uid=minh; pwd=123456; TrustServerCertificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -452,6 +449,7 @@ public partial class WarehouseManagementContext : DbContext
 
             entity.Property(e => e.Address).HasMaxLength(250);
             entity.Property(e => e.Email).HasMaxLength(62);
+            entity.Property(e => e.FullName).HasMaxLength(100);
             entity.Property(e => e.Password).HasMaxLength(32);
             entity.Property(e => e.StatusId).HasDefaultValueSql("(CONVERT([bit],(0)))");
             entity.Property(e => e.UserCode).HasMaxLength(24);
