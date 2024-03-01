@@ -27,6 +27,8 @@ public partial class User
 
     public string? Image { get; set; }
 
+    public string? FullName { get; set; }
+
     public virtual ICollection<EmailToken> EmailTokens { get; set; } = new List<EmailToken>();
 
     public virtual ICollection<ExportOrder> ExportOrders { get; set; } = new List<ExportOrder>();
