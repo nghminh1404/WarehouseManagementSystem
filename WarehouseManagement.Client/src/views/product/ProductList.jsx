@@ -6,42 +6,36 @@ function MyTable() {
         <div className="container">
             <div className="row justify-content-center">
                 <div className="col-sm-12">
-                    
-                    <h5 style={{ color: '#a5a2ad' }}>
-                        Trang chủ/Quản lý hàng hóa
-                    </h5>
+                    <h5 style={{ color: '#a5a2ad' }}>Trang chủ/Quản lý hàng hóa</h5>
                     <div className="row no-gutters my-3">
-                        <div className='col'>
+                        <div className="col">
                             <DropdownButton title="Kho" variant="success">
-                                    <Dropdown.Item href="#">HTML</Dropdown.Item>
-                                    <Dropdown.Item href="#">CSS</Dropdown.Item>
-                                    <Dropdown.Item href="#">JavaScript</Dropdown.Item>
-                                </DropdownButton>
+                                <Dropdown.Item href="#">HTML</Dropdown.Item>
+                                <Dropdown.Item href="#">CSS</Dropdown.Item>
+                                <Dropdown.Item href="#">JavaScript</Dropdown.Item>
+                            </DropdownButton>
                         </div>
                         <div className="col">
-
-                                <DropdownButton title="Nhà cung cấp" variant="success">
-                                    <Dropdown.Item href="#">HTML</Dropdown.Item>
-                                    <Dropdown.Item href="#">CSS</Dropdown.Item>
-                                    <Dropdown.Item href="#">JavaScript</Dropdown.Item>
-                                </DropdownButton>
-
-                                
+                            <DropdownButton title="Nhà cung cấp" variant="success">
+                                <Dropdown.Item href="#">HTML</Dropdown.Item>
+                                <Dropdown.Item href="#">CSS</Dropdown.Item>
+                                <Dropdown.Item href="#">JavaScript</Dropdown.Item>
+                            </DropdownButton>
                         </div>
-                        <div className='col'>
+                        <div className="col">
                             <DropdownButton title="Thể loại" variant="success">
-                                    <Dropdown.Item href="#">HTML</Dropdown.Item>
-                                    <Dropdown.Item href="#">CSS</Dropdown.Item>
-                                    <Dropdown.Item href="#">JavaScript</Dropdown.Item>
-                            </DropdownButton>     
+                                <Dropdown.Item href="#">HTML</Dropdown.Item>
+                                <Dropdown.Item href="#">CSS</Dropdown.Item>
+                                <Dropdown.Item href="#">JavaScript</Dropdown.Item>
+                            </DropdownButton>
                         </div>
-                        <div className='col'>
+                        <div className="col">
                             <input
-                                    className="form-control border-secondary border-right-0 rounded-0"
-                                    type="search"
-                                    defaultValue="search"
-                                    id="example-search-input4"
-                                    readOnly={false}
+                                className="form-control border-secondary border-right-0 rounded-0"
+                                type="search"
+                                defaultValue="search"
+                                id="example-search-input4"
+                                readOnly={false}
                             />
                         </div>
                         <div className="col-auto">
@@ -53,8 +47,8 @@ function MyTable() {
                             </button>
                         </div>
                     </div>
-                    <div className="table-responsive ">
-                        <Table className="table text-center  table-bordered table-hover table-striped  border-primary table-sm">
+                    <div className=" table-responsive">
+                        <Table className="table text-center table-border table-hover  border-primary table-sm">
                             <thead>
                                 <tr>
                                     <th className="align-middle   text-nowrap">Mã SP</th>
@@ -70,53 +64,35 @@ function MyTable() {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td className="text-primary align-middle">SP1</td>
+                                    <td className="align-middle text-color-primary">SP1</td>
                                     <td className="align-middle">OnePlues 7Pro</td>
                                     <td className="align-middle">OnePlues</td>
                                     <td className="align-middle">SmartPhone</td>
                                     <td className="align-middle">102</td>
                                     <td className="align-middle">Chiec</td>
                                     <td className="align-middle">17/02/2003</td>
-                                    <td className=" text-color-primary align-middle">Đang giao dịch</td>
+                                    <td className=" align-middle">
+                                        <div className="rounded-status">
+                                            <span className="rounded-status-text">Đang giao dịch</span>
+                                        </div>
+                                    </td>
                                     <td className="align-middle" style={{ padding: '20px' }}>
                                         <i className="fa-duotone fa-pen-to-square"></i>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td className="text-primary align-middle">SP2</td>
+                                    <td className="align-middle text-color-primary">SP2</td>
                                     <td className="align-middle">OnePlues 7Pro</td>
                                     <td className="align-middle">OnePlues</td>
                                     <td className="align-middle">SmartPhone</td>
                                     <td className="align-middle">102</td>
                                     <td className="align-middle">Chiec</td>
                                     <td className="align-middle">17/02/2003</td>
-                                    <td className="text-danger align-middle">Dừng giao dịch</td>
-                                    <td className="align-middle" style={{ padding: '20px' }}>
-                                        <i className="fa-duotone fa-pen-to-square"></i>
+                                    <td className="text-danger align-middle">
+                                        <div className="rounded-status-stop">
+                                            <span className="rounded-status-stop-text">Dừng giao dịch</span>
+                                        </div>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td className="text-primary align-middle">SP3</td>
-                                    <td className="align-middle">OnePlues 7Pro</td>
-                                    <td className="align-middle">OnePlues</td>
-                                    <td className="align-middle">SmartPhone</td>
-                                    <td className="align-middle">102</td>
-                                    <td className="align-middle">Chiec</td>
-                                    <td className="align-middle">17/02/2003</td>
-                                    <td className="text-danger align-middle">Dừng giao dịch</td>
-                                    <td className="align-middle" style={{ padding: '20px' }}>
-                                        <i className="fa-duotone fa-pen-to-square"></i>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td className="text-primary align-middle">SP4</td>
-                                    <td className="align-middle">OnePlues 7Pro</td>
-                                    <td className="align-middle">OnePlues</td>
-                                    <td className="align-middle">SmartPhone</td>
-                                    <td className="align-middle">102</td>
-                                    <td className="align-middle">Chiec</td>
-                                    <td className="align-middle">17/02/2003</td>
-                                    <td className="text-color-primary align-middle">Đang giao dịch</td>
                                     <td className="align-middle" style={{ padding: '20px' }}>
                                         <i className="fa-duotone fa-pen-to-square"></i>
                                     </td>

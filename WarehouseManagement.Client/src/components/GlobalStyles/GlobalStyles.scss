@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
     --primary: #24cbc7;
@@ -9,7 +9,7 @@ html {
 }
 
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Public Sans', sans-serif !important;
     font-optical-sizing: auto;
 }
 
@@ -56,4 +56,55 @@ body {
 .sidebar-item:hover > div {
     transform: translateX(10px);
     color: var(--primary);
+}
+
+.table-responsive {
+    border-collapse: collapse;
+    border: 1px solid #dbdade;
+}
+.table {
+    margin: 0 !important;
+}
+.table-border {
+    border: none;
+}
+
+.table-border td,
+.table-border th {
+    border: 1px solid #dbdade;
+}
+
+.table-border thead th {
+    border-bottom: 2px solid #dbdade;
+}
+
+.table-border tbody td {
+    border-bottom: 1px solid #dbdade;
+}
+
+.table-border tbody tr:last-child td {
+    border-bottom: none;
+}
+.rounded-status {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: rgba(0, 207, 232, 0.16);
+    border-radius: 7px;
+}
+
+.rounded-status-text {
+    color: #00cfe8;
+    font-weight: bold;
+}
+
+.rounded-status-stop {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: rgba(234, 84, 85, 0.16);
+    border-radius: 7px;
+}
+
+.rounded-status-stop-text {
+    color: #ea5455;
+    font-weight: bold;
 }
