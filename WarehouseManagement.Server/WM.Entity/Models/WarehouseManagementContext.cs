@@ -270,6 +270,33 @@ public partial class WarehouseManagementContext : DbContext
                 .HasForeignKey(d => d.StatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Loads_Status");
+
+            entity.HasOne(d => d.Storage).WithMany(p => p.Loads)
+                .HasForeignKey(d => d.StorageId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Loads_Storage");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Loads)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Loads_User");
+
+            entity.HasMany(d => d.Goods).WithMany(p => p.Loads)
+                .UsingEntity<Dictionary<string, object>>(
+                    "LoadsGood",
+                    r => r.HasOne<Good>().WithMany()
+                        .HasForeignKey("GoodsId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_LoadsGoods_Goods"),
+                    l => l.HasOne<Load>().WithMany()
+                        .HasForeignKey("LoadsId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_LoadsGoods_Loads"),
+                    j =>
+                    {
+                        j.HasKey("LoadsId", "GoodsId");
+                        j.ToTable("LoadsGoods");
+                    });
         });
 
         modelBuilder.Entity<MeasuredUnit>(entity =>
@@ -350,7 +377,6 @@ public partial class WarehouseManagementContext : DbContext
         {
             entity.ToTable("Role");
 
-            entity.Property(e => e.RoleId).ValueGeneratedNever();
             entity.Property(e => e.RoleName).HasMaxLength(100);
 
             entity.HasMany(d => d.Features).WithMany(p => p.Roles)

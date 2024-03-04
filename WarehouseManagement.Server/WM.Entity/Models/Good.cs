@@ -56,4 +56,6 @@ public partial class Good
     public virtual Storage Storage { get; set; } = null!;
 
     public virtual Supplier Supplier { get; set; } = null!;
+
+    public virtual ICollection<Load> Loads { get; set; } = new List<Load>();
 }
