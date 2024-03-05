@@ -37,6 +37,8 @@ public partial class User
 
     public virtual ICollection<ImportOrder> ImportOrders { get; set; } = new List<ImportOrder>();
 
+    public virtual ICollection<Load> Loads { get; set; } = new List<Load>();
+
     public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
 
     public virtual ICollection<ReturnsOrder> ReturnsOrders { get; set; } = new List<ReturnsOrder>();

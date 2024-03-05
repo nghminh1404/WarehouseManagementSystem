@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Nav, Navbar, NavDropdown, Image } from 'react-bootstrap';
 
 import logo from '../../assets/images/logo.png';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
     return (
@@ -40,7 +41,7 @@ const Sidebar = () => {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="mb-2">
-                        <Nav.Link
+                        <Nav.Link as={Link} to="/ProductList"
                             className="align-middle sidebar-item text-sidebar px-0 d-flex justify-content-between"
                             style={{ width: 180 }}
                         >
@@ -136,10 +137,28 @@ const Sidebar = () => {
                         >
                             <div className="d-flex">
                                 <div style={{ width: 30 }}>
-                                    <i className="fa-xl fa-duotone fa-user-tie"></i>
+                                    <i className="fa-xl fa-duotone fa-badge-check fa-swap-opacity"></i>
                                 </div>
                                 <div>
-                                    <span className="ms-1 d-none d-sm-inline">Nhân viên</span>
+                                    <span className="ms-1 d-none d-sm-inline">Kiểm hàng</span>
+                                </div>
+                            </div>
+                            <div>
+                                <i className="fa-solid fa-angle-right"></i>
+                            </div>
+                        </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item className="mb-2">
+                        <Nav.Link as={Link} to="/nha-cung-cap"
+                            className="align-middle sidebar-item text-sidebar px-0 d-flex justify-content-between"
+                            style={{ width: 180 }}
+                        >
+                            <div className="d-flex">
+                                <div style={{ width: 30 }}>
+                                    <i className="fa-solid fa-truck-field-un"></i>
+                                </div>
+                                <div>
+                                    <span className="ms-1 d-none d-sm-inline">Nhà cung cấp</span>
                                 </div>
                             </div>
                             <div>
