@@ -1,20 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using WM.Entity.Models;
+using WM.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-var configuration = builder.Configuration;
-builder.Services.AddDbContext<WarehouseManagementContext>(opt =>
+/*builder.Services.AddAutoMapper(typeof(Program).Assembly);*/
+builder.Services.AddDbContext<WarehouseManagementContext>();
+builder.Services.AddScoped<IStorageService, StorageService>();
 
-{
-    opt.UseSqlServer(configuration.GetConnectionString("SqlConnection"));
-});
 
 var app = builder.Build();
 

@@ -9,11 +9,7 @@ public partial class Load
 
     public string LoadsCode { get; set; } = null!;
 
-    public int GoodsId { get; set; }
-
     public int UserId { get; set; }
-
-    public int SupplierId { get; set; }
 
     public int StorageId { get; set; }
 
@@ -34,4 +30,10 @@ public partial class Load
     public virtual Delivery? Delivery { get; set; }
 
     public virtual Status Status { get; set; } = null!;
+
+    public virtual Storage Storage { get; set; } = null!;
+
+    public virtual User User { get; set; } = null!;
+
+    public virtual ICollection<Good> Goods { get; set; } = new List<Good>();
 }

@@ -4,6 +4,9 @@ import ResetPassword from './views/pages/authentication/ResetPassword';
 import { Routes, Route } from 'react-router-dom';
 import NavbarCom from './views/components/NavbarCom';
 import ProductList from './views/product/ProductList';
+import AddProduct from './views/product/AddProduct';
+import EditProduct from './views/product/EditProduct';
+import DeleteProduct from './views/product/DeleteProduct';
 import Sidebar from './views/components/Sidebar';
 import { Container, Row, Col } from 'react-bootstrap';
 function App() {
@@ -52,7 +55,56 @@ function App() {
                         </Container>
                     }
                 />
+                <Route
+                    path="/AddProduct"
+                    element={
+                        <Container fluid>
+                            <Row className="flex-nowrap">
+                                <Sidebar />
+
+                                <Col className="py-3 background-primary">
+                                    <NavbarCom />
+                                    <AddProduct />
+                                </Col>
+                            </Row>
+                        </Container>
+                    }
+                />
+
+                 <Route
+                    path="/EditProduct"
+                    element={
+                        <Container fluid>
+                            <Row className="flex-nowrap">
+                                <Sidebar />
+
+                                <Col className="py-3 background-primary">
+                                    <NavbarCom />
+                                    <EditProduct />
+                                </Col>
+                            </Row>
+                        </Container>
+                    }
+                />
+
+
+                <Route
+                    path="/DeleteProduct"
+                    element={
+                        <Container fluid>
+                            <Row className="flex-nowrap">
+                                <Sidebar />
+
+                                <Col className="py-3 background-primary">
+                                    <NavbarCom />
+                                    <DeleteProduct/>
+                                </Col>
+                            </Row>
+                        </Container>
+                    }
+                />
             </Routes>
+
         </div>
     );
 }
