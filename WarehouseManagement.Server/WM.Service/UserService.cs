@@ -11,7 +11,7 @@ namespace WM.Service
 {
     public interface IUserService
     {
-        List<User>? GetUsersByKeyword(string keyword);
+        List<User>? GetUsersByKeyword(int offset, int limit,string? keyword, int? roleId);
         List<User>? GetAllUser();
         User? GetUserById(int id);
         User? GetUserByEmailAndPassword(string email, string password);
@@ -50,6 +50,11 @@ namespace WM.Service
         }
 
         public List<User>? GetUsersByKeyword(string keyword)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<User>? GetUsersByKeyword(int offset, int limit, string? keyword)
         {
             throw new NotImplementedException();
         }
