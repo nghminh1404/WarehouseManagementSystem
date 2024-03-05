@@ -26,6 +26,11 @@ function AddProductForm({ onAdd }) {
         onAdd(product);
     };
 
+    const handleCancel = () => {
+        // Quay lại trang trước đó
+        window.history.back();
+    };
+
     return (
         <Form onSubmit={handleSubmit}>
             <Form.Group controlId="code">
@@ -60,11 +65,11 @@ function AddProductForm({ onAdd }) {
                 <Form.Label>Trạng thái</Form.Label>
                 <Form.Control type="text" name="status" value={product.status} onChange={handleChange} />
             </Form.Group>
-            <Button style = {{ marginTop: '20px' }} variant="primary" type="submit">
+            <Button style={{ marginTop: '20px' }} variant="primary" type="submit">
                 Thêm sản phẩm
             </Button>
 
-            <Button style = {{ marginLeft: '20px', marginTop: '20px' }} variant="primary" type="submit">
+            <Button style={{ marginLeft: '20px', marginTop: '20px' }} variant="primary" type="submit" onClick={handleCancel}>
                 Hủy
             </Button>
         </Form>
