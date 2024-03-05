@@ -46,7 +46,20 @@ function MyTable() {
                                 <i className="fa-solid fa-magnifying-glass"></i>
                             </button>
                         </div>
+                        <div className="col-auto">
+                            <a href="/AddProduct">
+                                <button
+                                    className="btn btn-success border-left-0 rounded"
+                                    type="button"
+
+
+                                >
+                                    Thêm hàng hóa
+                                </button>
+                            </a>
+                        </div>
                     </div>
+
                     <div className=" table-responsive">
                         <Table className="table text-center table-border table-hover  border-primary table-sm">
                             <thead>
@@ -77,7 +90,12 @@ function MyTable() {
                                         </div>
                                     </td>
                                     <td className="align-middle" style={{ padding: '20px' }}>
-                                        <i className="fa-duotone fa-pen-to-square"></i>
+                                        <a href="/EditProduct" style={{ marginRight: '10px' }}>
+                                            <i className="fa-duotone fa-pen-to-square" style={{ color: 'black' }}></i>
+                                        </a>
+                                        <a href="/DeleteProduct">
+                                            <i className="fa-duotone fa-trash-alt" style={{ color: 'black' }}></i>
+                                        </a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -94,7 +112,12 @@ function MyTable() {
                                         </div>
                                     </td>
                                     <td className="align-middle" style={{ padding: '20px' }}>
-                                        <i className="fa-duotone fa-pen-to-square"></i>
+                                        <a href="/EditProduct" style={{ marginRight: '10px' }}>
+                                            <i className="fa-duotone fa-pen-to-square" style={{ color: 'black' }}></i>
+                                        </a>
+                                        <a href="/DeleteProduct">
+                                            <i className="fa-duotone fa-trash-alt" style={{ color: 'black' }}></i>
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>

@@ -20,15 +20,7 @@ function NavbarCom() {
                         <Nav.Link as={Link} to="/ProductList">
                             Product List
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/EditProduct">
-                            Product Edit
-                        </Nav.Link>
-                        <Nav.Link as={Link} to="/AddProduct">
-                            Product Add
-                        </Nav.Link>
-                        <Nav.Link as={Link} to="/DeleteProduct">
-                            Product Delete
-                        </Nav.Link>
+
                     </Nav>
                     <Nav className="d-flex align-items-center">
                         <Nav.Link to="#">
