@@ -34,31 +34,33 @@ namespace WM.Service
 
         public CreateUserResponse AddUser(CreateUserRequest user)
         {
-            try
-            {
-                var password = "123456";
-                
-                var requestUser = new User
-                {
-                    UserName = user.UserName,
-                    FullName = user.FullName,
-                    Email = user.Email,
-                    Address = user.Address,
-                    Phone = user.Phone,
-                    RoleId = user.RoleId,
-                    Password = password,
-                    StatusId = user.StatusId,
-                    IsDeleted = user.IsDeleted
-                };
-                _context.Users.Add(requestUser);
-                _context.SaveChanges();
-                return new CreateUserResponse { IsSuccess = true, Message = "Add user complete" };
-            }
-            catch (Exception e)
-            {
-                return new CreateUserResponse { IsSuccess = false, Message = $"Add user failed {e.Message}" };
 
-            }
+            return null;
+        //    try
+        //    {
+        //        var password = "123456";
+                
+        //        var requestUser = new User
+        //        {
+        //            UserName = user.UserName,
+        //            FullName = user.FullName,
+        //            Email = user.Email,
+        //            Address = user.Address,
+        //            Phone = user.Phone,
+        //            RoleId = user.RoleId,
+        //            Password = password,
+        //            StatusId = user.StatusId,
+        //            IsDeleted = user.IsDeleted
+        //        };
+        //        _context.Users.Add(requestUser);
+        //        _context.SaveChanges();
+        //        return new CreateUserResponse { IsSuccess = true, Message = "Add user complete" };
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return new CreateUserResponse { IsSuccess = false, Message = $"Add user failed {e.Message}" };
+
+        //    }
         }
 
         public List<User>? GetAllUser()

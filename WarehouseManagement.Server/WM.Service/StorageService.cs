@@ -11,7 +11,7 @@ namespace WM.Service
 {
     public interface IStorageService
     {
-        List<Storage>? GetStoragesByKeyword( int offset, int limit, string? keyword ="");
+        StorageFilterPaging GetStoragesByKeyword(int page, string? keyword = "");
         List<Storage>? GetAllStorage();
         Storage? GetStorageById(int id);
         CreateStorageResponse AddStorage(CreateStorageRequest storage);
@@ -63,7 +63,7 @@ namespace WM.Service
             try
             {
                 var storages = _context.Storages.FirstOrDefault(s => s.StorageId == id);
-                return storages ?? null ;
+                return storages ?? null;
             }
             catch (Exception e)
             {
@@ -75,31 +75,52 @@ namespace WM.Service
         //limit: số lượng bản ghi được phép hiển thị
         //keyword: search string
         // Dùng để phân trang, search,filter, get all data
-        public List<Storage>? GetStoragesByKeyword(int offset, int limit, string? keyword = "")
+        //public List<Storage>? GetStoragesByKeyword(int offset, int limit, string? keyword = "")
+        //{
+        //    try
+        //    {
+
+        //        var storages = _context.Storages.Where(s => s.StorageName.ToLower().Contains(keyword.ToLower())
+        //                                                || s.StorageAddress.ToLower().Contains(keyword.ToLower()))
+        //                                        .OrderBy(s => s.StorageId).ToList();
+        //        var count = storages.Count();
+        //        if (limit > count && offset >= 0)
+        //        {
+        //             return storages.Skip(offset).Take(count).ToList();
+
+        //        }
+
+        //        else if (offset >= 0)
+        //        {
+        //            return storages.Skip(offset).Take(limit).ToList();  
+        //        }
+        //        else
+        //        {
+        //            return null;
+        //        }
+
+        //        }
+        //    catch (Exception e)
+        //    {
+        //        throw new Exception(e.Message);
+        //    }
+        //}
+
+        public StorageFilterPaging? GetStoragesByKeyword(int page, string? keyword = "")
         {
             try
             {
-                
+                var pageSize = 6;
+
                 var storages = _context.Storages.Where(s => s.StorageName.ToLower().Contains(keyword.ToLower())
                                                         || s.StorageAddress.ToLower().Contains(keyword.ToLower()))
                                                 .OrderBy(s => s.StorageId).ToList();
                 var count = storages.Count();
-                if (limit > count && offset >= 0)
-                {
-                     return storages.Skip(offset).Take(count).ToList();
-                   
-                }
+                var res = storages.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                var totalPages = Math.Ceiling((double)count / pageSize);
+                return new StorageFilterPaging { TotalPages = totalPages, PageSize = pageSize, storages = res };
 
-                else if (offset >= 0)
-                {
-                    return storages.Skip(offset).Take(limit).ToList();
-                }
-                else
-                {
-                    return null;
-                }
-
-                }
+            }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
@@ -109,16 +130,16 @@ namespace WM.Service
         public UpdateStorageResponse UpdateStorage(UpdateStorageRequest storage)
         {
             try
-            {    
-                    var requestStorage = new Storage
-                    {
-                        StorageId = storage.StorageId,
-                        StorageName = storage.StorageName ,
-                        StorageAddress = storage.StorageAddress
-                    };
-                    _context.Storages.Update(requestStorage);
-                    _context.SaveChanges();
-                    return new UpdateStorageResponse { IsSuccess = true, Message = "Update storage successfully" };
+            {
+                var requestStorage = new Storage
+                {
+                    StorageId = storage.StorageId,
+                    StorageName = storage.StorageName,
+                    StorageAddress = storage.StorageAddress
+                };
+                _context.Storages.Update(requestStorage);
+                _context.SaveChanges();
+                return new UpdateStorageResponse { IsSuccess = true, Message = "Update storage successfully" };
 
             }
             catch (Exception e)

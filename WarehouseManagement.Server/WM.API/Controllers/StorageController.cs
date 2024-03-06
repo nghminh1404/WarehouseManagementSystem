@@ -25,9 +25,9 @@ namespace WM.API.Controllers
 
         [HttpGet("get-storage")]
         // GET: StorageController/Details/5
-        public IActionResult GetStorageByKeyword(int offset,int limit, string? keyword ="")
+        public IActionResult GetStorageByKeyword(int page, string? keyword ="")
         {
-            var result = _storageService.GetStoragesByKeyword(offset,limit, keyword);
+            var result = _storageService.GetStoragesByKeyword(page, keyword);
             return Ok(result);
         }
         [HttpPost("add-storage")]

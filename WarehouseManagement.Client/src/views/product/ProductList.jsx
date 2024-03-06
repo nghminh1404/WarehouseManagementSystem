@@ -9,7 +9,7 @@ function MyTable() {
                     <h5 style={{ color: '#a5a2ad' }}>Trang chủ/Quản lý hàng hóa</h5>
                     <div className="row no-gutters my-3">
                         <div className="col">
-                            <DropdownButton className="ButtonCSSDropdown" title={<span><i class="fa-duotone fa-warehouse"></i> Kho</span>} variant="success">
+                            <DropdownButton className="ButtonCSSDropdown" title={<span><i className="fa-duotone fa-warehouse"></i> Kho</span>} variant="success">
                                 <Dropdown.Item href="#">Hà Nội</Dropdown.Item>
                                 <Dropdown.Item href="#">Hải Phòng</Dropdown.Item>
                             </DropdownButton>
@@ -42,7 +42,7 @@ function MyTable() {
                                 <button
                                     className="btn btn-success border-left-0 rounded ButtonCSS"
                                     type="button"
-                                ><i class="fa-solid fa-plus"></i>
+                                ><i className="fa-solid fa-plus"></i>
                                     &nbsp;Thêm hàng hóa
                                 </button>
                             </a>
