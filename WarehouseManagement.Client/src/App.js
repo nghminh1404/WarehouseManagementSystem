@@ -8,6 +8,7 @@ import AddProduct from './views/product/AddProduct';
 import EditProduct from './views/product/EditProduct';
 import DeleteProduct from './views/product/DeleteProduct';
 import SupplierList from './views/suppliers/SuppliersList';
+import StorageList from './views/storages/StorageList';
 import Sidebar from './views/components/Sidebar';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
@@ -117,6 +118,22 @@ function App() {
                                     <Col className="py-3 background-primary">
                                         <NavbarCom />
                                         <SupplierList />
+                                    </Col>
+                                </Row>
+                            </Container>
+                        }
+                    />
+
+                    <Route
+                        path="/cac-kho-hang"
+                        element={
+                            <Container fluid>
+                                <Row className="flex-nowrap">
+                                    <Sidebar />
+
+                                    <Col className="py-3 background-primary">
+                                        <NavbarCom />
+                                        <StorageList />
                                     </Col>
                                 </Row>
                             </Container>
