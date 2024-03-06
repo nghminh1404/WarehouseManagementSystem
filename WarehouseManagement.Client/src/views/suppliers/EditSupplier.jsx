@@ -6,7 +6,9 @@ import { toast } from 'react-toastify';
 const ModelEditSupplier = ({ isShow, handleClose }) => {
 
     const handleSave = () => {
-        toast.success("Sửa thông tin nhà cung cấp thành công");
+        toast.success("Sửa thông tin nhà cung cấp thành công", {
+            className: 'toast-success',
+        });
         handleClose();
     }
 
@@ -19,15 +21,15 @@ const ModelEditSupplier = ({ isShow, handleClose }) => {
                 <div className="body-add-new">
                     <div className="form-group mb-3">
                         <label >Tên nhà cung cấp</label>
-                        <input type="text" className="form-control" aria-describedby="emailHelp" placeholder="Enter Name" value={"abc"} />
+                        <input type="text" className="form-control inputCSS" aria-describedby="emailHelp" placeholder="Enter Name" value={"abc"} />
                     </div>
                     <div className="form-group mb-3">
                         <label >Địa chỉ</label>
-                        <input type="text" className="form-control" placeholder="Password" value={"xyz"} />
+                        <input type="text" className="form-control inputCSS" placeholder="Password" value={"xyz"} />
                     </div>
                     <div className="form-group mb-3">
                         <label >SĐT</label>
-                        <input type="text" className="form-control" aria-describedby="emailHelp" placeholder="Enter Name" value={"abc"} />
+                        <input type="text" className="form-control inputCSS" aria-describedby="emailHelp" placeholder="Enter Name" value={"abc"} />
                     </div>
 
 
@@ -37,7 +39,7 @@ const ModelEditSupplier = ({ isShow, handleClose }) => {
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={handleSave}>
+                <Button variant="primary" className="ButtonCSS" onClick={handleSave}>
                     Save Changes
                 </Button>
             </Modal.Footer>
