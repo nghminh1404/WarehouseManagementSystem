@@ -20,6 +20,7 @@ function NavbarCom() {
                         <Nav.Link as={Link} to="/ProductList">
                             Product List
                         </Nav.Link>
+
                     </Nav>
                     <Nav className="d-flex align-items-center">
                         <Nav.Link to="#">
