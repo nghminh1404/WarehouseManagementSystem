@@ -9,52 +9,41 @@ function MyTable() {
                     <h5 style={{ color: '#a5a2ad' }}>Trang chủ/Quản lý hàng hóa</h5>
                     <div className="row no-gutters my-3">
                         <div className="col">
-                            <DropdownButton title="Kho" variant="success">
-                                <Dropdown.Item href="#">HTML</Dropdown.Item>
-                                <Dropdown.Item href="#">CSS</Dropdown.Item>
-                                <Dropdown.Item href="#">JavaScript</Dropdown.Item>
+                            <DropdownButton className="ButtonCSSDropdown" title={<span><i class="fa-duotone fa-warehouse"></i> Kho</span>} variant="success">
+                                <Dropdown.Item href="#">Hà Nội</Dropdown.Item>
+                                <Dropdown.Item href="#">Hải Phòng</Dropdown.Item>
                             </DropdownButton>
                         </div>
+
                         <div className="col">
-                            <DropdownButton title="Nhà cung cấp" variant="success">
-                                <Dropdown.Item href="#">HTML</Dropdown.Item>
-                                <Dropdown.Item href="#">CSS</Dropdown.Item>
-                                <Dropdown.Item href="#">JavaScript</Dropdown.Item>
-                            </DropdownButton>
+
                         </div>
                         <div className="col">
-                            <DropdownButton title="Thể loại" variant="success">
-                                <Dropdown.Item href="#">HTML</Dropdown.Item>
-                                <Dropdown.Item href="#">CSS</Dropdown.Item>
-                                <Dropdown.Item href="#">JavaScript</Dropdown.Item>
-                            </DropdownButton>
-                        </div>
-                        <div className="col">
-                            <input
-                                className="form-control border-secondary border-right-0 rounded-0"
-                                type="search"
-                                defaultValue="search"
-                                id="example-search-input4"
-                                readOnly={false}
-                            />
+                            <div className="input-group">
+                                <input
+                                    className="form-control border-secondary inputCSS"
+                                    type="search"
+                                    placeholder='Tìm kiếm...'
+                                    id="example-search-input4"
+                                    readOnly={false}
+                                />
+                                <div className="input-group-append">
+                                    <button
+                                        className="btn btn-outline-secondary border-left-0 rounded-0 rounded-right"
+                                        type="button"
+                                    >
+                                        <i className="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div className="col-auto">
-                            <button
-                                className="btn btn-outline-secondary border-left-0 rounded-0 rounded-right"
-                                type="button"
-                            >
-                                <i className="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </div>
-                        <div className="col-auto">
-                            <a href="/AddProduct">
+                            <a href="/AddProduct" className='ButtonCSSDropdown'>
                                 <button
-                                    className="btn btn-success border-left-0 rounded"
+                                    className="btn btn-success border-left-0 rounded ButtonCSS"
                                     type="button"
-
-
-                                >
-                                    Thêm hàng hóa
+                                ><i class="fa-solid fa-plus"></i>
+                                    &nbsp;Thêm hàng hóa
                                 </button>
                             </a>
                         </div>
@@ -66,8 +55,21 @@ function MyTable() {
                                 <tr>
                                     <th className="align-middle   text-nowrap">Mã SP</th>
                                     <th className="align-middle  text-nowrap">TÊN SẢN PHẨM</th>
-                                    <th className="align-middle  text-nowrap">NHÀ CUNG CẤP</th>
-                                    <th className="align-middle  text-nowrap">LOẠI</th>
+                                    <th className="align-middle  text-nowrap">
+                                        <DropdownButton className="DropdownButtonCSS" title="NHÀ CUNG CẤP" variant="success" >
+
+                                            <Dropdown.Item href="#">HTML</Dropdown.Item>
+                                            <Dropdown.Item href="#">CSS</Dropdown.Item>
+                                            <Dropdown.Item href="#">JavaScript</Dropdown.Item>
+                                        </DropdownButton>
+                                    </th>
+                                    <th className="align-middle  text-nowrap">
+                                        <DropdownButton className="DropdownButtonCSS" title="THỂ LOẠI" variant="success">
+                                            <Dropdown.Item href="#">HTML</Dropdown.Item>
+                                            <Dropdown.Item href="#">CSS</Dropdown.Item>
+                                            <Dropdown.Item href="#">JavaScript</Dropdown.Item>
+                                        </DropdownButton>
+                                    </th>
                                     <th className="align-middle  text-nowrap">TỒN KHO</th>
                                     <th className="align-middle  text-nowrap">ĐƠN VỊ</th>
                                     <th className="align-middle  text-nowrap">NGÀY KHỞI TẠO</th>
@@ -89,12 +91,13 @@ function MyTable() {
                                             <span className="rounded-status-text">Đang giao dịch</span>
                                         </div>
                                     </td>
-                                    <td className="align-middle" style={{ padding: '20px' }}>
-                                        <a href="/EditProduct" style={{ marginRight: '10px' }}>
-                                            <i className="fa-duotone fa-pen-to-square" style={{ color: 'black' }}></i>
+                                    <td className="align-middle " style={{ padding: '10px' }}>
+                                        <a href="/EditProduct" className='' >
+                                            <i className="fa-duotone fa-pen-to-square actionButtonCSS" ></i>
                                         </a>
+                                        &nbsp;
                                         <a href="/DeleteProduct">
-                                            <i className="fa-duotone fa-trash-alt" style={{ color: 'black' }}></i>
+                                            <i className="fa-duotone fa-trash-alt actionButtonCSS" ></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -111,12 +114,13 @@ function MyTable() {
                                             <span className="rounded-status-stop-text">Dừng giao dịch</span>
                                         </div>
                                     </td>
-                                    <td className="align-middle" style={{ padding: '20px' }}>
-                                        <a href="/EditProduct" style={{ marginRight: '10px' }}>
-                                            <i className="fa-duotone fa-pen-to-square" style={{ color: 'black' }}></i>
+                                    <td className="align-middle " style={{ padding: '10px' }}>
+                                        <a href="/EditProduct" className='' >
+                                            <i className="fa-duotone fa-pen-to-square actionButtonCSS" ></i>
                                         </a>
+                                        &nbsp;
                                         <a href="/DeleteProduct">
-                                            <i className="fa-duotone fa-trash-alt" style={{ color: 'black' }}></i>
+                                            <i className="fa-duotone fa-trash-alt actionButtonCSS" ></i>
                                         </a>
                                     </td>
                                 </tr>

@@ -11,7 +11,7 @@ namespace WM.Service
 {
     public interface IStorageService
     {
-        List<Storage>? GetStoragesByKeyword(string keyword, int offset, int limit);
+        List<Storage>? GetStoragesByKeyword( int offset, int limit, string? keyword ="");
         List<Storage>? GetAllStorage();
         Storage? GetStorageById(int id);
         CreateStorageResponse AddStorage(CreateStorageRequest storage);
@@ -71,13 +71,18 @@ namespace WM.Service
             }
         }
 
-        public List<Storage>? GetStoragesByKeyword(string keyword, int offset, int limit)
+        //offset: chỉ vị trí bắt đầu của bản ghi
+        //limit: số lượng bản ghi được phép hiển thị
+        //keyword: search string
+        // Dùng để phân trang, search,filter, get all data
+        public List<Storage>? GetStoragesByKeyword(int offset, int limit, string? keyword = "")
         {
             try
             {
+                
                 var storages = _context.Storages.Where(s => s.StorageName.ToLower().Contains(keyword.ToLower())
                                                         || s.StorageAddress.ToLower().Contains(keyword.ToLower()))
-                                                .OrderByDescending(s => s.StorageId).ToList();
+                                                .OrderBy(s => s.StorageId).ToList();
                 var count = storages.Count();
                 if (limit > count && offset >= 0)
                 {
@@ -103,7 +108,23 @@ namespace WM.Service
 
         public UpdateStorageResponse UpdateStorage(UpdateStorageRequest storage)
         {
-            throw new NotImplementedException();
+            try
+            {    
+                    var requestStorage = new Storage
+                    {
+                        StorageId = storage.StorageId,
+                        StorageName = storage.StorageName ,
+                        StorageAddress = storage.StorageAddress
+                    };
+                    _context.Storages.Update(requestStorage);
+                    _context.SaveChanges();
+                    return new UpdateStorageResponse { IsSuccess = true, Message = "Update storage successfully" };
+
+            }
+            catch (Exception e)
+            {
+                return new UpdateStorageResponse { IsSuccess = false, Message = "Update storage failed" };
+            }
         }
     }
 }
