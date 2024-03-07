@@ -126,5 +126,8 @@ namespace WM.Service
                 return new UpdateStorageResponse { IsSuccess = false, Message = "Update storage failed" };
             }
         }
+
+
+
     }
 }

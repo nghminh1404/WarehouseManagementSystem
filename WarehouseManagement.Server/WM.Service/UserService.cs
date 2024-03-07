@@ -48,7 +48,7 @@ namespace WM.Service
                     RoleId = user.RoleId,
                     Password = password,
                     StatusId = user.StatusId,
-                    IsDeleted = user.IsDeleted
+                    //IsDeleted = user.IsDeleted
                 };
                 _context.Users.Add(requestUser);
                 _context.SaveChanges();
