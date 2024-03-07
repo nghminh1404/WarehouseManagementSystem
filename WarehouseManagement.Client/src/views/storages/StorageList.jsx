@@ -12,19 +12,29 @@ function StorageList() {
     const [listStorage, setListStorage] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
 
+    const [dataUpdateStorage, setDataUpdateStorage] = useState({});
+
     useEffect(() => {
         getStorages(1);
     }, [])
 
     const getStorages = async (page) => {
         let res = await fetchAllStorages(page);
-        console.log(res.storages);
         if (res) {
             setListStorage(res.storages);
             setTotalPages(res.totalPages);
         }
     }
 
+    const updateTableStorage = () => {
+        getStorages(1);
+    }
+
+    const showModelEditStorage = (s) => {
+        setIsShowModelEdit(true);
+        setDataUpdateStorage(s);
+
+    }
     const handlePageClick = (event) => {
         getStorages(+event.selected + 1);
     }
@@ -95,7 +105,7 @@ function StorageList() {
                                                 <td className="align-middle">0123456789</td>
                                                 <td className="align-middle " style={{ padding: '10px' }}>
 
-                                                    <i className="fa-duotone fa-pen-to-square actionButtonCSS" onClick={() => setIsShowModelEdit(true)}></i>
+                                                    <i className="fa-duotone fa-pen-to-square actionButtonCSS" onClick={() => showModelEditStorage(s)}></i>
 
 
                                                 </td>
@@ -132,7 +142,7 @@ function StorageList() {
             />
 
             <ModelAddStorage isShow={isShowModelAddNew} handleClose={() => setIsShowModelAddNew(false)} />
-            <ModelEditStorage isShow={isShowModelEdit} handleClose={() => setIsShowModelEdit(false)} />
+            <ModelEditStorage isShow={isShowModelEdit} dataUpdateStorage={dataUpdateStorage} handleClose={() => setIsShowModelEdit(false)} updateTableStorage={updateTableStorage} />
         </>
 
     );
