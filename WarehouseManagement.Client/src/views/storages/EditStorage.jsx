@@ -31,11 +31,11 @@ const ModelEditStorage = ({ isShow, handleClose, dataUpdateStorage, updateTableS
                 <div className="body-add-new">
                     <div className="form-group mb-3">
                         <label >Tên kho hàng</label>
-                        <input type="text" className="form-control inputCSS" aria-describedby="emailHelp" placeholder="Enter Name" value={storageName} onChange={(event) => setStorageName(event.target.value)} />
+                        <input type="text" className="form-control inputCSS" aria-describedby="emailHelp" placeholder="Tên kho hàng" value={storageName} onChange={(event) => setStorageName(event.target.value)} />
                     </div>
                     <div className="form-group mb-3">
                         <label >Địa chỉ</label>
-                        <input type="text" className="form-control inputCSS" placeholder="Password" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
+                        <input type="text" className="form-control inputCSS" placeholder="Địa chỉ" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
                     </div>
 
 
@@ -44,10 +44,10 @@ const ModelEditStorage = ({ isShow, handleClose, dataUpdateStorage, updateTableS
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" className="ButtonCSS" onClick={handleSave}>
-                    Save Changes
+                    Lưu thay đổi
                 </Button>
             </Modal.Footer>
         </Modal>

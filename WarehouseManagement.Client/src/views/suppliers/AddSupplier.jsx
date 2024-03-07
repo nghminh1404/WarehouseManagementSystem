@@ -35,10 +35,10 @@ const ModelAddSupplier = ({ isShow, handleClose }) => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Đóng
                 </Button>
                 <Button variant="primary" className="ButtonCSS" onClick={handleSave}>
-                    Save Changes
+                    Lưu
                 </Button>
             </Modal.Footer>
         </Modal>
