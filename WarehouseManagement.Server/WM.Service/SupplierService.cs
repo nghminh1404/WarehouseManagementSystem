@@ -12,7 +12,7 @@ namespace WM.Service
 {
     public interface ISupplierService
     {
-        List<Supplier>? GetSupplierByKeyword(int offset, int limit, string? keyword = "");
+        SupplierFilterPaging GetSupplierByKeyword(int page, string? keyword = "");
         Task <List<Supplier>?> GetAllSupplier();
         Supplier? GetSupplierById(int id);
         CreateSupplierResponse AddSupplier(CreateSupplierRequest supplier);
@@ -76,7 +76,29 @@ namespace WM.Service
             }
         }
 
-        public List<Supplier>? GetSupplierByKeyword(int offset, int limit, string? keyword = "")
+        public SupplierFilterPaging? GetSupplierByKeyword(int page, string? keyword = "")
+        {
+            try
+            {
+                var pageSize = 6;
+
+                var supplier = _context.Suppliers.Where(s => s.SupplierName.ToLower().Contains(keyword.ToLower()) ||
+                                                        s.SupplierPhone.ToLower().Contains(keyword.ToLower()) ||
+                                                        s.SupplierEmail.ToLower().Contains(keyword.ToLower()))
+                                                .OrderBy(s => s.SupplierId).ToList();
+                var count = supplier.Count();
+                var res = supplier.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                var totalPages = Math.Ceiling((double)count / pageSize);
+                return new SupplierFilterPaging { TotalPages = totalPages, PageSize = pageSize, suppliers = res };
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
+
+        /*public List<Supplier>? GetSupplierByKeyword(int offset, int limit, string? keyword = "")
         {
             try
             {
@@ -100,7 +122,29 @@ namespace WM.Service
             {
                 throw new Exception(e.Message);
             }
-        }
+        }*/
+
+        /*public SupplierFilterPaging? GetSupplieryKeyword(int page, string? keyword = "")
+        {
+            try
+            {
+                var pageSize = 6;
+
+                var supplier = _context.Suppliers.Where(s => s.SupplierName.ToLower().Contains(keyword.ToLower()) ||
+                                                        s.SupplierPhone.ToLower().Contains(keyword.ToLower()) ||
+                                                        s.SupplierEmail.ToLower().Contains(keyword.ToLower()))
+                                                .OrderBy(s => s.SupplierId).ToList();
+                var count = supplier.Count();
+                var res = supplier.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                var totalPages = Math.Ceiling((double)count / pageSize);
+                return new SupplierFilterPaging { TotalPages = totalPages, PageSize = pageSize, suppliers = res };
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }*/
 
         public UpdateSupplierResponse UpdateSupplier(UpdateSupplierRequest supplier)
         {
@@ -127,5 +171,7 @@ namespace WM.Service
                 return new UpdateSupplierResponse { IsSuccess = false, Message = "Failed to update supplier" };
             }
         }
+
+        
     }
 }

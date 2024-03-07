@@ -14,7 +14,7 @@ namespace WM.Service
 {
     public interface IGoodsService
     {
-        List<Good>? GetGoodsByKeyword(int offset, int limit, string? keyword = "");
+        GoodsFilterPaging GetGoodsByKeyword(int page, string? keyword = "");
        Task <List<Good>?> GetAllGoods();
         Good GetGoodsById(int id);
         CreateGoodsResponse AddGoods(CreateGoodsRequest goods);
@@ -88,7 +88,7 @@ namespace WM.Service
             }
         }
 
-        public List<Good>? GetGoodsByKeyword(int offset, int limit, string? keyword = "")
+        /*public List<Good>? GetGoodsByKeyword(int offset, int limit, string? keyword = "")
         {
             try
             {
@@ -118,9 +118,28 @@ namespace WM.Service
             {
                 throw new Exception(e.Message);
             }
-        }
+        }*/
 
-        
+        public GoodsFilterPaging? GetGoodsByKeyword(int page, string? keyword = "")
+        {
+            try
+            {
+                var pageSize = 6;
+
+                var goods = _context.Goods.Where(g => g.GoodsName.ToLower().Contains(keyword.ToLower())
+                                                        || g.GoodsCode.ToLower().Contains(keyword.ToLower()))
+                                                .OrderBy(g => g.GoodsId).ToList();
+                var count = goods.Count();
+                var res = goods.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                var totalPages = Math.Ceiling((double)count / pageSize);
+                return new GoodsFilterPaging { TotalPages = totalPages, PageSize = pageSize, goods = res };
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
         public UpdateGoodsResponse UpdateGoods(UpdateGoodsRequest goods)
         {
             try
@@ -155,5 +174,7 @@ namespace WM.Service
                 return new UpdateGoodsResponse { IsSuccess = false, Message = $"Cập nhật hàng hóa thất bại" };
             }
         }
+
+        
     }
 }
