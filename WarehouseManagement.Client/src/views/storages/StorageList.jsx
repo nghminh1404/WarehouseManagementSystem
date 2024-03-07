@@ -41,7 +41,7 @@ function StorageList() {
 
     return (
         <>
-            <div className="container">
+            <div className="container" >
                 <div className="row justify-content-center">
                     <div className="col-sm-12">
                         <h5 style={{ color: '#a5a2ad' }}>Quản lý kho hàng</h5>
@@ -119,27 +119,30 @@ function StorageList() {
                         </div>
                     </div>
                 </div>
+
             </div>
 
-            <ReactPaginate
-                breakLabel="..."
-                nextLabel="next >"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={5}
-                pageCount={totalPages}
-                previousLabel="< previous"
+            <div className="d-flex justify-content-center  mt-3">
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={totalPages}
+                    previousLabel="< previous"
 
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                containerClassName="pagination"
-                activeClassName="active"
-            />
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName="active"
+                />
+            </div>
 
             <ModelAddStorage isShow={isShowModelAddNew} handleClose={() => setIsShowModelAddNew(false)} />
             <ModelEditStorage isShow={isShowModelEdit} dataUpdateStorage={dataUpdateStorage} handleClose={() => setIsShowModelEdit(false)} updateTableStorage={updateTableStorage} />
