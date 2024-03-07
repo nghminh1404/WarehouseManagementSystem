@@ -1,14 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap"
 import { toast } from 'react-toastify';
+import { EditStorage } from "~/services/StorageServices";
 
 
-const ModelEditStorage = ({ isShow, handleClose }) => {
-
-    const handleSave = () => {
+const ModelEditStorage = ({ isShow, handleClose, dataUpdateStorage, updateTableStorage }) => {
+    const [storageName, setStorageName] = useState("");
+    const [storageAddress, setStorageAddress] = useState("");
+    useEffect(() => {
+        if (isShow) {
+            setStorageName(dataUpdateStorage.storageName);
+            setStorageAddress(dataUpdateStorage.storageAddress);
+        }
+    }, [dataUpdateStorage])
+    const handleSave = async () => {
+        let res = await EditStorage(dataUpdateStorage.storageId, storageName, storageAddress);
         toast.success("Sửa thông tin nhà cung cấp thành công", {
             className: 'toast-success',
         });
+        updateTableStorage();
         handleClose();
     }
 
@@ -20,17 +30,14 @@ const ModelEditStorage = ({ isShow, handleClose }) => {
             <Modal.Body>
                 <div className="body-add-new">
                     <div className="form-group mb-3">
-                        <label >Tên nhà cung cấp</label>
-                        <input type="text" className="form-control inputCSS" aria-describedby="emailHelp" placeholder="Enter Name" value={"abc"} />
+                        <label >Tên kho hàng</label>
+                        <input type="text" className="form-control inputCSS" aria-describedby="emailHelp" placeholder="Enter Name" value={storageName} onChange={(event) => setStorageName(event.target.value)} />
                     </div>
                     <div className="form-group mb-3">
                         <label >Địa chỉ</label>
-                        <input type="text" className="form-control inputCSS" placeholder="Password" value={"xyz"} />
+                        <input type="text" className="form-control inputCSS" placeholder="Password" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
                     </div>
-                    <div className="form-group mb-3">
-                        <label >SĐT</label>
-                        <input type="text" className="form-control inputCSS" aria-describedby="emailHelp" placeholder="Enter Name" value={"abc"} />
-                    </div>
+
 
 
                 </div>
