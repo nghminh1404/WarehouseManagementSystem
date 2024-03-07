@@ -4,6 +4,10 @@ const fetchAllStorages = (page) => {
     return axios.get(`api/storage/get-storage?page=${page}`);
 }
 
+const fetchStoragesWithKeyword = (page, keyword) => {
+    return axios.get(`api/storage/get-storage?page=${page}&keyword=${keyword}`)
+}
+
 const createNewStorage = (storageName, storageAddress) => {
     return axios.post(`api/storage/add-storage`, { storageName, storageAddress });
 }
@@ -13,4 +17,4 @@ const EditStorage = (storageId, storageName, storageAddress) => {
 }
 
 
-export { fetchAllStorages, createNewStorage, EditStorage }
+export { fetchAllStorages, fetchStoragesWithKeyword, createNewStorage, EditStorage }

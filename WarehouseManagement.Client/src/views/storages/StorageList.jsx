@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, DropdownButton, Dropdown } from 'react-bootstrap';
 import ModelAddStorage from './AddStorage';
 import ModelEditStorage from './EditStorage';
-import { fetchAllStorages } from '~/services/StorageServices';
+import { fetchAllStorages, fetchStoragesWithKeyword } from '~/services/StorageServices';
 import ReactPaginate from 'react-paginate';
 
 function StorageList() {
@@ -11,8 +11,12 @@ function StorageList() {
 
     const [listStorage, setListStorage] = useState([]);
     const [totalPages, setTotalPages] = useState(0);
+    const [keywordSearch, setKeywordSearch] = useState("");
 
     const [dataUpdateStorage, setDataUpdateStorage] = useState({});
+    const [currentPage, setcurrentPage] = useState();
+
+
 
     useEffect(() => {
         getStorages(1);
@@ -26,8 +30,20 @@ function StorageList() {
         }
     }
 
+    const getStoragesWithKeyword = async (page, keyword) => {
+        let res = await fetchStoragesWithKeyword(page, keyword);
+        if (res) {
+            setListStorage(res.storages);
+            setTotalPages(res.totalPages);
+        }
+    }
+
     const updateTableStorage = () => {
-        getStorages(1);
+        if (keywordSearch) {
+            getStoragesWithKeyword(currentPage + 1, keywordSearch);
+        } else {
+            getStorages(currentPage + 1);
+        }
     }
 
     const showModelEditStorage = (s) => {
@@ -36,7 +52,23 @@ function StorageList() {
 
     }
     const handlePageClick = (event) => {
-        getStorages(+event.selected + 1);
+        setcurrentPage(+event.selected);
+        if (keywordSearch) {
+            getStoragesWithKeyword(+event.selected + 1, keywordSearch);
+        } else {
+            getStorages(+event.selected + 1);
+        }
+
+
+    }
+
+    const handleSearch = async () => {
+        setcurrentPage(0);
+        if (keywordSearch) {
+            getStoragesWithKeyword(1, keywordSearch);
+        } else {
+            getStorages(1);
+        }
     }
 
     return (
@@ -57,11 +89,13 @@ function StorageList() {
                                         placeholder='Tìm kiếm...'
                                         id="example-search-input4"
                                         readOnly={false}
+                                        onChange={(event) => setKeywordSearch(event.target.value)}
                                     />
                                     <div className="input-group-append">
                                         <button
                                             className="btn btn-outline-secondary border-left-0 rounded-0 rounded-right"
                                             type="button"
+                                            onClick={() => handleSearch()}
                                         >
                                             <i className="fa-solid fa-magnifying-glass"></i>
                                         </button>
@@ -129,8 +163,8 @@ function StorageList() {
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={5}
                     pageCount={totalPages}
+                    forcePage={currentPage}
                     previousLabel="< previous"
-
                     pageClassName="page-item"
                     pageLinkClassName="page-link"
                     previousClassName="page-item"
