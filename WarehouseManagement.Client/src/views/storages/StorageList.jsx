@@ -159,12 +159,12 @@ function StorageList() {
             <div className="d-flex justify-content-center  mt-3">
                 <ReactPaginate
                     breakLabel="..."
-                    nextLabel="next >"
+                    nextLabel="Sau >"
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={5}
                     pageCount={totalPages}
                     forcePage={currentPage}
-                    previousLabel="< previous"
+                    previousLabel="< Trước"
                     pageClassName="page-item"
                     pageLinkClassName="page-link"
                     previousClassName="page-item"

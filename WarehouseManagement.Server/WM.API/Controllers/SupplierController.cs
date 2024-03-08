@@ -7,7 +7,7 @@ using WM.Entity.DTOs.GoodsDTO;
 
 namespace WM.API.Controllers
 {
-    [Route("api/goods")]
+    [Route("api/supplier")]
     [ApiController]
     public class SupplierController : ControllerBase
     {
