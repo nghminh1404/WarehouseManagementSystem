@@ -17,15 +17,11 @@ public partial class Supplier
 
     public string? Note { get; set; }
 
-    public int StorageId { get; set; }
+    public virtual ICollection<Good> Goods { get; } = new List<Good>();
 
-    public virtual ICollection<Good> Goods { get; set; } = new List<Good>();
+    public virtual ICollection<ImportOrder> ImportOrders { get; } = new List<ImportOrder>();
 
-    public virtual ICollection<ImportOrder> ImportOrders { get; set; } = new List<ImportOrder>();
-
-    public virtual ICollection<ReturnsOrder> ReturnsOrders { get; set; } = new List<ReturnsOrder>();
+    public virtual ICollection<ReturnsOrder> ReturnsOrders { get; } = new List<ReturnsOrder>();
 
     public virtual Status Status { get; set; } = null!;
-
-    public virtual Storage Storage { get; set; } = null!;
 }

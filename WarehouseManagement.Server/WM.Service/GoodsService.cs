@@ -19,6 +19,8 @@ namespace WM.Service
         Good GetGoodsById(int id);
         CreateGoodsResponse AddGoods(CreateGoodsRequest goods);
         UpdateGoodsResponse UpdateGoods(UpdateGoodsRequest goods);
+        bool UpdateStatusGoods(int id, int StatusId);
+
     }
     public class GoodsService : IGoodsService
     {
@@ -175,6 +177,24 @@ namespace WM.Service
             }
         }
 
-        
+        public bool UpdateStatusGoods(int id, int StatusId)
+        {
+            try
+            {
+                var user = GetGoodsById(id);
+                if (user == null)
+                {
+                    return false;
+                }
+                 user.StatusId = StatusId;
+                _context.Update(user);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

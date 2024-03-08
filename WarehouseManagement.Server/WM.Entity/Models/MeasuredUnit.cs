@@ -17,5 +17,5 @@ public partial class MeasuredUnit
 
     public virtual Good Goods { get; set; } = null!;
 
-    public virtual ICollection<ReturnsOrderDetail> ReturnsOrderDetails { get; set; } = new List<ReturnsOrderDetail>();
+    public virtual ICollection<ReturnsOrderDetail> ReturnsOrderDetails { get; } = new List<ReturnsOrderDetail>();
 }
