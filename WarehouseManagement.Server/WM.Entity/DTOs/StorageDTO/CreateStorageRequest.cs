@@ -10,5 +10,6 @@ namespace WM.Entity.DTOs.StorageDTO
     {
         public string StorageName { get; set; }
         public string? StorageAddress { get; set; } = null;
+        public string? StoragePhone { get; set; } = null;
     }
 }

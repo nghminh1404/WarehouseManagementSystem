@@ -24,6 +24,7 @@ builder.Services.AddDbContext<WarehouseManagementContext>();
 builder.Services.AddScoped<IStorageService, StorageService>();
 builder.Services.AddScoped<IGoodsService, GoodsService>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 var app = builder.Build();

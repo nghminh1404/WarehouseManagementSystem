@@ -20,6 +20,5 @@ namespace WM.Entity.DTOs.SupplierDTO
 
         public string? Note { get; set; }
 
-        public int StorageId { get; set; }
     }
 }

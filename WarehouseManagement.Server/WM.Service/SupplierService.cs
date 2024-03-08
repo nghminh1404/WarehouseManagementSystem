@@ -17,6 +17,7 @@ namespace WM.Service
         Supplier? GetSupplierById(int id);
         CreateSupplierResponse AddSupplier(CreateSupplierRequest supplier);
         UpdateSupplierResponse UpdateSupplier(UpdateSupplierRequest supplier);
+        bool UpdateDeleteStatusUser(int id);
     }
 
     public class SupplierService : ISupplierService
@@ -38,7 +39,6 @@ namespace WM.Service
                     StatusId = supplier.StatusId,
                     SupplierEmail = supplier.SupplierEmail,
                     Note = supplier.Note,
-                    StorageId = supplier.StorageId
                 };
 
                 _context.Suppliers.Add(newSupplier);
@@ -95,6 +95,30 @@ namespace WM.Service
             catch (Exception e)
             {
                 throw new Exception(e.Message);
+            }
+        }
+
+        public bool UpdateDeleteStatusUser(int id)
+        {
+            try
+            {
+                var user = GetSupplierById(id);
+                if (user == null)
+                {
+                    return false;
+                }
+                else if (user.StatusId == 1)
+                {
+                    user.StatusId = 2;
+                }
+                else user.StatusId = 1;
+                _context.Update(user);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
@@ -158,7 +182,6 @@ namespace WM.Service
                     StatusId = supplier.StatusId,
                     SupplierEmail = supplier.SupplierEmail,
                     Note = supplier.Note,
-                    StorageId = supplier.StorageId
                 };
 
                 _context.Suppliers.Update(updatedSupplier);
