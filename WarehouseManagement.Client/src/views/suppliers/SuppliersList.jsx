@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Table, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Table, Form } from 'react-bootstrap';
 import ModelAddSupplier from './AddSupplier';
 import ModelEditSupplier from './EditSupplier';
-import { fetchAllSuppliers, fetchSuppliersWithKeyword } from '~/services/SupplierServices';
+import SwitchButton from '../components/others/SwitchButton/SwitchButton';
+import { fetchSuppliersWithKeyword, updateStatusSupplier } from '~/services/SupplierServices';
 import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 
@@ -52,6 +53,13 @@ function SupplierList() {
         } else {
             toast.info("Vui lòng nhập từ khóa tìm kiếm");
             getSuppliers(1);
+        }
+    }
+
+    const handleChangeStatus = async (supplier) => {
+        let res = await updateStatusSupplier(supplier.supplierId);
+        if (res) {
+            getSuppliers(currentPage + 1);
         }
     }
 
@@ -123,7 +131,10 @@ function SupplierList() {
                                                 <td className="align-middle">{s.supplierName}</td>
                                                 <td className="align-middle">{s.supplierEmail}</td>
                                                 <td className="align-middle">{s.supplierPhone}</td>
-                                                <td className="align-middle">{s.status === "Active" ? "Đang hoạt động" : "Ngừng hoạt động"}</td>
+                                                <td className="align-middle">
+                                                    <SwitchButton status={s.status} handleChangeStatus={() => handleChangeStatus(s)} />
+                                                </td>
+
 
                                                 <td className="align-middle " style={{ padding: '10px' }}>
 
