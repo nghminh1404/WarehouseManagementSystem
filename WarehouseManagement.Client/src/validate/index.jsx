@@ -4,4 +4,6 @@ const validateTextRequired = /^[a-zA-Z0-9\sÀ-ÿ\u00C0-\u1EF9đĐ]+$/;
 
 const validateText = /^(?:[a-zA-Z0-9\sÀ-ÿ\u00C0-\u1EF9dĐ]*)$/;
 
-export { validatePhone, validateTextRequired, validateText };
+const validateEmail = /^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})?$/;
+
+export { validatePhone, validateTextRequired, validateText, validateEmail };
