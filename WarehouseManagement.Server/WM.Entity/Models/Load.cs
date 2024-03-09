@@ -35,5 +35,5 @@ public partial class Load
 
     public virtual User User { get; set; } = null!;
 
-    public virtual ICollection<Good> Goods { get; set; } = new List<Good>();
+    public virtual ICollection<Good> Goods { get; } = new List<Good>();
 }

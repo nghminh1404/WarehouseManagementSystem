@@ -46,5 +46,11 @@ namespace WM.API.Controllers
             return Ok(result);
         }
 
+        [HttpPut("update-goods-status")]
+        public async Task<IActionResult> UpdateStatus(int id, int status)
+        {
+            var user = _goodsService.UpdateStatusGoods(id, status);
+            return Ok(user);
+        }
     }
 }

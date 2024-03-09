@@ -9,5 +9,5 @@ public partial class Delivery
 
     public string? DeliveryName { get; set; }
 
-    public virtual ICollection<Load> Loads { get; set; } = new List<Load>();
+    public virtual ICollection<Load> Loads { get; } = new List<Load>();
 }

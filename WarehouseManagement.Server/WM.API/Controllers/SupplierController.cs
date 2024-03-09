@@ -45,6 +45,11 @@ namespace WM.API.Controllers
             var result = _supplierService.UpdateSupplier(supplier);
             return Ok(result);
         }
-
+        [HttpPut("update-supplier-status")]
+        public async Task<IActionResult> UpdateStatus(int id)
+        {
+            var user =  _supplierService.UpdateDeleteStatusUser(id);
+            return Ok(user);
+        }
     }
 }

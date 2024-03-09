@@ -33,7 +33,8 @@ namespace WM.Service
                 var requestStorage = new Storage
                 {
                     StorageName = storage.StorageName,
-                    StorageAddress = storage.StorageAddress
+                    StorageAddress = storage.StorageAddress,
+                    StoragePhone = storage.StoragePhone
                 };
                 _context.Storages.Add(requestStorage);
                 _context.SaveChanges();
@@ -118,7 +119,7 @@ namespace WM.Service
                 var count = storages.Count();
                 var res = storages.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 var totalPages = Math.Ceiling((double)count / pageSize);
-                return new StorageFilterPaging { TotalPages = totalPages, PageSize = pageSize, storages = res };
+                return new StorageFilterPaging { TotalPages = (int)totalPages, PageSize = pageSize, Data = res };
 
             }
             catch (Exception e)
@@ -135,7 +136,8 @@ namespace WM.Service
                 {
                     StorageId = storage.StorageId,
                     StorageName = storage.StorageName,
-                    StorageAddress = storage.StorageAddress
+                    StorageAddress = storage.StorageAddress,
+                    StoragePhone = storage.StoragePhone
                 };
                 _context.Storages.Update(requestStorage);
                 _context.SaveChanges();

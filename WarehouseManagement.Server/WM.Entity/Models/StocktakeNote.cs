@@ -29,7 +29,7 @@ public partial class StocktakeNote
 
     public virtual Status Status { get; set; } = null!;
 
-    public virtual ICollection<StocktakeNoteDetail> StocktakeNoteDetails { get; set; } = new List<StocktakeNoteDetail>();
+    public virtual ICollection<StocktakeNoteDetail> StocktakeNoteDetails { get; } = new List<StocktakeNoteDetail>();
 
     public virtual Storage Storage { get; set; } = null!;
 
