@@ -38,6 +38,8 @@ function SupplierList() {
             setListSuppliers(res.data);
             setTotalPages(res.totalPages);
         }
+        return res;
+
     }
 
     const handlePageClick = (event) => {
@@ -49,9 +51,13 @@ function SupplierList() {
         }
     }
 
-    const handleSearch = () => {
+    const handleSearch = async () => {
         if (keywordSearch) {
-            getSuppliersWithKeyword(1, keywordSearch);
+            let res = await getSuppliersWithKeyword(1, keywordSearch);
+            console.log(res);
+            if (res.data.length == 0) {
+                toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
+            }
         } else {
             toast.info("Vui lòng nhập từ khóa tìm kiếm");
             getSuppliers(1);

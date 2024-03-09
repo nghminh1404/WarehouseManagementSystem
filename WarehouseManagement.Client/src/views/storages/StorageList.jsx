@@ -38,6 +38,7 @@ function StorageList() {
             setListStorage(res.data);
             setTotalPages(res.totalPages);
         }
+        return res;
     }
 
     const updateTableStorage = () => {
@@ -67,7 +68,11 @@ function StorageList() {
     const handleSearch = async () => {
         setcurrentPage(0);
         if (keywordSearch) {
-            getStoragesWithKeyword(1, keywordSearch);
+            let res = await getStoragesWithKeyword(1, keywordSearch);
+            console.log(res);
+            if (res.data.length == 0) {
+                toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
+            }
         } else {
             toast.info("Vui lòng nhập từ khóa tìm kiếm");
             getStorages(1);
