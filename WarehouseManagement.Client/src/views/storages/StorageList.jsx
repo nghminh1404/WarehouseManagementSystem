@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, DropdownButton, Dropdown } from 'react-bootstrap';
 import ModelAddStorage from './AddStorage';
 import ModelEditStorage from './EditStorage';
-import { fetchAllStorages, fetchStoragesWithKeyword } from '~/services/StorageServices';
+import { fetchStoragesWithKeyword } from '~/services/StorageServices';
 import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 
@@ -23,17 +23,9 @@ function StorageList() {
         getStorages(1);
     }, [])
 
-    const getStorages = async (page) => {
-        let res = await fetchAllStorages(page);
-        console.log(res);
-        if (res) {
-            setListStorage(res.data);
-            setTotalPages(res.totalPages);
-        }
-    }
-
-    const getStoragesWithKeyword = async (page, keyword) => {
+    const getStorages = async (page, keyword) => {
         let res = await fetchStoragesWithKeyword(page, keyword);
+        console.log(res);
         if (res) {
             setListStorage(res.data);
             setTotalPages(res.totalPages);
@@ -42,13 +34,9 @@ function StorageList() {
     }
 
     const updateTableStorage = () => {
-        if (keywordSearch) {
-            getStoragesWithKeyword(currentPage + 1, keywordSearch);
-        } else {
-            getStorages(currentPage + 1);
-        }
-    }
+        getStorages(currentPage + 1);
 
+    }
     const showModelEditStorage = (s) => {
         setIsShowModelEdit(true);
         setDataUpdateStorage(s);
@@ -56,20 +44,13 @@ function StorageList() {
     }
     const handlePageClick = (event) => {
         setcurrentPage(+event.selected);
-        if (keywordSearch) {
-            getStoragesWithKeyword(+event.selected + 1, keywordSearch);
-        } else {
-            getStorages(+event.selected + 1);
-        }
-
-
+        getStorages(+event.selected + 1);
     }
 
     const handleSearch = async () => {
         setcurrentPage(0);
         if (keywordSearch) {
-            let res = await getStoragesWithKeyword(1, keywordSearch);
-            console.log(res);
+            let res = await getStorages(1, keywordSearch);
             if (res.data.length == 0) {
                 toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
             }
