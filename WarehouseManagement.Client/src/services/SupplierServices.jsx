@@ -8,4 +8,8 @@ const fetchSuppliersWithKeyword = (page, keyword) => {
     return axios.get(`api/supplier/get-supplier?page=${page}&keyword=${keyword}`)
 }
 
-export { fetchAllSuppliers, fetchSuppliersWithKeyword }
+const createNewSupplier = (supplierName, supplierPhone, statusId, supplierEmail, note) => {
+    return axios.post(`api/supplier/add-supplier`, { supplierName, supplierPhone, statusId, supplierEmail, note })
+}
+
+export { fetchAllSuppliers, fetchSuppliersWithKeyword, createNewSupplier }

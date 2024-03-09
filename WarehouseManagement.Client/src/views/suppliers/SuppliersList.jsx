@@ -26,7 +26,7 @@ function SupplierList() {
         let res = await fetchAllSuppliers(page);
         if (res) {
             console.log(res);
-            setListSuppliers(res.suppliers);
+            setListSuppliers(res.data);
             setTotalPages(res.totalPages);
         }
     }
@@ -35,7 +35,7 @@ function SupplierList() {
         let res = await fetchSuppliersWithKeyword(page, keyword);
         if (res) {
             console.log(res);
-            setListSuppliers(res.suppliers);
+            setListSuppliers(res.data);
             setTotalPages(res.totalPages);
         }
     }
@@ -113,6 +113,8 @@ function SupplierList() {
 
                                         <th className="align-middle  text-nowrap">Email</th>
                                         <th className="align-middle  text-nowrap">SỐ ĐIỆN THOẠI</th>
+                                        <th className="align-middle  text-nowrap">Tình trạng</th>
+
 
                                         <th></th>
                                     </tr>
@@ -126,14 +128,16 @@ function SupplierList() {
                                                 <td className="align-middle">{s.supplierName}</td>
                                                 <td className="align-middle">{s.supplierEmail}</td>
                                                 <td className="align-middle">{s.supplierPhone}</td>
+                                                <td className="align-middle">{s.status === "Active" ? "Đang hoạt động" : "Ngừng hoạt động"}</td>
+
                                                 <td className="align-middle " style={{ padding: '10px' }}>
 
                                                     <i className="fa-duotone fa-pen-to-square actionButtonCSS" onClick={() => setIsShowModelEdit(true)}></i>
-
-
                                                 </td>
                                             </tr>
                                         ))
+
+
                                     }
 
 

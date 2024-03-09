@@ -13,11 +13,11 @@ namespace WM.Service
     public interface ISupplierService
     {
         SupplierFilterPaging GetSupplierByKeyword(int page, string? keyword = "");
-        Task <List<Supplier>?> GetAllSupplier();
+        Task <List<SupplierDTO>?> GetAllSupplier();
         Supplier? GetSupplierById(int id);
         CreateSupplierResponse AddSupplier(CreateSupplierRequest supplier);
         UpdateSupplierResponse UpdateSupplier(UpdateSupplierRequest supplier);
-        bool UpdateDeleteStatusUser(int id);
+        bool UpdateDeleteStatusSupplier(int id);
     }
 
     public class SupplierService : ISupplierService
@@ -52,11 +52,22 @@ namespace WM.Service
             }
         }
 
-        public async Task<List<Supplier>?> GetAllSupplier()
+        public async Task<List<SupplierDTO>?> GetAllSupplier()
         {
             try
             {
-                return await _context.Suppliers.ToListAsync();
+                var suppliers =  await _context.Suppliers.Include(s => s.Status)
+                    .Select(s => new SupplierDTO
+                    {
+                        SupplierId = s.SupplierId,
+                        SupplierName = s.SupplierName,
+                        SupplierEmail = s.SupplierEmail,
+                        SupplierPhone = s.SupplierPhone,
+                        Status = s.Status.StatusType
+                    })
+                                      
+                    .ToListAsync();
+                return suppliers;
             }
             catch (Exception e)
             {
@@ -82,14 +93,25 @@ namespace WM.Service
             {
                 var pageSize = 6;
 
-                var supplier = _context.Suppliers.Where(s => s.SupplierName.ToLower().Contains(keyword.ToLower()) ||
+                var supplier = _context.Suppliers.Include(s => s.Status).Where(s => s.SupplierName.ToLower().Contains(keyword.ToLower()) ||
                                                         s.SupplierPhone.ToLower().Contains(keyword.ToLower()) ||
                                                         s.SupplierEmail.ToLower().Contains(keyword.ToLower()))
-                                                .OrderBy(s => s.SupplierId).ToList();
+                                                .OrderBy(s => s.SupplierId)
+                                                .Select(s =>  new SupplierDTO
+                                                {
+                                                    SupplierId = s.SupplierId,
+                                                    SupplierName = s.SupplierName,
+                                                    SupplierEmail = s.SupplierEmail,
+                                                    SupplierPhone = s.SupplierPhone,
+                                                    Status = s.Status.StatusType,
+                                                    Note = s.Note
+
+                                                })
+                                                .ToList();
                 var count = supplier.Count();
                 var res = supplier.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 var totalPages = Math.Ceiling((double)count / pageSize);
-                return new SupplierFilterPaging { TotalPages = totalPages, PageSize = pageSize, suppliers = res };
+                return new SupplierFilterPaging { TotalPages = (int)totalPages, PageSize = pageSize, Data = res };
 
             }
             catch (Exception e)
@@ -98,7 +120,7 @@ namespace WM.Service
             }
         }
 
-        public bool UpdateDeleteStatusUser(int id)
+        public bool UpdateDeleteStatusSupplier(int id)
         {
             try
             {

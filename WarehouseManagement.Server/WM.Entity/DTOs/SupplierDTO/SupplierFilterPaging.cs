@@ -8,12 +8,8 @@ using WM.Entity.Models;
 
 namespace WM.Entity.DTOs.SupplierDTO
 {
-    public class SupplierFilterPaging
+    public class SupplierFilterPaging : ResponseData<SupplierDTO>
     {
-        public double TotalPages { get; set; }
 
-        public int PageSize { get; set; }
-
-        public List<Models.Supplier> suppliers { get; set; }
     }
 }
