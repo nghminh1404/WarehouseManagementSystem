@@ -12,4 +12,8 @@ const createNewSupplier = (supplierName, supplierPhone, statusId, supplierEmail,
     return axios.post(`api/supplier/add-supplier`, { supplierName, supplierPhone, statusId, supplierEmail, note })
 }
 
-export { fetchAllSuppliers, fetchSuppliersWithKeyword, createNewSupplier }
+const updateStatusSupplier = (supplierId) => {
+    return axios.put(`api/supplier/update-supplier-status?id=${supplierId}`);
+}
+
+export { fetchAllSuppliers, fetchSuppliersWithKeyword, createNewSupplier, updateStatusSupplier }
