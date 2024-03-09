@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Table, Form } from 'react-bootstrap';
 import ModelAddSupplier from './AddSupplier';
 import ModelEditSupplier from './EditSupplier';
-import SwitchButton from '../components/others/SwitchButton/SwitchButton';
+import ModalConfirm from '../components/others/Modal/ModalConfirm';
+import SwitchButton from '../components/others/SwitchButton';
 import { fetchSuppliersWithKeyword, updateStatusSupplier } from '~/services/SupplierServices';
 import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
@@ -11,12 +12,16 @@ import { toast } from 'react-toastify';
 function SupplierList() {
     const [isShowModelAddNew, setIsShowModelAddNew] = useState(false);
     const [isShowModelEdit, setIsShowModelEdit] = useState(false);
+    const [isShowModalConfirm, setIsShowModalConfirm] = useState(false);
 
     const [listSuppliers, setListSuppliers] = useState([]);
     const [totalPages, setTotalPages] = useState(5);
     const [currentPage, setcurrentPage] = useState(0);
 
     const [keywordSearch, setKeywordSearch] = useState("");
+
+    const [dataUpdateSupplier, setDataUpdateSupplier] = useState({});
+    const [dataUpdateStatus, setdataUpdateStatus] = useState({});
 
 
     useEffect(() => {
@@ -44,9 +49,9 @@ function SupplierList() {
     }
 
     const handleSearch = async () => {
+        setcurrentPage(0);
         if (keywordSearch) {
             let res = await getSuppliers(1, keywordSearch);
-            console.log(res);
             if (res.data.length == 0) {
                 toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
             }
@@ -56,9 +61,23 @@ function SupplierList() {
         }
     }
 
+    const updateTableSupplier = async () => {
+        await getSuppliers(currentPage + 1);
+    }
+
+    const ShowModelEditSupplier = (supplier) => {
+        setIsShowModelEdit(true);
+        setDataUpdateSupplier(supplier);
+    }
+
     const handleChangeStatus = async (supplier) => {
-        let res = await updateStatusSupplier(supplier.supplierId);
-        if (res) {
+        setdataUpdateStatus(supplier);
+        setIsShowModalConfirm(true);
+    }
+
+    const confirmChangeStatus = async (confirm) => {
+        if (confirm) {
+            let res = await updateStatusSupplier(dataUpdateStatus.supplierId);
             getSuppliers(currentPage + 1);
         }
     }
@@ -138,7 +157,7 @@ function SupplierList() {
 
                                                 <td className="align-middle " style={{ padding: '10px' }}>
 
-                                                    <i className="fa-duotone fa-pen-to-square actionButtonCSS" onClick={() => setIsShowModelEdit(true)}></i>
+                                                    <i className="fa-duotone fa-pen-to-square actionButtonCSS" onClick={() => ShowModelEditSupplier(s)}></i>
                                                 </td>
                                             </tr>
                                         ))
@@ -177,8 +196,14 @@ function SupplierList() {
                 />
             </div>
 
-            <ModelAddSupplier isShow={isShowModelAddNew} handleClose={() => setIsShowModelAddNew(false)} />
-            <ModelEditSupplier isShow={isShowModelEdit} handleClose={() => setIsShowModelEdit(false)} />
+            <ModelAddSupplier isShow={isShowModelAddNew} handleClose={() => setIsShowModelAddNew(false)} updateTableSupplier={updateTableSupplier} />
+            <ModelEditSupplier isShow={isShowModelEdit} handleClose={() => setIsShowModelEdit(false)} dataUpdateSupplier={dataUpdateSupplier}
+                updateTableSupplier={updateTableSupplier} />
+            <ModalConfirm title="nhà cung cấp" statusText1="Đang hợp tác" statusText2="Ngừng hợp tác" isShow={isShowModalConfirm}
+                handleClose={() => setIsShowModalConfirm(false)}
+                confirmChangeStatus={confirmChangeStatus} name={dataUpdateStatus.supplierName} status={dataUpdateStatus.status}
+
+            />
         </>
 
     );
