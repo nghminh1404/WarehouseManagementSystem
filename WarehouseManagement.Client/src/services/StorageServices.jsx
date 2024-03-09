@@ -5,7 +5,7 @@ const fetchAllStorages = (page) => {
 }
 
 const fetchStoragesWithKeyword = (page, keyword) => {
-    return axios.get(`api/storage/get-storage?page=${page}&keyword=${keyword}`)
+    return axios.get(`api/storage/get-storage?page=${page}${keyword ? `&keyword=${keyword}` : ''}`);
 }
 
 const createNewStorage = (storageName, storageAddress, storagePhone) => {

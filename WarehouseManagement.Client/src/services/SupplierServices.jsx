@@ -5,7 +5,7 @@ const fetchAllSuppliers = (page) => {
 }
 
 const fetchSuppliersWithKeyword = (page, keyword) => {
-    return axios.get(`api/supplier/get-supplier?page=${page}&keyword=${keyword}`)
+    return axios.get(`api/supplier/get-supplier?page=${page}${keyword ? `&keyword=${keyword}` : ``}`)
 }
 
 const createNewSupplier = (supplierName, supplierPhone, statusId, supplierEmail, note) => {

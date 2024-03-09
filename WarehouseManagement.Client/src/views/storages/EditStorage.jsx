@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap"
 import { toast } from 'react-toastify';
 import { EditStorage } from "~/services/StorageServices";
-import { validatePhone, validateText } from "~/validate";
+import { validatePhone, validateText, validateTextRequired } from "~/validate";
 
 
 const ModelEditStorage = ({ isShow, handleClose, dataUpdateStorage, updateTableStorage }) => {
@@ -19,8 +19,10 @@ const ModelEditStorage = ({ isShow, handleClose, dataUpdateStorage, updateTableS
     const handleSave = async () => {
         if (!validatePhone.test(storagePhone)) {
             toast.error("Định dạng số điện thoại sai");
-        } else if (!validateText.test(storageName) || (!validateText.test(storageAddress))) {
-            toast.error("Tên hoặc địa chỉ không được chứa ký tự đặc biệt");
+        } else if (!validateTextRequired.test(storageName)) {
+            toast.error("Tên không được trống và chứa ký tự đặc biệt");
+        } else if (!validateText.test(storageAddress)) {
+            toast.error("Địa chỉ không được chứa ký tự đặc biệt");
         }
 
         else {

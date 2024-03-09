@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap"
 import { toast } from 'react-toastify';
 import { createNewStorage } from "~/services/StorageServices";
-import { validatePhone, validateText } from "~/validate";
+import { validatePhone, validateText, validateTextRequired } from "~/validate";
 
 const ModelAddStorage = ({ isShow, handleClose, updateTableStorage }) => {
     const [storageName, setStorageName] = useState("");
@@ -13,9 +13,12 @@ const ModelAddStorage = ({ isShow, handleClose, updateTableStorage }) => {
     const handleSave = async () => {
         if (!validatePhone.test(storagePhone)) {
             toast.error("Định dạng số điện thoại sai");
-        } else if (!validateText.test(storageName) || (!validateText.test(storageAddress))) {
-            toast.error("Tên hoặc địa chỉ không được chứa ký tự đặc biệt");
-        } else {
+        } else if (!validateTextRequired.test(storageName)) {
+            toast.error("Tên khống được trống và chứa ký tự đặc biệt");
+        } else if (!validateText.test(storageAddress)) {
+            toast.error("Địa chỉ không được chứa ký tự đặc biệt");
+        }
+        else {
             let res = await createNewStorage(storageName, storageAddress, storagePhone);
             toast.success("Thêm kho hàng", {
                 className: 'toast-success',
@@ -48,7 +51,7 @@ const ModelAddStorage = ({ isShow, handleClose, updateTableStorage }) => {
                 <div className="body-add-new">
                     <div className="form-group mb-3">
                         <label >Tên Kho hàng</label>
-                        <input type="text" className="form-control inputCSS" aria-describedby="emailHelp" value={storageName} onChange={(event) => setStorageName(event.target.value)} />
+                        <input type="text" className="form-control inputCSS" required aria-describedby="emailHelp" value={storageName} onChange={(event) => setStorageName(event.target.value)} />
                     </div>
                     <div className="form-group mb-3">
                         <label >Địa chỉ</label>

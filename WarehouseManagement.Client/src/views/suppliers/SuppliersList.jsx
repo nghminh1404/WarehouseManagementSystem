@@ -22,16 +22,7 @@ function SupplierList() {
         getSuppliers(1);
     }, [])
 
-    const getSuppliers = async (page) => {
-        let res = await fetchAllSuppliers(page);
-        if (res) {
-            console.log(res);
-            setListSuppliers(res.data);
-            setTotalPages(res.totalPages);
-        }
-    }
-
-    const getSuppliersWithKeyword = async (page, keyword) => {
+    const getSuppliers = async (page, keyword) => {
         let res = await fetchSuppliersWithKeyword(page, keyword);
         if (res) {
             console.log(res);
@@ -45,7 +36,7 @@ function SupplierList() {
     const handlePageClick = (event) => {
         setcurrentPage(+event.selected);
         if (keywordSearch) {
-            getSuppliersWithKeyword(+event.selected + 1, keywordSearch);
+            getSuppliers(+event.selected + 1, keywordSearch);
         } else {
             getSuppliers(+event.selected + 1);
         }
@@ -53,7 +44,7 @@ function SupplierList() {
 
     const handleSearch = async () => {
         if (keywordSearch) {
-            let res = await getSuppliersWithKeyword(1, keywordSearch);
+            let res = await getSuppliers(1, keywordSearch);
             console.log(res);
             if (res.data.length == 0) {
                 toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
@@ -63,8 +54,6 @@ function SupplierList() {
             getSuppliers(1);
         }
     }
-
-
 
     return (
         <>
