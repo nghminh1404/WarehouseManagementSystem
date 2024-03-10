@@ -131,16 +131,16 @@ const Sidebar = () => {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="mb-2">
-                        <Nav.Link
+                        <Nav.Link as={Link} to="/cac-danh-muc"
                             className="align-middle sidebar-item text-sidebar px-0 d-flex justify-content-between"
                             style={{ width: 180 }}
                         >
                             <div className="d-flex">
                                 <div style={{ width: 30 }}>
-                                    <i className="fa-xl fa-duotone fa-badge-check fa-swap-opacity"></i>
+                                    <i className="fa-light fa-list"></i>
                                 </div>
                                 <div>
-                                    <span className="ms-1 d-none d-sm-inline">Kiểm hàng</span>
+                                    <span className="ms-1 d-none d-sm-inline">Danh mục</span>
                                 </div>
                             </div>
                             <div>
