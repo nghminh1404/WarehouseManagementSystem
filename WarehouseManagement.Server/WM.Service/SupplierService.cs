@@ -38,7 +38,9 @@ namespace WM.Service
                     StatusId = supplier.StatusId,
                     SupplierEmail = supplier.SupplierEmail,
                     Note = supplier.Note,
-                    StorageId = supplier.StorageId
+                    StorageId = supplier.StorageId,
+                    Status = supplier.Status
+
                 };
 
                 _context.Suppliers.Add(newSupplier);
@@ -124,7 +126,7 @@ namespace WM.Service
             }
         }*/
 
-        /*public SupplierFilterPaging? GetSupplieryKeyword(int page, string? keyword = "")
+        public SupplierFilterPaging? GetSupplieryKeyword(int page, string? keyword = "")
         {
             try
             {
@@ -144,7 +146,7 @@ namespace WM.Service
             {
                 throw new Exception(e.Message);
             }
-        }*/
+        }
 
         public UpdateSupplierResponse UpdateSupplier(UpdateSupplierRequest supplier)
         {
@@ -158,7 +160,9 @@ namespace WM.Service
                     StatusId = supplier.StatusId,
                     SupplierEmail = supplier.SupplierEmail,
                     Note = supplier.Note,
-                    StorageId = supplier.StorageId
+                    StorageId = supplier.StorageId,
+
+
                 };
 
                 _context.Suppliers.Update(updatedSupplier);

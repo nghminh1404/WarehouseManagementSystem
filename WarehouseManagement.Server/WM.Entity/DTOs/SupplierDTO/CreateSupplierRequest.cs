@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WM.Entity.Models;
 
 namespace WM.Entity.DTOs.SupplierDTO
 {
@@ -20,5 +21,6 @@ namespace WM.Entity.DTOs.SupplierDTO
         public string? Note { get; set; }
 
         public int StorageId { get; set; }
+        public virtual Status Status { get; set; } = null!;
     }
 }

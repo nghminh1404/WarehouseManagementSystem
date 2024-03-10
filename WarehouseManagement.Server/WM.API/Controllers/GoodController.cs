@@ -18,9 +18,9 @@ namespace WM.API.Controllers
         }
         // GET: GoodsController
         [HttpGet("get-all-goods")]
-        public async Task <IActionResult> GetAllGoods()
+        public async Task<IActionResult> GetAllGoods()
         {
-            var result = await _goodsService.GetAllGoods();
+            var result = await  _goodsService.GetAllGoods();
           
             return Ok(result);
         }

@@ -15,7 +15,7 @@ namespace WM.Service
     public interface IGoodsService
     {
         GoodsFilterPaging GetGoodsByKeyword(int page, string? keyword = "");
-       Task <List<Good>?> GetAllGoods();
+        Task <List<Good>?> GetAllGoods();
         Good GetGoodsById(int id);
         CreateGoodsResponse AddGoods(CreateGoodsRequest goods);
         UpdateGoodsResponse UpdateGoods(UpdateGoodsRequest goods);
