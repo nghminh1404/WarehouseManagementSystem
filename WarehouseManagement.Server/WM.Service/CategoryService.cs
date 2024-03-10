@@ -87,7 +87,7 @@ namespace WM.Service
                 var count = category.Count();
                 var res = category.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 var totalPages = Math.Ceiling((double)count / pageSize);
-                return new CategoryFilterPaging { TotalPages = totalPages, PageSize = pageSize, category = res };
+                return new CategoryFilterPaging { TotalPages = (int)totalPages, PageSize = pageSize, Data = res };
 
             }
             catch (Exception e)
