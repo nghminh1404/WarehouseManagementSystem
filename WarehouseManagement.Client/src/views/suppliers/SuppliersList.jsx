@@ -19,6 +19,7 @@ function SupplierList() {
     const [currentPage, setcurrentPage] = useState(0);
 
     const [keywordSearch, setKeywordSearch] = useState("");
+    const [selectOption, setSelectOption] = useState();
 
     const [dataUpdateSupplier, setDataUpdateSupplier] = useState({});
     const [dataUpdateStatus, setdataUpdateStatus] = useState({});
@@ -28,10 +29,23 @@ function SupplierList() {
         getSuppliers(1);
     }, [])
 
-    const getSuppliers = async (page, keyword) => {
-        let res = await fetchSuppliersWithKeyword(page, keyword);
-        if (res) {
+    useEffect(() => {
+        setcurrentPage(0);
+        const fetchData = async () => {
+            let res = await getSuppliers(1, selectOption, keywordSearch.trim());
             console.log(res);
+
+            if (res.data.length == 0) {
+                toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
+            }
+        };
+
+        fetchData();
+    }, [selectOption, keywordSearch]);
+
+    const getSuppliers = async (page, statusId, keyword) => {
+        let res = await fetchSuppliersWithKeyword(page, statusId, keyword);
+        if (res) {
             setListSuppliers(res.data);
             setTotalPages(res.totalPages);
         }
@@ -42,23 +56,21 @@ function SupplierList() {
     const handlePageClick = (event) => {
         setcurrentPage(+event.selected);
         if (keywordSearch) {
-            getSuppliers(+event.selected + 1, keywordSearch);
+            getSuppliers(+event.selected + 1, selectOption, keywordSearch.trim());
         } else {
-            getSuppliers(+event.selected + 1);
+            getSuppliers(+event.selected + 1, selectOption);
         }
     }
 
-    const handleSearch = async () => {
-        setcurrentPage(0);
-        if (keywordSearch) {
-            let res = await getSuppliers(1, keywordSearch);
-            if (res.data.length == 0) {
-                toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
-            }
-        } else {
-            toast.info("Vui lòng nhập từ khóa tìm kiếm");
-            getSuppliers(1);
-        }
+    const handleFilterStatus = (event) => {
+        const selectOption = event.target.value;
+        setSelectOption(selectOption);
+    }
+
+
+    const handleChangeStatus = async (supplier) => {
+        setdataUpdateStatus(supplier);
+        setIsShowModalConfirm(true);
     }
 
     const updateTableSupplier = async () => {
@@ -70,14 +82,10 @@ function SupplierList() {
         setDataUpdateSupplier(supplier);
     }
 
-    const handleChangeStatus = async (supplier) => {
-        setdataUpdateStatus(supplier);
-        setIsShowModalConfirm(true);
-    }
 
     const confirmChangeStatus = async (confirm) => {
         if (confirm) {
-            let res = await updateStatusSupplier(dataUpdateStatus.supplierId);
+            await updateStatusSupplier(dataUpdateStatus.supplierId);
             getSuppliers(currentPage + 1);
         }
     }
@@ -89,7 +97,14 @@ function SupplierList() {
                     <div className="col-sm-12">
                         <h5 style={{ color: '#a5a2ad' }}>Quản lý nhà cung cấp</h5>
                         <div className="row no-gutters my-3 d-flex justify-content-between">
-                            <div className="col">
+                            <div className="col-2">
+                                <Form.Select aria-label="Default select example" onChange={(event) => handleFilterStatus(event)} value={selectOption}>
+                                    <option value="">Tất cả</option>
+                                    <option value="1">Đang hợp tác</option>
+                                    <option value="2">Ngừng hợp tác</option>
+                                </Form.Select>
+                            </div>
+                            <div className='col'>
 
                             </div>
                             <div className="col">
@@ -106,7 +121,7 @@ function SupplierList() {
                                         <button
                                             className="btn btn-outline-secondary border-left-0 rounded-0 rounded-right"
                                             type="button"
-                                            onClick={() => handleSearch()}
+                                            disabled={true}
                                         >
                                             <i className="fa-solid fa-magnifying-glass"></i>
                                         </button>

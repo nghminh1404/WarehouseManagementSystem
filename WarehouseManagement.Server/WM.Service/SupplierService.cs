@@ -12,8 +12,8 @@ namespace WM.Service
 {
     public interface ISupplierService
     {
-        SupplierFilterPaging GetSupplierByKeyword(int page, string? keyword = "");
-        Task <List<SupplierDTO>?> GetAllSupplier();
+        SupplierFilterPaging GetSupplierByKeyword(int page, int? statusId, string? keyword = "");
+        Task<List<SupplierDTO>?> GetAllSupplier();
         Supplier? GetSupplierById(int id);
         CreateSupplierResponse AddSupplier(CreateSupplierRequest supplier);
         UpdateSupplierResponse UpdateSupplier(UpdateSupplierRequest supplier);
@@ -56,7 +56,7 @@ namespace WM.Service
         {
             try
             {
-                var suppliers =  await _context.Suppliers.Include(s => s.Status)
+                var suppliers = await _context.Suppliers.Include(s => s.Status)
                     .Select(s => new SupplierDTO
                     {
                         SupplierId = s.SupplierId,
@@ -65,7 +65,7 @@ namespace WM.Service
                         SupplierPhone = s.SupplierPhone,
                         Status = s.Status.StatusType
                     })
-                                      
+
                     .ToListAsync();
                 return suppliers;
             }
@@ -87,27 +87,30 @@ namespace WM.Service
             }
         }
 
-        public SupplierFilterPaging? GetSupplierByKeyword(int page, string? keyword = "")
+        public SupplierFilterPaging? GetSupplierByKeyword(int page, int? statusId, string? keyword = "")
         {
             try
             {
                 var pageSize = 6;
 
-                var supplier = _context.Suppliers.Include(s => s.Status).Where(s => s.SupplierName.ToLower().Contains(keyword.ToLower()) ||
-                                                        s.SupplierPhone.ToLower().Contains(keyword.ToLower()) ||
-                                                        s.SupplierEmail.ToLower().Contains(keyword.ToLower()))
-                                                .OrderBy(s => s.SupplierId)
-                                                .Select(s =>  new SupplierDTO
-                                                {
-                                                    SupplierId = s.SupplierId,
-                                                    SupplierName = s.SupplierName,
-                                                    SupplierEmail = s.SupplierEmail,
-                                                    SupplierPhone = s.SupplierPhone,
-                                                    Status = s.Status.StatusType,
-                                                    Note = s.Note
+                var supplier = _context.Suppliers.Include(s => s.Status).Where(s =>
+        (s.SupplierName.ToLower().Contains(keyword.ToLower()) ||
+        s.SupplierPhone.ToLower().Contains(keyword.ToLower()) ||
+        s.SupplierEmail.ToLower().Contains(keyword.ToLower())) &&
+        (statusId == null || s.Status.StatusId == statusId)
+)
+        .OrderBy(s => s.SupplierId)
+        .Select(s => new SupplierDTO
+        {
+            SupplierId = s.SupplierId,
+            SupplierName = s.SupplierName,
+            SupplierEmail = s.SupplierEmail,
+            SupplierPhone = s.SupplierPhone,
+            Status = s.Status.StatusType,
+            Note = s.Note
 
-                                                })
-                                                .ToList();
+        })
+        .ToList();
                 var count = supplier.Count();
                 var res = supplier.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 var totalPages = Math.Ceiling((double)count / pageSize);
@@ -217,6 +220,6 @@ namespace WM.Service
             }
         }
 
-        
+
     }
 }
