@@ -27,9 +27,9 @@ namespace WM.API.Controllers
 
         [HttpGet("get-supplier")]
         // GET: SupplierController/Details/5
-        public IActionResult GetSupplierByKeyword(int page, string? keyword = "")
+        public IActionResult GetSupplierByKeyword(int page, int? statusId, string? keyword = "")
         {
-            var result = _supplierService.GetSupplierByKeyword(page, keyword);
+            var result = _supplierService.GetSupplierByKeyword(page, statusId, keyword);
             return Ok(result);
         }
         [HttpPost("add-supplier")]

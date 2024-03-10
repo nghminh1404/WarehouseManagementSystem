@@ -1,11 +1,11 @@
 import axios from "./axios"
 
-const fetchAllSuppliers = (page) => {
-    return axios.get(`api/supplier/get-supplier?page=${page}`);
+const fetchAllSuppliers = () => {
+    return axios.get(`api/supplier/get-all-supplier`);
 }
 
-const fetchSuppliersWithKeyword = (page, keyword) => {
-    return axios.get(`api/supplier/get-supplier?page=${page}${keyword ? `&keyword=${keyword}` : ``}`)
+const fetchSuppliersWithKeyword = (page, statusId, keyword) => {
+    return axios.get(`api/supplier/get-supplier?page=${page}${statusId ? `&statusId=${statusId}` : ``}${keyword ? `&keyword=${keyword}` : ``}`)
 }
 
 const createNewSupplier = (supplierName, supplierPhone, statusId, supplierEmail, note) => {
