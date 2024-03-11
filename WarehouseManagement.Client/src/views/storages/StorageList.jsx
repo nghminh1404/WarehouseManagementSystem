@@ -2,19 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Table, DropdownButton, Dropdown } from 'react-bootstrap';
 import ModelAddStorage from './AddStorage';
 import ModelEditStorage from './EditStorage';
-import { fetchAllStorages, fetchStoragesWithKeyword } from '~/services/StorageServices';
+import { fetchStoragesWithKeyword } from '~/services/StorageServices';
 import ReactPaginate from 'react-paginate';
+import { toast } from 'react-toastify';
 
 function StorageList() {
     const [isShowModelAddNew, setIsShowModelAddNew] = useState(false);
     const [isShowModelEdit, setIsShowModelEdit] = useState(false);
 
     const [listStorage, setListStorage] = useState([]);
-    const [totalPages, setTotalPages] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
     const [keywordSearch, setKeywordSearch] = useState("");
 
     const [dataUpdateStorage, setDataUpdateStorage] = useState({});
-    const [currentPage, setcurrentPage] = useState();
+    const [currentPage, setcurrentPage] = useState(0);
 
 
 
@@ -22,30 +23,20 @@ function StorageList() {
         getStorages(1);
     }, [])
 
-    const getStorages = async (page) => {
-        let res = await fetchAllStorages(page);
-        if (res) {
-            setListStorage(res.storages);
-            setTotalPages(res.totalPages);
-        }
-    }
-
-    const getStoragesWithKeyword = async (page, keyword) => {
+    const getStorages = async (page, keyword) => {
         let res = await fetchStoragesWithKeyword(page, keyword);
+        console.log(res);
         if (res) {
-            setListStorage(res.storages);
+            setListStorage(res.data);
             setTotalPages(res.totalPages);
         }
+        return res;
     }
 
     const updateTableStorage = () => {
-        if (keywordSearch) {
-            getStoragesWithKeyword(currentPage + 1, keywordSearch);
-        } else {
-            getStorages(currentPage + 1);
-        }
-    }
+        getStorages(currentPage + 1);
 
+    }
     const showModelEditStorage = (s) => {
         setIsShowModelEdit(true);
         setDataUpdateStorage(s);
@@ -53,20 +44,18 @@ function StorageList() {
     }
     const handlePageClick = (event) => {
         setcurrentPage(+event.selected);
-        if (keywordSearch) {
-            getStoragesWithKeyword(+event.selected + 1, keywordSearch);
-        } else {
-            getStorages(+event.selected + 1);
-        }
-
-
+        getStorages(+event.selected + 1);
     }
 
     const handleSearch = async () => {
         setcurrentPage(0);
         if (keywordSearch) {
-            getStoragesWithKeyword(1, keywordSearch);
+            let res = await getStorages(1, keywordSearch);
+            if (res.data.length == 0) {
+                toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
+            }
         } else {
+            toast.info("Vui lòng nhập từ khóa tìm kiếm");
             getStorages(1);
         }
     }
@@ -136,7 +125,7 @@ function StorageList() {
                                                 <td className="align-middle text-color-primary">{index + 1}</td>
                                                 <td className="align-middle">{s.storageName}</td>
                                                 <td className="align-middle">{s.storageAddress}</td>
-                                                <td className="align-middle">0123456789</td>
+                                                <td className="align-middle">{s.storagePhone}</td>
                                                 <td className="align-middle " style={{ padding: '10px' }}>
 
                                                     <i className="fa-duotone fa-pen-to-square actionButtonCSS" onClick={() => showModelEditStorage(s)}></i>
@@ -159,12 +148,12 @@ function StorageList() {
             <div className="d-flex justify-content-center  mt-3">
                 <ReactPaginate
                     breakLabel="..."
-                    nextLabel="next >"
+                    nextLabel="Sau >"
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={5}
                     pageCount={totalPages}
                     forcePage={currentPage}
-                    previousLabel="< previous"
+                    previousLabel="< Trước"
                     pageClassName="page-item"
                     pageLinkClassName="page-link"
                     previousClassName="page-item"
@@ -178,7 +167,7 @@ function StorageList() {
                 />
             </div>
 
-            <ModelAddStorage isShow={isShowModelAddNew} handleClose={() => setIsShowModelAddNew(false)} />
+            <ModelAddStorage isShow={isShowModelAddNew} handleClose={() => setIsShowModelAddNew(false)} updateTableStorage={updateTableStorage} />
             <ModelEditStorage isShow={isShowModelEdit} dataUpdateStorage={dataUpdateStorage} handleClose={() => setIsShowModelEdit(false)} updateTableStorage={updateTableStorage} />
         </>
 

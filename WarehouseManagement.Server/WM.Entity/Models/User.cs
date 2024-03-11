@@ -29,27 +29,27 @@ public partial class User
 
     public string? FullName { get; set; }
 
-    public virtual ICollection<EmailToken> EmailTokens { get; set; } = new List<EmailToken>();
+    public virtual ICollection<EmailToken> EmailTokens { get; } = new List<EmailToken>();
 
-    public virtual ICollection<ExportOrder> ExportOrders { get; set; } = new List<ExportOrder>();
+    public virtual ICollection<ExportOrder> ExportOrders { get; } = new List<ExportOrder>();
 
-    public virtual ICollection<GoodsHistory> GoodsHistories { get; set; } = new List<GoodsHistory>();
+    public virtual ICollection<GoodsHistory> GoodsHistories { get; } = new List<GoodsHistory>();
 
-    public virtual ICollection<ImportOrder> ImportOrders { get; set; } = new List<ImportOrder>();
+    public virtual ICollection<ImportOrder> ImportOrders { get; } = new List<ImportOrder>();
 
-    public virtual ICollection<Load> Loads { get; set; } = new List<Load>();
+    public virtual ICollection<Load> Loads { get; } = new List<Load>();
 
-    public virtual ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
+    public virtual ICollection<RefreshToken> RefreshTokens { get; } = new List<RefreshToken>();
 
-    public virtual ICollection<ReturnsOrder> ReturnsOrders { get; set; } = new List<ReturnsOrder>();
+    public virtual ICollection<ReturnsOrder> ReturnsOrders { get; } = new List<ReturnsOrder>();
 
     public virtual Role Role { get; set; } = null!;
 
     public virtual Status Status { get; set; } = null!;
 
-    public virtual ICollection<StocktakeNote> StocktakeNoteCreatedNavigations { get; set; } = new List<StocktakeNote>();
+    public virtual ICollection<StocktakeNote> StocktakeNoteCreatedNavigations { get; } = new List<StocktakeNote>();
 
-    public virtual ICollection<StocktakeNote> StocktakeNoteUpdatedNavigations { get; set; } = new List<StocktakeNote>();
+    public virtual ICollection<StocktakeNote> StocktakeNoteUpdatedNavigations { get; } = new List<StocktakeNote>();
 
     public virtual Storage Storage { get; set; } = null!;
 }

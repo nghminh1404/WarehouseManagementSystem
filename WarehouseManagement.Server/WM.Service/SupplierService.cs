@@ -12,11 +12,12 @@ namespace WM.Service
 {
     public interface ISupplierService
     {
-        SupplierFilterPaging GetSupplierByKeyword(int page, string? keyword = "");
-        Task <List<Supplier>?> GetAllSupplier();
+        SupplierFilterPaging GetSupplierByKeyword(int page, int? statusId, string? keyword = "");
+        Task<List<SupplierDTO>?> GetAllSupplier();
         Supplier? GetSupplierById(int id);
         CreateSupplierResponse AddSupplier(CreateSupplierRequest supplier);
         UpdateSupplierResponse UpdateSupplier(UpdateSupplierRequest supplier);
+        bool UpdateDeleteStatusSupplier(int id);
     }
 
     public class SupplierService : ISupplierService
@@ -38,7 +39,6 @@ namespace WM.Service
                     StatusId = supplier.StatusId,
                     SupplierEmail = supplier.SupplierEmail,
                     Note = supplier.Note,
-                    StorageId = supplier.StorageId
                 };
 
                 _context.Suppliers.Add(newSupplier);
@@ -52,11 +52,22 @@ namespace WM.Service
             }
         }
 
-        public async Task<List<Supplier>?> GetAllSupplier()
+        public async Task<List<SupplierDTO>?> GetAllSupplier()
         {
             try
             {
-                return await _context.Suppliers.ToListAsync();
+                var suppliers = await _context.Suppliers.Include(s => s.Status)
+                    .Select(s => new SupplierDTO
+                    {
+                        SupplierId = s.SupplierId,
+                        SupplierName = s.SupplierName,
+                        SupplierEmail = s.SupplierEmail,
+                        SupplierPhone = s.SupplierPhone,
+                        Status = s.Status.StatusType
+                    })
+
+                    .ToListAsync();
+                return suppliers;
             }
             catch (Exception e)
             {
@@ -76,25 +87,63 @@ namespace WM.Service
             }
         }
 
-        public SupplierFilterPaging? GetSupplierByKeyword(int page, string? keyword = "")
+        public SupplierFilterPaging? GetSupplierByKeyword(int page, int? statusId, string? keyword = "")
         {
             try
             {
                 var pageSize = 6;
 
-                var supplier = _context.Suppliers.Where(s => s.SupplierName.ToLower().Contains(keyword.ToLower()) ||
-                                                        s.SupplierPhone.ToLower().Contains(keyword.ToLower()) ||
-                                                        s.SupplierEmail.ToLower().Contains(keyword.ToLower()))
-                                                .OrderBy(s => s.SupplierId).ToList();
+                var supplier = _context.Suppliers.Include(s => s.Status).Where(s =>
+        (s.SupplierName.ToLower().Contains(keyword.ToLower()) ||
+        s.SupplierPhone.ToLower().Contains(keyword.ToLower()) ||
+        s.SupplierEmail.ToLower().Contains(keyword.ToLower())) &&
+        (statusId == null || s.Status.StatusId == statusId)
+)
+        .OrderBy(s => s.SupplierId)
+        .Select(s => new SupplierDTO
+        {
+            SupplierId = s.SupplierId,
+            SupplierName = s.SupplierName,
+            SupplierEmail = s.SupplierEmail,
+            SupplierPhone = s.SupplierPhone,
+            Status = s.Status.StatusType,
+            Note = s.Note
+
+        })
+        .ToList();
                 var count = supplier.Count();
                 var res = supplier.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 var totalPages = Math.Ceiling((double)count / pageSize);
-                return new SupplierFilterPaging { TotalPages = totalPages, PageSize = pageSize, suppliers = res };
+                return new SupplierFilterPaging { TotalPages = (int)totalPages, PageSize = pageSize, Data = res };
 
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
+            }
+        }
+
+        public bool UpdateDeleteStatusSupplier(int id)
+        {
+            try
+            {
+                var user = GetSupplierById(id);
+                if (user == null)
+                {
+                    return false;
+                }
+                else if (user.StatusId == 1)
+                {
+                    user.StatusId = 2;
+                }
+                else user.StatusId = 1;
+                _context.Update(user);
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
@@ -158,7 +207,6 @@ namespace WM.Service
                     StatusId = supplier.StatusId,
                     SupplierEmail = supplier.SupplierEmail,
                     Note = supplier.Note,
-                    StorageId = supplier.StorageId
                 };
 
                 _context.Suppliers.Update(updatedSupplier);
@@ -172,6 +220,6 @@ namespace WM.Service
             }
         }
 
-        
+
     }
 }

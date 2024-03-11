@@ -7,7 +7,7 @@ using WM.Entity.DTOs.GoodsDTO;
 
 namespace WM.API.Controllers
 {
-    [Route("api/goods")]
+    [Route("api/supplier")]
     [ApiController]
     public class SupplierController : ControllerBase
     {
@@ -27,9 +27,9 @@ namespace WM.API.Controllers
 
         [HttpGet("get-supplier")]
         // GET: SupplierController/Details/5
-        public IActionResult GetSupplierByKeyword(int page, string? keyword = "")
+        public IActionResult GetSupplierByKeyword(int page, int? statusId, string? keyword = "")
         {
-            var result = _supplierService.GetSupplierByKeyword(page, keyword);
+            var result = _supplierService.GetSupplierByKeyword(page, statusId, keyword);
             return Ok(result);
         }
         [HttpPost("add-supplier")]
@@ -45,6 +45,11 @@ namespace WM.API.Controllers
             var result = _supplierService.UpdateSupplier(supplier);
             return Ok(result);
         }
-
+        [HttpPut("update-supplier-status")]
+        public async Task<IActionResult> UpdateStatus(int id)
+        {
+            var user =  _supplierService.UpdateDeleteStatusSupplier(id);
+            return Ok(user);
+        }
     }
 }
