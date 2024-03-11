@@ -39,23 +39,23 @@ public partial class Good
 
     public int? MinStock { get; set; }
 
-    public virtual ICollection<AvailableForReturn> AvailableForReturns { get; set; } = new List<AvailableForReturn>();
+    public virtual ICollection<AvailableForReturn> AvailableForReturns { get; } = new List<AvailableForReturn>();
 
     public virtual Category Category { get; set; } = null!;
 
-    public virtual ICollection<GoodsHistory> GoodsHistories { get; set; } = new List<GoodsHistory>();
+    public virtual ICollection<GoodsHistory> GoodsHistories { get; } = new List<GoodsHistory>();
 
-    public virtual ICollection<MeasuredUnit> MeasuredUnits { get; set; } = new List<MeasuredUnit>();
+    public virtual ICollection<MeasuredUnit> MeasuredUnits { get; } = new List<MeasuredUnit>();
 
-    public virtual ICollection<ReturnsOrderDetail> ReturnsOrderDetails { get; set; } = new List<ReturnsOrderDetail>();
+    public virtual ICollection<ReturnsOrderDetail> ReturnsOrderDetails { get; } = new List<ReturnsOrderDetail>();
 
     public virtual Status? Status { get; set; }
 
-    public virtual ICollection<StocktakeNoteDetail> StocktakeNoteDetails { get; set; } = new List<StocktakeNoteDetail>();
+    public virtual ICollection<StocktakeNoteDetail> StocktakeNoteDetails { get; } = new List<StocktakeNoteDetail>();
 
     public virtual Storage Storage { get; set; } = null!;
 
     public virtual Supplier Supplier { get; set; } = null!;
 
-    public virtual ICollection<Load> Loads { get; set; } = new List<Load>();
+    public virtual ICollection<Load> Loads { get; } = new List<Load>();
 }

@@ -11,5 +11,5 @@ public partial class ActionType
 
     public string? Description { get; set; }
 
-    public virtual ICollection<GoodsHistory> GoodsHistories { get; set; } = new List<GoodsHistory>();
+    public virtual ICollection<GoodsHistory> GoodsHistories { get; } = new List<GoodsHistory>();
 }

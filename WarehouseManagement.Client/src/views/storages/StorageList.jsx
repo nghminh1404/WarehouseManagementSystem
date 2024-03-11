@@ -2,41 +2,62 @@ import React, { useEffect, useState } from 'react';
 import { Table, DropdownButton, Dropdown } from 'react-bootstrap';
 import ModelAddStorage from './AddStorage';
 import ModelEditStorage from './EditStorage';
-import { fetchAllStorages } from '~/services/StorageServices';
+import { fetchStoragesWithKeyword } from '~/services/StorageServices';
 import ReactPaginate from 'react-paginate';
+import { toast } from 'react-toastify';
 
 function StorageList() {
     const [isShowModelAddNew, setIsShowModelAddNew] = useState(false);
     const [isShowModelEdit, setIsShowModelEdit] = useState(false);
 
     const [listStorage, setListStorage] = useState([]);
-    const [totalPages, setTotalPages] = useState(0);
+    const [totalPages, setTotalPages] = useState(1);
+    const [keywordSearch, setKeywordSearch] = useState("");
 
     const [dataUpdateStorage, setDataUpdateStorage] = useState({});
+    const [currentPage, setcurrentPage] = useState(0);
+
+
 
     useEffect(() => {
         getStorages(1);
     }, [])
 
-    const getStorages = async (page) => {
-        let res = await fetchAllStorages(page);
+    const getStorages = async (page, keyword) => {
+        let res = await fetchStoragesWithKeyword(page, keyword);
+        console.log(res);
         if (res) {
-            setListStorage(res.storages);
+            setListStorage(res.data);
             setTotalPages(res.totalPages);
         }
+        return res;
     }
 
     const updateTableStorage = () => {
-        getStorages(1);
-    }
+        getStorages(currentPage + 1);
 
+    }
     const showModelEditStorage = (s) => {
         setIsShowModelEdit(true);
         setDataUpdateStorage(s);
 
     }
     const handlePageClick = (event) => {
+        setcurrentPage(+event.selected);
         getStorages(+event.selected + 1);
+    }
+
+    const handleSearch = async () => {
+        setcurrentPage(0);
+        if (keywordSearch) {
+            let res = await getStorages(1, keywordSearch);
+            if (res.data.length == 0) {
+                toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
+            }
+        } else {
+            toast.info("Vui lòng nhập từ khóa tìm kiếm");
+            getStorages(1);
+        }
     }
 
     return (
@@ -57,11 +78,13 @@ function StorageList() {
                                         placeholder='Tìm kiếm...'
                                         id="example-search-input4"
                                         readOnly={false}
+                                        onChange={(event) => setKeywordSearch(event.target.value)}
                                     />
                                     <div className="input-group-append">
                                         <button
                                             className="btn btn-outline-secondary border-left-0 rounded-0 rounded-right"
                                             type="button"
+                                            onClick={() => handleSearch()}
                                         >
                                             <i className="fa-solid fa-magnifying-glass"></i>
                                         </button>
@@ -102,7 +125,7 @@ function StorageList() {
                                                 <td className="align-middle text-color-primary">{index + 1}</td>
                                                 <td className="align-middle">{s.storageName}</td>
                                                 <td className="align-middle">{s.storageAddress}</td>
-                                                <td className="align-middle">0123456789</td>
+                                                <td className="align-middle">{s.storagePhone}</td>
                                                 <td className="align-middle " style={{ padding: '10px' }}>
 
                                                     <i className="fa-duotone fa-pen-to-square actionButtonCSS" onClick={() => showModelEditStorage(s)}></i>
@@ -125,12 +148,12 @@ function StorageList() {
             <div className="d-flex justify-content-center  mt-3">
                 <ReactPaginate
                     breakLabel="..."
-                    nextLabel="next >"
+                    nextLabel="Sau >"
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={5}
                     pageCount={totalPages}
-                    previousLabel="< previous"
-
+                    forcePage={currentPage}
+                    previousLabel="< Trước"
                     pageClassName="page-item"
                     pageLinkClassName="page-link"
                     previousClassName="page-item"
@@ -144,7 +167,7 @@ function StorageList() {
                 />
             </div>
 
-            <ModelAddStorage isShow={isShowModelAddNew} handleClose={() => setIsShowModelAddNew(false)} />
+            <ModelAddStorage isShow={isShowModelAddNew} handleClose={() => setIsShowModelAddNew(false)} updateTableStorage={updateTableStorage} />
             <ModelEditStorage isShow={isShowModelEdit} dataUpdateStorage={dataUpdateStorage} handleClose={() => setIsShowModelEdit(false)} updateTableStorage={updateTableStorage} />
         </>
 

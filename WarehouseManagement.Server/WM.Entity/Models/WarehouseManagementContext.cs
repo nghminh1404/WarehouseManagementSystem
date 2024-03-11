@@ -299,7 +299,6 @@ public partial class WarehouseManagementContext : DbContext
                     j =>
                     {
                         j.HasKey("LoadsId", "GoodsId");
-                        j.ToTable("LoadsGoods");
                     });
         });
 
@@ -398,8 +397,6 @@ public partial class WarehouseManagementContext : DbContext
                     {
                         j.HasKey("RoleId", "FeatureId");
                         j.ToTable("RoleFeature");
-                        j.IndexerProperty<int>("RoleId").HasColumnName("roleId");
-                        j.IndexerProperty<int>("FeatureId").HasColumnName("featureId");
                     });
         });
 
@@ -452,6 +449,9 @@ public partial class WarehouseManagementContext : DbContext
 
             entity.Property(e => e.StorageAddress).HasMaxLength(100);
             entity.Property(e => e.StorageName).HasMaxLength(100);
+            entity.Property(e => e.StoragePhone)
+                .HasMaxLength(20)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Supplier>(entity =>
@@ -467,10 +467,6 @@ public partial class WarehouseManagementContext : DbContext
                 .HasForeignKey(d => d.StatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Supplier_Status");
-
-            entity.HasOne(d => d.Storage).WithMany(p => p.Suppliers)
-                .HasForeignKey(d => d.StorageId)
-                .OnDelete(DeleteBehavior.ClientSetNull);
         });
 
         modelBuilder.Entity<User>(entity =>

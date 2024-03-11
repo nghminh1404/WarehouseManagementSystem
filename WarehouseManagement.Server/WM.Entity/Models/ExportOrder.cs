@@ -31,13 +31,13 @@ public partial class ExportOrder
 
     public DateTime? Denied { get; set; }
 
-    public virtual ICollection<AvailableForReturn> AvailableForReturns { get; set; } = new List<AvailableForReturn>();
+    public virtual ICollection<AvailableForReturn> AvailableForReturns { get; } = new List<AvailableForReturn>();
 
-    public virtual ICollection<ExportOrderDetail> ExportOrderDetails { get; set; } = new List<ExportOrderDetail>();
+    public virtual ICollection<ExportOrderDetail> ExportOrderDetails { get; } = new List<ExportOrderDetail>();
 
     public virtual Project Project { get; set; } = null!;
 
-    public virtual ICollection<ReturnsOrder> ReturnsOrders { get; set; } = new List<ReturnsOrder>();
+    public virtual ICollection<ReturnsOrder> ReturnsOrders { get; } = new List<ReturnsOrder>();
 
     public virtual Status Status { get; set; } = null!;
 

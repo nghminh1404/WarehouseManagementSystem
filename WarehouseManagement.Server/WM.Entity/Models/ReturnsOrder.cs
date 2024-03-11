@@ -35,7 +35,7 @@ public partial class ReturnsOrder
 
     public virtual ImportOrder? Import { get; set; }
 
-    public virtual ICollection<ReturnsOrderDetail> ReturnsOrderDetails { get; set; } = new List<ReturnsOrderDetail>();
+    public virtual ICollection<ReturnsOrderDetail> ReturnsOrderDetails { get; } = new List<ReturnsOrderDetail>();
 
     public virtual Status StateNavigation { get; set; } = null!;
 

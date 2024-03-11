@@ -1,20 +1,110 @@
-import React, { useState } from 'react';
-import { Table, DropdownButton, Dropdown } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Table, Form } from 'react-bootstrap';
 import ModelAddSupplier from './AddSupplier';
 import ModelEditSupplier from './EditSupplier';
+import ModalConfirm from '../components/others/Modal/ModalConfirm';
+import SwitchButton from '../components/others/SwitchButton';
+import { fetchSuppliersWithKeyword, updateStatusSupplier } from '~/services/SupplierServices';
+import ReactPaginate from 'react-paginate';
+import { toast } from 'react-toastify';
+
 
 function SupplierList() {
     const [isShowModelAddNew, setIsShowModelAddNew] = useState(false);
     const [isShowModelEdit, setIsShowModelEdit] = useState(false);
+    const [isShowModalConfirm, setIsShowModalConfirm] = useState(false);
+
+    const [listSuppliers, setListSuppliers] = useState([]);
+    const [totalPages, setTotalPages] = useState(5);
+    const [currentPage, setcurrentPage] = useState(0);
+
+    const [keywordSearch, setKeywordSearch] = useState("");
+    const [selectOption, setSelectOption] = useState();
+
+    const [dataUpdateSupplier, setDataUpdateSupplier] = useState({});
+    const [dataUpdateStatus, setdataUpdateStatus] = useState({});
+
+
+    useEffect(() => {
+        getSuppliers(1);
+    }, [])
+
+    useEffect(() => {
+        setcurrentPage(0);
+        const fetchData = async () => {
+            let res = await getSuppliers(1, selectOption, keywordSearch.trim());
+            console.log(res);
+
+            if (res.data.length == 0) {
+                toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
+            }
+        };
+
+        fetchData();
+    }, [selectOption, keywordSearch]);
+
+    const getSuppliers = async (page, statusId, keyword) => {
+        let res = await fetchSuppliersWithKeyword(page, statusId, keyword);
+        if (res) {
+            setListSuppliers(res.data);
+            setTotalPages(res.totalPages);
+        }
+        return res;
+
+    }
+
+    const handlePageClick = (event) => {
+        setcurrentPage(+event.selected);
+        if (keywordSearch) {
+            getSuppliers(+event.selected + 1, selectOption, keywordSearch.trim());
+        } else {
+            getSuppliers(+event.selected + 1, selectOption);
+        }
+    }
+
+    const handleFilterStatus = (event) => {
+        const selectOption = event.target.value;
+        setSelectOption(selectOption);
+    }
+
+
+    const handleChangeStatus = async (supplier) => {
+        setdataUpdateStatus(supplier);
+        setIsShowModalConfirm(true);
+    }
+
+    const updateTableSupplier = async () => {
+        await getSuppliers(currentPage + 1);
+    }
+
+    const ShowModelEditSupplier = (supplier) => {
+        setIsShowModelEdit(true);
+        setDataUpdateSupplier(supplier);
+    }
+
+
+    const confirmChangeStatus = async (confirm) => {
+        if (confirm) {
+            await updateStatusSupplier(dataUpdateStatus.supplierId);
+            getSuppliers(currentPage + 1);
+        }
+    }
 
     return (
         <>
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-sm-12">
-                        <h5 style={{ color: '#a5a2ad' }}>Trang chủ/Quản lý hàng hóa</h5>
+                        <h5 style={{ color: '#a5a2ad' }}>Quản lý nhà cung cấp</h5>
                         <div className="row no-gutters my-3 d-flex justify-content-between">
-                            <div className="col">
+                            <div className="col-2">
+                                <Form.Select aria-label="Default select example" onChange={(event) => handleFilterStatus(event)} value={selectOption}>
+                                    <option value="">Tất cả</option>
+                                    <option value="1">Đang hợp tác</option>
+                                    <option value="2">Ngừng hợp tác</option>
+                                </Form.Select>
+                            </div>
+                            <div className='col'>
 
                             </div>
                             <div className="col">
@@ -25,11 +115,13 @@ function SupplierList() {
                                         placeholder='Tìm kiếm...'
                                         id="example-search-input4"
                                         readOnly={false}
+                                        onChange={(event) => setKeywordSearch(event.target.value)}
                                     />
                                     <div className="input-group-append">
                                         <button
                                             className="btn btn-outline-secondary border-left-0 rounded-0 rounded-right"
                                             type="button"
+                                            disabled={true}
                                         >
                                             <i className="fa-solid fa-magnifying-glass"></i>
                                         </button>
@@ -56,37 +148,40 @@ function SupplierList() {
                                         <th className="align-middle   text-nowrap">STT</th>
                                         <th className="align-middle  text-nowrap">NHÀ CUNG CẤP</th>
 
-                                        <th className="align-middle  text-nowrap">ĐỊA CHỈ</th>
+                                        <th className="align-middle  text-nowrap">Email</th>
                                         <th className="align-middle  text-nowrap">SỐ ĐIỆN THOẠI</th>
+                                        <th className="align-middle  text-nowrap">Tình trạng</th>
+
 
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td className="align-middle text-color-primary">1</td>
-                                        <td className="align-middle">Lenovo</td>
-                                        <td className="align-middle">Mỹ</td>
-                                        <td className="align-middle">0123456789</td>
-                                        <td className="align-middle " style={{ padding: '10px' }}>
 
-                                            <i className="fa-duotone fa-pen-to-square actionButtonCSS" onClick={() => setIsShowModelEdit(true)}></i>
-
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td className="align-middle text-color-primary">2</td>
-                                        <td className="align-middle">Lenovo</td>
-                                        <td className="align-middle">Mỹ</td>
-                                        <td className="align-middle">0123456789</td>
-                                        <td className="align-middle " style={{ padding: '10px' }}>
-
-                                            <i className="fa-duotone fa-pen-to-square actionButtonCSS" onClick={() => setIsShowModelEdit(true)}></i>
+                                    {listSuppliers && listSuppliers.length > 0 &&
+                                        listSuppliers.map((s, index) => (
+                                            <tr key={`supplier${index}`}>
+                                                <td className="align-middle text-color-primary">{index + 1}</td>
+                                                <td className="align-middle">{s.supplierName}</td>
+                                                <td className="align-middle">{s.supplierEmail}</td>
+                                                <td className="align-middle">{s.supplierPhone}</td>
+                                                <td className="align-middle">
+                                                    <SwitchButton status={s.status} handleChangeStatus={() => handleChangeStatus(s)} />
+                                                </td>
 
 
-                                        </td>
-                                    </tr>
+                                                <td className="align-middle " style={{ padding: '10px' }}>
+
+                                                    <i className="fa-duotone fa-pen-to-square actionButtonCSS" onClick={() => ShowModelEditSupplier(s)}></i>
+                                                </td>
+                                            </tr>
+                                        ))
+
+
+                                    }
+
+
+
                                 </tbody>
                             </Table>
                         </div>
@@ -94,8 +189,36 @@ function SupplierList() {
                 </div>
             </div>
 
-            <ModelAddSupplier isShow={isShowModelAddNew} handleClose={() => setIsShowModelAddNew(false)} />
-            <ModelEditSupplier isShow={isShowModelEdit} handleClose={() => setIsShowModelEdit(false)} />
+            <div className="d-flex justify-content-center  mt-3">
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="Sau >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={totalPages}
+                    forcePage={currentPage}
+                    previousLabel="< Trước"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName="active"
+                />
+            </div>
+
+            <ModelAddSupplier isShow={isShowModelAddNew} handleClose={() => setIsShowModelAddNew(false)} updateTableSupplier={updateTableSupplier} />
+            <ModelEditSupplier isShow={isShowModelEdit} handleClose={() => setIsShowModelEdit(false)} dataUpdateSupplier={dataUpdateSupplier}
+                updateTableSupplier={updateTableSupplier} />
+            <ModalConfirm title="nhà cung cấp" statusText1="Đang hợp tác" statusText2="Ngừng hợp tác" isShow={isShowModalConfirm}
+                handleClose={() => setIsShowModalConfirm(false)}
+                confirmChangeStatus={confirmChangeStatus} name={dataUpdateStatus.supplierName} status={dataUpdateStatus.status}
+
+            />
         </>
 
     );
