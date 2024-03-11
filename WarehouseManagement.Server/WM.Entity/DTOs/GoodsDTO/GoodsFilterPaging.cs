@@ -14,7 +14,7 @@ namespace WM.Entity.DTOs.GoodsDTO
 
         public int PageSize { get; set; }
 
-        public List<Models.Good> goods { get; set; }
+        public List<GoodsDTO> goods { get; set; }
     }
 }
 
