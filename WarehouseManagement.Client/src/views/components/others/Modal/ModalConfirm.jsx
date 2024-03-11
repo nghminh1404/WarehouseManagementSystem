@@ -25,13 +25,16 @@ const ModalConfirm = ({ isShow, handleClose, confirmChangeStatus, title, name, s
                     </div>
                 </div>
             </Modal.Body>
-            <Modal.Footer>
+            <Modal.Footer >
                 <Button variant="secondary" onClick={handleClose}>
                     Đóng
                 </Button>
-                <Button variant="primary" onClick={handleSave}>
-                    Lưu thay đổi
-                </Button>
+                <div className="ButtonCSSDropdown">
+                    <Button variant="primary" onClick={handleSave}>
+                        Lưu thay đổi
+                    </Button>
+                </div>
+
             </Modal.Footer>
         </Modal>
     </>)

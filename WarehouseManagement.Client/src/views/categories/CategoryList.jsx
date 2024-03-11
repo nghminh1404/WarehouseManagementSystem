@@ -124,8 +124,8 @@ function CategoryList() {
                                         listCategory.map((s, index) => (
                                             <tr key={`storage${index}`}>
                                                 <td className="align-middle text-color-primary">{index + 1}</td>
-                                                <td className="align-middle">{s.categoryName}</td>
-                                                <td className="align-middle">{s.description}</td>
+                                                <td className="align-middle text-truncate" >{s.categoryName}</td>
+                                                <td className="align-middle " style={{ textAlign: 'left' }} >{s.description}</td>
                                                 <td className="align-middle " style={{ padding: '10px' }}>
 
                                                     <i className="fa-duotone fa-pen-to-square actionButtonCSS" onClick={() => showModelEditCategory(s)}></i>

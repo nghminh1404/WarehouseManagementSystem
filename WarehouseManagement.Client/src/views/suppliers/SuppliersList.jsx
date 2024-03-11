@@ -98,13 +98,14 @@ function SupplierList() {
                         <h5 style={{ color: '#a5a2ad' }}>Quản lý nhà cung cấp</h5>
                         <div className="row no-gutters my-3 d-flex justify-content-between">
                             <div className="col-2">
-                                <Form.Select aria-label="Default select example" onChange={(event) => handleFilterStatus(event)} value={selectOption}>
+                                <Form.Select aria-label="Default select example" className='formSelectCSS' onChange={(event) => handleFilterStatus(event)} value={selectOption}>
                                     <option value="">Tất cả</option>
                                     <option value="1">Đang hợp tác</option>
                                     <option value="2">Ngừng hợp tác</option>
                                 </Form.Select>
                             </div>
                             <div className='col'>
+
 
                             </div>
                             <div className="col">
@@ -214,9 +215,9 @@ function SupplierList() {
             <ModelAddSupplier isShow={isShowModelAddNew} handleClose={() => setIsShowModelAddNew(false)} updateTableSupplier={updateTableSupplier} />
             <ModelEditSupplier isShow={isShowModelEdit} handleClose={() => setIsShowModelEdit(false)} dataUpdateSupplier={dataUpdateSupplier}
                 updateTableSupplier={updateTableSupplier} />
-            <ModalConfirm title="nhà cung cấp" statusText1="Đang hợp tác" statusText2="Ngừng hợp tác" isShow={isShowModalConfirm}
+            <ModalConfirm title="nhà cung cấp" statusText1={<span style={{ color: '#24cbc7' }}>Đang hợp tác</span>} statusText2={<span style={{ color: '#ff0000' }}>Ngừng hợp tác</span>} isShow={isShowModalConfirm}
                 handleClose={() => setIsShowModalConfirm(false)}
-                confirmChangeStatus={confirmChangeStatus} name={dataUpdateStatus.supplierName} status={dataUpdateStatus.status}
+                confirmChangeStatus={confirmChangeStatus} name={<span style={{ color: 'black' }}>{dataUpdateStatus.supplierName}</span>} status={dataUpdateStatus.status}
 
             />
         </>
