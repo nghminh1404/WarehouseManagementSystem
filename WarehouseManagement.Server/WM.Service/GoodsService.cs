@@ -90,47 +90,39 @@ namespace WM.Service
             }
         }
 
-        /*public List<Good>? GetGoodsByKeyword(int offset, int limit, string? keyword = "")
-        {
-            try
-            {
-
-                var goods = _context.Goods.Where(g => g.GoodsName.ToLower().Contains(keyword.ToLower())
-                                                        || g.GoodsCode.ToLower().Contains(keyword.ToLower())
-                                                        )
-                                                .OrderBy(g => g.GoodsId).ToList();
-                var count = goods.Count();
-                if (limit > count && offset >= 0)
-                {
-                    return goods.Skip(offset).Take(count).ToList();
-
-                }
-
-                else if (offset >= 0)
-                {
-                    return goods.Skip(offset).Take(limit).ToList();
-                }
-                else
-                {
-                    return null;
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw new Exception(e.Message);
-            }
-        }*/
-
         public GoodsFilterPaging? GetGoodsByKeyword(int page, string? keyword = "")
         {
             try
             {
                 var pageSize = 6;
 
-                var goods = _context.Goods.Where(g => g.GoodsName.ToLower().Contains(keyword.ToLower())
+                var goods = _context.Goods.Include(g => g.Status).Include(g => g.Category).Include(g => g.Supplier).Include(g => g.Storage).Where(g => g.GoodsName.ToLower().Contains(keyword.ToLower())
                                                         || g.GoodsCode.ToLower().Contains(keyword.ToLower()))
-                                                .OrderBy(g => g.GoodsId).ToList();
+                                                .OrderBy(g => g.GoodsId)
+                                                .Select(g => new GoodsDTO
+                                                {
+                                                    GoodsId = g.GoodsId,
+                                                    GoodsCode = g.GoodsCode,
+                                                    GoodsName = g.GoodsName,
+                                                    CategoryId = g.CategoryId,
+                                                    CategoryName = g.Category.CategoryName,
+                                                    Description = g.Description,
+                                                    CostPrice = g.CostPrice,
+                                                    DefaultMeasuredUnit = g.DefaultMeasuredUnit,
+                                                    InStock = g.InStock,
+                                                    Image = g.Image,
+                                                    WarrantyTime = g.WarrantyTime,
+                                                    Barcode = g.Barcode,
+                                                    MinStock   = g.MinStock,
+                                                    MaxStock = g.MaxStock,
+                                                    SupplierId = g.SupplierId,
+                                                    SupplierName = g.Supplier.SupplierName,
+                                                    StorageId = g.StorageId,
+                                                    StorageName = g.Storage.StorageName,
+                                                    StatusId = g.StatusId,
+                                                    Status = g.Status.StatusType
+                                                })
+                                                .ToList();
                 var count = goods.Count();
                 var res = goods.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 var totalPages = Math.Ceiling((double)count / pageSize);
