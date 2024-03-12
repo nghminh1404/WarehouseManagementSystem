@@ -3,7 +3,7 @@ import ForgotPassword from './views/pages/authentication/ForgotPassword';
 import ResetPassword from './views/pages/authentication/ResetPassword';
 import { Routes, Route } from 'react-router-dom';
 import NavbarCom from './views/components/NavbarCom';
-import ProductList from './views/product/ProductList';
+import GoodList from './views/product/GoodList';
 import AddProduct from './views/product/AddProduct';
 import EditProduct from './views/product/EditProduct';
 import DeleteProduct from './views/product/DeleteProduct';
@@ -52,9 +52,9 @@ function App() {
                                 <Row className="flex-nowrap">
                                     <Sidebar />
 
-                                    <Col className="py-3 background-primary">
+                                    <Col className="py-3 background-primary overflow-auto">
                                         <NavbarCom />
-                                        <ProductList />
+                                        <GoodList />
                                     </Col>
                                 </Row>
                             </Container>
@@ -67,7 +67,7 @@ function App() {
                                 <Row className="flex-nowrap">
                                     <Sidebar />
 
-                                    <Col className="py-3 background-primary">
+                                    <Col className="py-3 background-primary ">
                                         <NavbarCom />
                                         <AddProduct />
                                     </Col>

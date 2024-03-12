@@ -1,5 +1,8 @@
 import axios from "./axios"
 
+const fetchAllCategories = () => {
+    return axios.get(`api/category/get-all-category`);
+}
 
 const fetchCategoriesWithKeyword = (page, keyword) => {
     return axios.get(`api/category/get-category?page=${page}${keyword ? `&keyword=${keyword}` : ''}`);
@@ -14,4 +17,4 @@ const EditCategory = (categoryId, categoryName, description) => {
 }
 
 
-export { fetchCategoriesWithKeyword, createNewCategory, EditCategory }
+export { fetchAllCategories, fetchCategoriesWithKeyword, createNewCategory, EditCategory }
