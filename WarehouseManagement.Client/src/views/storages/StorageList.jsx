@@ -3,6 +3,7 @@ import { Table, DropdownButton, Dropdown } from 'react-bootstrap';
 import ModelAddStorage from './AddStorage';
 import ModelEditStorage from './EditStorage';
 import { fetchStoragesWithKeyword } from '~/services/StorageServices';
+import { removeWhiteSpace } from '~/validate';
 import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 
@@ -24,8 +25,7 @@ function StorageList() {
     }, [])
 
     const getStorages = async (page, keyword) => {
-        let res = await fetchStoragesWithKeyword(page, keyword);
-        console.log(res);
+        let res = await fetchStoragesWithKeyword(page, removeWhiteSpace(keyword ? keyword : ""));
         if (res) {
             setListStorage(res.data);
             setTotalPages(res.totalPages);
@@ -49,15 +49,12 @@ function StorageList() {
 
     const handleSearch = async () => {
         setcurrentPage(0);
-        if (keywordSearch) {
-            let res = await getStorages(1, keywordSearch);
-            if (res.data.length == 0) {
-                toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
-            }
-        } else {
-            toast.info("Vui lòng nhập từ khóa tìm kiếm");
-            getStorages(1);
+
+        let res = await getStorages(1, keywordSearch);
+        if (res.data.length == 0) {
+            toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
         }
+
     }
 
     return (

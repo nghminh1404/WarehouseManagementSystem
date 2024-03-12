@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Table, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Table, DropdownButton, DropdownMenu } from 'react-bootstrap';
 import { fetchGoodsWithFilter } from '~/services/GoodServices';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { Form } from 'react-bootstrap';
 import { fetchAllCategories } from '~/services/CategoryServices';
+import { fetchAllSuppliers } from '~/services/SupplierServices';
+import { CustomToggle, CustomMenu } from '../components/others/Dropdown';
 
 function MyTable() {
     const [listGoods, setListGoods] = useState({});
 
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedSupplier, setSelectedSupplier] = useState(null);
     const [totalCategories, setTotalCategories] = useState([]);
+    const [totalSuppliers, setTotalSuppliers] = useState([]);
 
     useEffect(() => {
         getGoods(1);
         getAllCategories();
+        getAllSuppliers();
     }, [])
 
     const getGoods = async (page) => {
@@ -25,9 +31,18 @@ function MyTable() {
         setTotalCategories(res);
     }
 
+    const getAllSuppliers = async () => {
+        let res = await fetchAllSuppliers();
+        setTotalSuppliers(res);
+    }
+
     const handleCategoryClick = (eventKey, event) => {
         setSelectedCategory(eventKey);
         console.log(event);
+    }
+
+    const handleSupplierClick = (eventKey, event) => {
+        setSelectedSupplier(x => eventKey);
     }
 
     return (
@@ -77,21 +92,39 @@ function MyTable() {
                         </div>
                     </div>
 
-                    <div className=" table-responsive">
-                        <Table className="table text-center table-border table-hover  border-primary table-sm ">
+                    <div className=" table-responsive" style={{ minHeight: '300px', overflowX: 'auto' }}>
+                        <Table className="table text-center table-border table-hover  border-primary table-sm " style={{ position: 'relative' }}>
 
                             <thead>
                                 <tr>
-                                    <th className="align-middle text-nowrap position-sticky sticky-left">STT</th>
+                                    <th className="align-middle text-nowrap">STT</th>
                                     <th className="align-middle text-nowrap">Mã SP</th>
                                     <th className="align-middle textColor text-nowrap">TÊN SẢN PHẨM</th>
                                     <th className="align-middle text-nowrap">Hình ảnh</th>
-                                    <th className="align-middle">
-                                        <Form.Select aria-label="Default select example" className='formSelectCSS text-nowrap w-auto'>
-                                            <option value="">Tất cả</option>
-                                            <option value="1">Đang hợp tác</option>
-                                            <option value="2">Ngừng hợp tác</option>
-                                        </Form.Select>
+                                    <th className="align-middle  text-nowrap" >
+                                        {/* <DropdownButton className="DropdownButtonCSS" title={selectedSupplier !== null ? selectedSupplier : "Nhà cung cấp"} style={{ maxHeight: '200px', overflowY: 'auto' }} variant="success">
+                                            {totalSuppliers && totalSuppliers.length > 0 && totalSuppliers.map((c, index) => (
+                                                <Dropdown.Item key={`supplier ${index}`} eventKey={c.supplierName} onClick={(e) => handleSupplierClick(c.supplierName, e)}>{c.supplierName}</Dropdown.Item>
+                                            ))}
+                                        </DropdownButton> */}
+
+                                        <Dropdown>
+                                            <Dropdown.Toggle className="DropdownButtonCSS" style={{ backgroundColor: '#24cbc7', border: 'none' }}>
+                                                {selectedSupplier !== null ? selectedSupplier : "Nhà cung cấp"}
+                                            </Dropdown.Toggle>
+
+                                            <Dropdown.Menu style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                                                {totalSuppliers && totalSuppliers.length > 0 && totalSuppliers.map((c, index) => (
+                                                    <Dropdown.Item key={`supplier ${index}`} eventKey={c.supplierName} onClick={(e) => handleSupplierClick(c.supplierName, e)}>
+                                                        {c.supplierName}
+                                                    </Dropdown.Item>
+                                                ))}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+
+
+
+
                                     </th>
                                     <th className="align-middle  text-nowrap">
                                         <DropdownButton className="DropdownButtonCSS" title={selectedCategory !== null ? selectedCategory : "Danh mục"} variant="success">
@@ -102,12 +135,28 @@ function MyTable() {
 
 
                                     </th>
+
+                                    <th className="align-middle text-nowrap" style={{ overflow: 'visible' }}>
+                                        <Dropdown style={{ position: 'relative' }}>
+                                            <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                                                <span style={{ color: 'white' }}>{selectedSupplier !== null ? selectedSupplier : "Nhà cung cấp"}</span>
+                                            </Dropdown.Toggle>
+
+                                            <Dropdown.Menu as={CustomMenu} style={{ position: 'absolute', zIndex: '9999' }}>
+                                                {totalSuppliers && totalSuppliers.length > 0 && totalSuppliers.map((c, index) => (
+                                                    <Dropdown.Item key={`supplier ${index}`} eventKey={c.supplierName} onClick={(e) => handleSupplierClick(c.supplierName, e)}>
+                                                        {c.supplierName}
+                                                    </Dropdown.Item>
+                                                ))}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </th>
                                     <th className="align-middle text-nowrap">TỒN KHO</th>
                                     <th className="align-middle text-nowrap">ĐƠN VỊ</th>
-                                    <th className="align-middle text-nowrap">NGÀY nhập kho</th>
-                                    <th className="align-middle text-nowrap">Hạn bảo hành</th>
-                                    <th className="align-middle text-nowrap">Barcode</th>
-                                    <th className="align-middle text-nowrap">Tình trạng</th>
+                                    <th className="align-middle text-nowrap">NGÀY NHẬP KHO</th>
+                                    <th className="align-middle text-nowrap">HẠN BẢO HÀNH</th>
+                                    <th className="align-middle text-nowrap">BARCODE</th>
+                                    <th className="align-middle text-nowrap">TÌNH TRẠNG</th>
                                     <th className="align-middle text-nowrap position-sticky sticky-right"></th>
                                 </tr>
                             </thead>
