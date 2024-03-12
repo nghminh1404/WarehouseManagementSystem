@@ -126,7 +126,7 @@ namespace WM.Service
                 var count = goods.Count();
                 var res = goods.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 var totalPages = Math.Ceiling((double)count / pageSize);
-                return new GoodsFilterPaging { TotalPages = totalPages, PageSize = pageSize, goods = res };
+                return new GoodsFilterPaging { TotalPages = (int)totalPages, PageSize = pageSize, Data = res };
 
             }
             catch (Exception e)
