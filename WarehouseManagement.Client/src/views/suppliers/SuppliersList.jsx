@@ -28,6 +28,7 @@ function SupplierList() {
 
     useEffect(() => {
         getSuppliers(1);
+
     }, [])
 
     useEffect(() => {
@@ -87,7 +88,7 @@ function SupplierList() {
     const confirmChangeStatus = async (confirm) => {
         if (confirm) {
             await updateStatusSupplier(dataUpdateStatus.supplierId);
-            getSuppliers(currentPage + 1);
+            getSuppliers(currentPage + 1, selectOption, keywordSearch);
         }
     }
 
