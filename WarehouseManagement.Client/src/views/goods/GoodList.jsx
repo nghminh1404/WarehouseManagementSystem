@@ -5,25 +5,38 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Form } from 'react-bootstrap';
 import { fetchAllCategories } from '~/services/CategoryServices';
 import { fetchAllSuppliers } from '~/services/SupplierServices';
+import { fetchAllStorages } from '~/services/StorageServices';
 import { CustomToggle, CustomMenu } from '../components/others/Dropdown';
 
 function MyTable() {
     const [listGoods, setListGoods] = useState({});
 
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedSupplier, setSelectedSupplier] = useState(null);
     const [totalCategories, setTotalCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
     const [totalSuppliers, setTotalSuppliers] = useState([]);
+    const [selectedSupplier, setSelectedSupplier] = useState(null);
+    const [selectedSupplierId, setSelectedSupplierId] = useState(null);
+
+    const [totalStorages, setTotalStorages] = useState([]);
+    const [selectedStorage, setSelectedStorage] = useState(null);
+    const [selectedStorageId, setSelectedStorageId] = useState(null);
 
     useEffect(() => {
-        let res = getGoods(1, 1);
-        console.log(res);
+        let res = getGoods(1);
         getAllCategories();
         getAllSuppliers();
+        getAllStorages();
     }, [])
+
+    useEffect(() => {
+        getGoods(1, selectedCategoryId, selectedSupplierId);
+    }, [selectedCategory, selectedSupplier])
 
     const getGoods = async (page, categoryId, supplierId) => {
         let res = await fetchGoodsWithFilter(page, categoryId, supplierId);
+        console.log(res);
         setListGoods(res.data);
         return res;
     }
@@ -38,13 +51,34 @@ function MyTable() {
         setTotalSuppliers(res);
     }
 
-    const handleCategoryClick = (eventKey, event) => {
-        setSelectedCategory(x => eventKey);
-        console.log(event);
+    const getAllStorages = async () => {
+        let res = await fetchAllStorages();
+        setTotalStorages(res);
     }
 
-    const handleSupplierClick = (eventKey, event) => {
-        setSelectedSupplier(x => eventKey);
+    const handleCategoryClick = (category, event) => {
+        setSelectedCategory(category.categoryName);
+        setSelectedCategoryId(category.categoryId)
+    }
+
+    const handleSupplierClick = (supplier, event) => {
+        setSelectedSupplier(supplier.supplierName);
+        setSelectedSupplierId(supplier.supplierId)
+    }
+
+    const handleSupplierClickTotal = () => {
+        setSelectedSupplier("Nhà cung cấp");
+        setSelectedSupplierId("");
+    }
+
+    const handleCategoryClickTotal = () => {
+        setSelectedCategory("Các danh mục");
+        setSelectedCategoryId("");
+    }
+
+    const handleStorageClick = (storage) => {
+        setSelectedStorage(storage.storageName);
+        setSelectedStorageId(storage.storageId);
     }
 
     return (
@@ -54,9 +88,10 @@ function MyTable() {
                     <h5 style={{ color: '#a5a2ad' }}>Trang chủ/Quản lý hàng hóa</h5>
                     <div className="row no-gutters my-3 ">
                         <div className="col">
-                            <DropdownButton className="ButtonCSSDropdown" title={<span><i className="fa-duotone fa-warehouse"></i> Kho</span>} variant="success">
-                                <Dropdown.Item href="#">Hà Nội</Dropdown.Item>
-                                <Dropdown.Item href="#">Hải Phòng</Dropdown.Item>
+                            <DropdownButton className="DropdownButtonCSS" title={selectedStorage !== null ? selectedStorage : "Kho"} variant="success">
+                                {totalStorages && totalStorages.length > 0 && totalStorages.map((c, index) => (
+                                    <Dropdown.Item key={`storage ${index}`} eventKey={c.storageName} onClick={(e) => handleStorageClick(c, e)}>{c.storageName}</Dropdown.Item>
+                                ))}
                             </DropdownButton>
                         </div>
 
@@ -113,6 +148,24 @@ function MyTable() {
 
 
                                     </th> */}
+                                    <th className="align-middle text-nowrap" style={{ overflow: 'visible' }}>
+                                        <Dropdown style={{ position: 'relative' }}>
+                                            <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                                                <span style={{ color: 'white' }}>{selectedSupplier !== null ? selectedSupplier : "Nhà cung cấp"}</span>
+                                            </Dropdown.Toggle>
+
+                                            <Dropdown.Menu as={CustomMenu} style={{ position: 'absolute', zIndex: '9999' }}>
+                                                <Dropdown.Item onClick={handleSupplierClickTotal}>
+                                                    Nhà cung cấp
+                                                </Dropdown.Item>
+                                                {totalSuppliers && totalSuppliers.length > 0 && totalSuppliers.map((s, index) => (
+                                                    <Dropdown.Item key={`supplier ${index}`} eventKey={s.supplierName} onClick={(e) => handleSupplierClick(s, e)}>
+                                                        {s.supplierName}
+                                                    </Dropdown.Item>
+                                                ))}
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    </th>
 
                                     <th className="align-middle text-nowrap" style={{ overflow: 'visible' }}>
                                         <Dropdown style={{ position: 'relative' }}>
@@ -121,8 +174,11 @@ function MyTable() {
                                             </Dropdown.Toggle>
 
                                             <Dropdown.Menu as={CustomMenu} style={{ position: 'absolute', zIndex: '9999' }}>
+                                                <Dropdown.Item onClick={handleCategoryClickTotal}>
+                                                    Các danh mục
+                                                </Dropdown.Item>
                                                 {totalCategories && totalCategories.length > 0 && totalCategories.map((c, index) => (
-                                                    <Dropdown.Item key={`category ${index}`} eventKey={c.categoryName} onClick={(e) => handleCategoryClick(c.categoryName, e)}>
+                                                    <Dropdown.Item key={`category ${index}`} eventKey={c.categoryName} onClick={(e) => handleCategoryClick(c, e)}>
                                                         {c.categoryName}
                                                     </Dropdown.Item>
                                                 ))}
@@ -130,21 +186,7 @@ function MyTable() {
                                         </Dropdown>
                                     </th>
 
-                                    <th className="align-middle text-nowrap" style={{ overflow: 'visible' }}>
-                                        <Dropdown style={{ position: 'relative' }}>
-                                            <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-                                                <span style={{ color: 'white' }}>{selectedSupplier !== null ? selectedSupplier : "Nhà cung cấp"}</span>
-                                            </Dropdown.Toggle>
 
-                                            <Dropdown.Menu as={CustomMenu} style={{ position: 'absolute', zIndex: '9999' }}>
-                                                {totalSuppliers && totalSuppliers.length > 0 && totalSuppliers.map((c, index) => (
-                                                    <Dropdown.Item key={`supplier ${index}`} eventKey={c.supplierName} onClick={(e) => handleSupplierClick(c.supplierName, e)}>
-                                                        {c.supplierName}
-                                                    </Dropdown.Item>
-                                                ))}
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    </th>
                                     <th className="align-middle text-nowrap">TỒN KHO</th>
                                     <th className="align-middle text-nowrap">ĐƠN VỊ</th>
                                     <th className="align-middle text-nowrap">NGÀY NHẬP KHO</th>
