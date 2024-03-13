@@ -8,13 +8,9 @@ using WM.Entity.Models;
 
 namespace WM.Entity.DTOs.GoodsDTO
 {
-    public class GoodsFilterPaging
+    public class GoodsFilterPaging : ResponseData<GoodsDTO>
     {
-        public double TotalPages { get; set; }
 
-        public int PageSize { get; set; }
-
-        public List<Models.Good> goods { get; set; }
     }
 }
 

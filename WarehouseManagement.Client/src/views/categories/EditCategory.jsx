@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap"
 import { toast } from 'react-toastify';
 import { EditCategory } from "~/services/CategoryServices";
-import { validatePhone, validateText, validateTextRequired } from "~/validate";
+import { validatePhone, validateText, validateTextRequired, removeWhiteSpace } from "~/validate";
 
 
 const ModelEditCategory = ({ isShow, handleClose, dataUpdateCategory, updateTableCategory }) => {
@@ -22,7 +22,7 @@ const ModelEditCategory = ({ isShow, handleClose, dataUpdateCategory, updateTabl
         }
 
         else {
-            let res = await EditCategory(dataUpdateCategory.categoryId, categoryName, categoryDescription);
+            let res = await EditCategory(dataUpdateCategory.categoryId, removeWhiteSpace(categoryName), removeWhiteSpace(categoryDescription));
             toast.success("Sửa thông tin danh mục thành công", {
                 className: 'toast-success',
             });

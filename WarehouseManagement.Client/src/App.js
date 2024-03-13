@@ -3,10 +3,10 @@ import ForgotPassword from './views/pages/authentication/ForgotPassword';
 import ResetPassword from './views/pages/authentication/ResetPassword';
 import { Routes, Route } from 'react-router-dom';
 import NavbarCom from './views/components/NavbarCom';
-import ProductList from './views/product/ProductList';
-import AddProduct from './views/product/AddProduct';
-import EditProduct from './views/product/EditProduct';
-import DeleteProduct from './views/product/DeleteProduct';
+import GoodList from './views/goods/GoodList';
+import AddProduct from './views/goods/AddProduct';
+import EditProduct from './views/goods/EditProduct';
+import DeleteProduct from './views/goods/DeleteProduct';
 import SupplierList from './views/suppliers/SuppliersList';
 import StorageList from './views/storages/StorageList';
 import CategoryList from './views/categories/CategoryList';
@@ -52,9 +52,9 @@ function App() {
                                 <Row className="flex-nowrap">
                                     <Sidebar />
 
-                                    <Col className="py-3 background-primary">
+                                    <Col className="py-3 background-primary overflow-auto">
                                         <NavbarCom />
-                                        <ProductList />
+                                        <GoodList />
                                     </Col>
                                 </Row>
                             </Container>
@@ -67,7 +67,7 @@ function App() {
                                 <Row className="flex-nowrap">
                                     <Sidebar />
 
-                                    <Col className="py-3 background-primary">
+                                    <Col className="py-3 background-primary ">
                                         <NavbarCom />
                                         <AddProduct />
                                     </Col>
