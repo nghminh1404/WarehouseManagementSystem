@@ -42,8 +42,8 @@ const ModelEditStorage = ({ isShow, handleClose, dataUpdateStorage, updateTableS
     const handleReset = () => {
 
         setStorageName(dataUpdateStorage.storageName);
-        setStorageAddress(dataUpdateStorage.storageAddress);
-        setStoragePhone(dataUpdateStorage.storagePhone);
+        setStorageAddress(dataUpdateStorage.storageAddress ? dataUpdateStorage.storageAddress : "");
+        setStoragePhone(dataUpdateStorage.storagePhone ? dataUpdateStorage.storagePhone : "");
 
     }
 
