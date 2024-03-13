@@ -1,7 +1,7 @@
 import axios from "./axios"
 
-const fetchGoodsWithFilter = (page, keyword) => {
-    return axios.get(`api/goods/get-goods??page=${page}${keyword ? `&keyword=${keyword}` : ''}`);
+const fetchGoodsWithFilter = (page, categoryId, supplierId, keyword) => {
+    return axios.get(`api/goods/get-goods??page=${page}${categoryId ? `categoryId=${categoryId}` : ''}${supplierId ? `supplierId=${supplierId}` : ''}${keyword ? `&keyword=${keyword}` : ''}`);
 }
 
 export { fetchGoodsWithFilter }
