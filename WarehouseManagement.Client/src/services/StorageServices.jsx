@@ -1,7 +1,7 @@
 import axios from "./axios"
 
-const fetchAllStorages = (page) => {
-    return axios.get(`api/storage/get-storage?page=${page}`);
+const fetchAllStorages = () => {
+    return axios.get(`api/storage/get-all-storage`);
 }
 
 const fetchStoragesWithKeyword = (page, keyword) => {
