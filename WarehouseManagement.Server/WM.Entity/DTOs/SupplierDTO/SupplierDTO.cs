@@ -19,6 +19,8 @@ namespace WM.Entity.DTOs.SupplierDTO
 
         public string? Note { get; set; }
 
+        public int StatusId { get; set; }
+
         public string  Status { get; set; } = null!;
     }
 }

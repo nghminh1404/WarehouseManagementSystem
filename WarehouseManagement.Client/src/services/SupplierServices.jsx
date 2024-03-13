@@ -12,8 +12,8 @@ const createNewSupplier = (supplierName, supplierPhone, statusId, supplierEmail,
     return axios.post(`api/supplier/add-supplier`, { supplierName, supplierPhone, statusId, supplierEmail, note })
 }
 
-const updateSupplier = (supplierId, supplierName, supplierPhone, supplierEmail, note) => {
-    return axios.put(`api/supplier/update-supplier`, { supplierId, supplierName, supplierPhone, supplierEmail, note })
+const updateSupplier = (supplierId, supplierName, supplierPhone, statusId, supplierEmail, note) => {
+    return axios.put(`api/supplier/update-supplier`, { supplierId, supplierName, supplierPhone, statusId, supplierEmail, note })
 }
 
 const updateStatusSupplier = (supplierId) => {

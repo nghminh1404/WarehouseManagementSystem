@@ -14,7 +14,7 @@ namespace WM.Service
 {
     public interface IGoodsService
     {
-        GoodsFilterPaging GetGoodsByKeyword(int page, string? keyword = "");
+        GoodsFilterPaging GetGoodsByKeyword(int page, int? categoryId, int? supplierId, string? keyword = "");
        Task <List<Good>?> GetAllGoods();
         Good GetGoodsById(int id);
         CreateGoodsResponse AddGoods(CreateGoodsRequest goods);
@@ -90,14 +90,18 @@ namespace WM.Service
             }
         }
 
-        public GoodsFilterPaging? GetGoodsByKeyword(int page, string? keyword = "")
+        public GoodsFilterPaging? GetGoodsByKeyword(int page, int? categoryId, int? supplierId, string? keyword = "")
         {
             try
             {
                 var pageSize = 6;
 
-                var goods = _context.Goods.Include(g => g.Status).Include(g => g.Category).Include(g => g.Supplier).Include(g => g.Storage).Where(g => g.GoodsName.ToLower().Contains(keyword.ToLower())
+                var goods = _context.Goods.Include(g => g.Status).Include(g => g.Category).Include(g => g.Supplier).Include(g => g.Storage)
+                                                .Where(g => (g.GoodsName.ToLower().Contains(keyword.ToLower())
                                                         || g.GoodsCode.ToLower().Contains(keyword.ToLower()))
+                                                        && (categoryId == null || g.Category.CategoryId == categoryId)
+                                                        && (supplierId == null || g.Supplier.SupplierId == supplierId)
+                                                        )
                                                 .OrderBy(g => g.GoodsId)
                                                 .Select(g => new GoodsDTO
                                                 {
