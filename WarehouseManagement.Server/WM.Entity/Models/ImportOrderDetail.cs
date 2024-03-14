@@ -11,11 +11,13 @@ public partial class ImportOrderDetail
 
     public int DetailId { get; set; }
 
-    public int? LoadsId { get; set; }
+    public int? GoodsId { get; set; }
 
-    public int? TotalAmount { get; set; }
+    public int? Quantity { get; set; }
 
-    public string? Imagee { get; set; }
+    public string? Image { get; set; }
+
+    public virtual Good? Goods { get; set; }
 
     public virtual ImportOrder Import { get; set; } = null!;
 }

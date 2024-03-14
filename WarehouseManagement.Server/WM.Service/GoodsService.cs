@@ -41,8 +41,7 @@ namespace WM.Service
                     CategoryId = goods.CategoryId,
                     Description = goods.Description,
                     SupplierId = goods.SupplierId,
-                    CostPrice = goods.CostPrice,
-                    DefaultMeasuredUnit = goods.DefaultMeasuredUnit,
+                    MeasuredUnit = goods.MeasuredUnit,
                     InStock = goods.InStock,
                     Image = goods.Image,
                     StatusId = goods.StatusId,
@@ -111,12 +110,12 @@ namespace WM.Service
                 // Kiểm tra nếu muốn sắp xếp theo costPrice từ bé đến lớn
                 if (sortPrice == 1)
                 {
-                    goodsQuery = goodsQuery.OrderBy(g => g.CostPrice);
+                    goodsQuery = goodsQuery.OrderBy(g => g.StockPrice);
                 }
                 // Kiểm tra nếu muốn sắp xếp theo costPrice từ lớn đến bé
                 else if (sortPrice == 2)
                 {
-                    goodsQuery = goodsQuery.OrderByDescending(g => g.CostPrice);
+                    goodsQuery = goodsQuery.OrderByDescending(g => g.StockPrice);
                 }
 
                 var goods = goodsQuery
@@ -128,8 +127,8 @@ namespace WM.Service
                         CategoryId = g.CategoryId,
                         CategoryName = g.Category.CategoryName,
                         Description = g.Description,
-                        CostPrice = g.CostPrice,
-                        DefaultMeasuredUnit = g.DefaultMeasuredUnit,
+                        StockPrice = g.StockPrice,
+                        MeasuredUnit = g.MeasuredUnit,
                         InStock = g.InStock,
                         Image = g.Image,
                         WarrantyTime = g.WarrantyTime,
@@ -168,12 +167,11 @@ namespace WM.Service
                     CategoryId = goods.CategoryId,
                     Description = goods.Description,
                     SupplierId = goods.SupplierId,
-                    CostPrice = goods.CostPrice,
-                    DefaultMeasuredUnit = goods.DefaultMeasuredUnit,
+                    StockPrice = goods.StockPrice,
+                    MeasuredUnit = goods.MeasuredUnit,
                     InStock = goods.InStock,
                     Image = goods.Image,
                     StatusId = goods.StatusId,
-                    StockPrice = goods.StockPrice,
                     WarrantyTime = DateTime.Now,
                     Barcode = goods.Barcode,
                     StorageId = goods.StorageId,
