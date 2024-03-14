@@ -29,6 +29,10 @@ public partial class ExportOrder
 
     public int? DeliveryId { get; set; }
 
+    public string? Image { get; set; }
+
+    public int? StorekeeperId { get; set; }
+
     public virtual ICollection<AvailableForReturn> AvailableForReturns { get; } = new List<AvailableForReturn>();
 
     public virtual Delivery? Delivery { get; set; }
