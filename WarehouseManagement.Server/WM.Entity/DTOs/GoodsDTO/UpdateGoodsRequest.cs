@@ -20,9 +20,7 @@ namespace WM.Entity.DTOs.GoodsDTO
 
         public int SupplierId { get; set; }
 
-        public float CostPrice { get; set; }
-
-        public string? DefaultMeasuredUnit { get; set; }
+        public string? MeasuredUnit { get; set; }
 
         public int InStock { get; set; }
 

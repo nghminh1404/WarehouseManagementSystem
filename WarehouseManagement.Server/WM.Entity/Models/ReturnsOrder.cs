@@ -19,17 +19,17 @@ public partial class ReturnsOrder
 
     public string? Image { get; set; }
 
-    public DateTime Created { get; set; }
+    public DateTime CreatedDate { get; set; }
 
     public string ReturnsCode { get; set; } = null!;
 
     public int StorageId { get; set; }
 
-    public float Total { get; set; }
+    public float TotalPrice { get; set; }
 
-    public int State { get; set; }
+    public int StatusId { get; set; }
 
-    public DateTime? Imported { get; set; }
+    public DateTime? ImportedDate { get; set; }
 
     public virtual ExportOrder? Export { get; set; }
 
@@ -37,7 +37,7 @@ public partial class ReturnsOrder
 
     public virtual ICollection<ReturnsOrderDetail> ReturnsOrderDetails { get; } = new List<ReturnsOrderDetail>();
 
-    public virtual Status StateNavigation { get; set; } = null!;
+    public virtual Status Status { get; set; } = null!;
 
     public virtual Storage Storage { get; set; } = null!;
 

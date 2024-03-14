@@ -14,7 +14,7 @@ namespace WM.Service
 {
     public interface IGoodsService
     {
-        GoodsFilterPaging GetGoodsByKeyword(int page, int? categoryId, int? supplierId, string? keyword = "");
+        GoodsFilterPaging GetGoodsByKeyword(int page, int? storageId, int? categoryId, int? supplierId, int? sortPriece, string? keyword = "");
        Task <List<Good>?> GetAllGoods();
         Good GetGoodsById(int id);
         CreateGoodsResponse AddGoods(CreateGoodsRequest goods);
@@ -41,8 +41,7 @@ namespace WM.Service
                     CategoryId = goods.CategoryId,
                     Description = goods.Description,
                     SupplierId = goods.SupplierId,
-                    CostPrice = goods.CostPrice,
-                    DefaultMeasuredUnit = goods.DefaultMeasuredUnit,
+                    MeasuredUnit = goods.MeasuredUnit,
                     InStock = goods.InStock,
                     Image = goods.Image,
                     StatusId = goods.StatusId,
@@ -90,45 +89,63 @@ namespace WM.Service
             }
         }
 
-        public GoodsFilterPaging? GetGoodsByKeyword(int page, int? categoryId, int? supplierId, string? keyword = "")
+        public GoodsFilterPaging? GetGoodsByKeyword(int page, int? storageId, int? categoryId, int? supplierId,int? sortPrice, string? keyword = "")
         {
             try
             {
                 var pageSize = 6;
 
-                var goods = _context.Goods.Include(g => g.Status).Include(g => g.Category).Include(g => g.Supplier).Include(g => g.Storage)
-                                                .Where(g => (g.GoodsName.ToLower().Contains(keyword.ToLower())
-                                                        || g.GoodsCode.ToLower().Contains(keyword.ToLower()))
-                                                        && (categoryId == null || g.Category.CategoryId == categoryId)
-                                                        && (supplierId == null || g.Supplier.SupplierId == supplierId)
-                                                        )
-                                                .OrderBy(g => g.GoodsId)
-                                                .Select(g => new GoodsDTO
-                                                {
-                                                    GoodsId = g.GoodsId,
-                                                    GoodsCode = g.GoodsCode,
-                                                    GoodsName = g.GoodsName,
-                                                    CategoryId = g.CategoryId,
-                                                    CategoryName = g.Category.CategoryName,
-                                                    Description = g.Description,
-                                                    CostPrice = g.CostPrice,
-                                                    DefaultMeasuredUnit = g.DefaultMeasuredUnit,
-                                                    InStock = g.InStock,
-                                                    Image = g.Image,
-                                                    WarrantyTime = g.WarrantyTime,
-                                                    Barcode = g.Barcode,
-                                                    MinStock   = g.MinStock,
-                                                    MaxStock = g.MaxStock,
-                                                    SupplierId = g.SupplierId,
-                                                    SupplierName = g.Supplier.SupplierName,
-                                                    StorageId = g.StorageId,
-                                                    StorageName = g.Storage.StorageName,
-                                                    StatusId = g.StatusId,
-                                                    Status = g.Status.StatusType
-                                                })
-                                                .ToList();
+                var goodsQuery = _context.Goods
+    .Include(g => g.Status)
+    .Include(g => g.Category)
+    .Include(g => g.Supplier)
+    .Include(g => g.Storage)
+    .Where(g =>
+        (g.GoodsName.ToLower().Contains(keyword.ToLower()) || g.GoodsCode.ToLower().Contains(keyword.ToLower()))
+        && (storageId == null || g.Storage.StorageId == storageId)
+        && (categoryId == null || g.Category.CategoryId == categoryId)
+        && (supplierId == null || g.Supplier.SupplierId == supplierId)
+    );
+
+                // Kiểm tra nếu muốn sắp xếp theo costPrice từ bé đến lớn
+                if (sortPrice == 1)
+                {
+                    goodsQuery = goodsQuery.OrderBy(g => g.StockPrice);
+                }
+                // Kiểm tra nếu muốn sắp xếp theo costPrice từ lớn đến bé
+                else if (sortPrice == 2)
+                {
+                    goodsQuery = goodsQuery.OrderByDescending(g => g.StockPrice);
+                }
+
+                var goods = goodsQuery
+                    .Select(g => new GoodsDTO
+                    {
+                        GoodsId = g.GoodsId,
+                        GoodsCode = g.GoodsCode,
+                        GoodsName = g.GoodsName,
+                        CategoryId = g.CategoryId,
+                        CategoryName = g.Category.CategoryName,
+                        Description = g.Description,
+                        StockPrice = g.StockPrice,
+                        MeasuredUnit = g.MeasuredUnit,
+                        InStock = g.InStock,
+                        Image = g.Image,
+                        WarrantyTime = g.WarrantyTime,
+                        Barcode = g.Barcode,
+                        MinStock = g.MinStock,
+                        MaxStock = g.MaxStock,
+                        SupplierId = g.SupplierId,
+                        SupplierName = g.Supplier.SupplierName,
+                        StorageId = g.StorageId,
+                        StorageName = g.Storage.StorageName,
+                        StatusId = g.StatusId,
+                        Status = g.Status.StatusType
+                    });
+
                 var count = goods.Count();
                 var res = goods.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                
                 var totalPages = Math.Ceiling((double)count / pageSize);
                 return new GoodsFilterPaging { TotalPages = (int)totalPages, PageSize = pageSize, Data = res };
 
@@ -150,12 +167,11 @@ namespace WM.Service
                     CategoryId = goods.CategoryId,
                     Description = goods.Description,
                     SupplierId = goods.SupplierId,
-                    CostPrice = goods.CostPrice,
-                    DefaultMeasuredUnit = goods.DefaultMeasuredUnit,
+                    StockPrice = goods.StockPrice,
+                    MeasuredUnit = goods.MeasuredUnit,
                     InStock = goods.InStock,
                     Image = goods.Image,
                     StatusId = goods.StatusId,
-                    StockPrice = goods.StockPrice,
                     WarrantyTime = DateTime.Now,
                     Barcode = goods.Barcode,
                     StorageId = goods.StorageId,
