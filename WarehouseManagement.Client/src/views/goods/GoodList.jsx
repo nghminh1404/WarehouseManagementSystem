@@ -7,6 +7,8 @@ import { fetchAllCategories } from '~/services/CategoryServices';
 import { fetchAllSuppliers } from '~/services/SupplierServices';
 import { fetchAllStorages } from '~/services/StorageServices';
 import { CustomToggle, CustomMenu } from '../components/others/Dropdown';
+import ReactPaginate from 'react-paginate';
+import { formatDate } from '~/validate';
 
 function MyTable() {
     const [listGoods, setListGoods] = useState({});
@@ -23,21 +25,35 @@ function MyTable() {
     const [selectedStorage, setSelectedStorage] = useState(null);
     const [selectedStorageId, setSelectedStorageId] = useState(null);
 
+    const [totalPages, setTotalPages] = useState(5);
+    const [currentPage, setcurrentPage] = useState(0);
+
+    const [keywordSearch, setKeywordSearch] = useState("");
+
+    const [sortedByPriceId, setSortedByPriceId] = useState();
+    const [sortedByPriceName, setSortedByPriceName] = useState("");
+    const [sortOptions, setSortOptions] = useState([]);
+
     useEffect(() => {
-        let res = getGoods(1);
+        let res = getGoods(1, selectedStorageId, selectedCategoryId, selectedSupplierId);
         getAllCategories();
         getAllSuppliers();
         getAllStorages();
+        setSortOptions([{ idSort: null, nameSort: "Giá" },
+        { idSort: 1, nameSort: "Giá Từ bé đến lớn" },
+        { idSort: 2, nameSort: "Giá Từ lớn đến bé" }]);
     }, [])
 
     useEffect(() => {
-        getGoods(1, selectedCategoryId, selectedSupplierId);
-    }, [selectedCategory, selectedSupplier])
+        getGoods(1, selectedStorageId, selectedCategoryId, selectedSupplierId, sortedByPriceId, keywordSearch);
+        setcurrentPage(0);
+    }, [selectedStorage, selectedCategory, selectedSupplier, sortedByPriceId])
 
-    const getGoods = async (page, categoryId, supplierId) => {
-        let res = await fetchGoodsWithFilter(page, categoryId, supplierId);
+    const getGoods = async (page, storageId, categoryId, supplierId, sortPrice, wordSearch) => {
+        let res = await fetchGoodsWithFilter(page, storageId, categoryId, supplierId, sortPrice, wordSearch);
         console.log(res);
         setListGoods(res.data);
+        setTotalPages(res.totalPages);
         return res;
     }
 
@@ -76,21 +92,49 @@ function MyTable() {
         setSelectedCategoryId("");
     }
 
+    const handleStorageClickTotal = () => {
+        setSelectedStorage("Tất cả kho");
+        setSelectedStorageId("");
+    }
+
     const handleStorageClick = (storage) => {
         setSelectedStorage(storage.storageName);
         setSelectedStorageId(storage.storageId);
     }
 
+    const handlePageClick = (event) => {
+        setcurrentPage(+event.selected);
+        getGoods(+event.selected + 1, selectedStorageId, selectedCategoryId, selectedSupplierId, sortedByPriceId, keywordSearch);
+    }
+
+    const handleSearch = () => {
+        getGoods(1, selectedStorageId, selectedCategoryId, selectedSupplierId, sortedByPriceId, keywordSearch);
+    }
+
+    const handleSortPirceClick = (sort) => {
+        setSortedByPriceId(sort.idSort);
+        setSortedByPriceName(sort.nameSort);
+        getGoods(1, selectedStorageId, selectedCategoryId, selectedSupplierId, sort.idSort, keywordSearch);
+    }
     return (
         <div className="container">
             <div className="row justify-content-center">
                 <div className="col-sm-12">
                     <h5 style={{ color: '#a5a2ad' }}>Trang chủ/Quản lý hàng hóa</h5>
                     <div className="row no-gutters my-3 ">
-                        <div className="col">
-                            <DropdownButton className="DropdownButtonCSS" title={selectedStorage !== null ? selectedStorage : "Kho"} variant="success">
+                        <div className="col-2">
+                            <DropdownButton className="DropdownButtonCSS" title={selectedStorage !== null ? selectedStorage : "Tất cả Kho"} variant="success" style={{ zIndex: 9999 }}>
+                                <Dropdown.Item eventKey="" onClick={() => handleStorageClickTotal()}>Tất cả kho</Dropdown.Item>
                                 {totalStorages && totalStorages.length > 0 && totalStorages.map((c, index) => (
                                     <Dropdown.Item key={`storage ${index}`} eventKey={c.storageName} onClick={(e) => handleStorageClick(c, e)}>{c.storageName}</Dropdown.Item>
+                                ))}
+                            </DropdownButton>
+                        </div>
+
+                        <div className="col">
+                            <DropdownButton className="DropdownButtonCSS" title={sortedByPriceName ? sortedByPriceName : "Giá"} variant="success" style={{ zIndex: 9999 }}>
+                                {sortOptions.map((s, index) => (
+                                    <Dropdown.Item key={`sort ${index}`} eventKey={s.nameSort} onClick={(e) => handleSortPirceClick(s, e)}>{s.nameSort}</Dropdown.Item>
                                 ))}
                             </DropdownButton>
                         </div>
@@ -105,12 +149,14 @@ function MyTable() {
                                     type="search"
                                     placeholder='Tìm kiếm...'
                                     id="example-search-input4"
+                                    onChange={(event) => setKeywordSearch(event.target.value)}
                                     readOnly={false}
                                 />
                                 <div className="input-group-append">
                                     <button
                                         className="btn btn-outline-secondary border-left-0 rounded-0 rounded-right"
                                         type="button"
+                                        onClick={handleSearch}
                                     >
                                         <i className="fa-solid fa-magnifying-glass"></i>
                                     </button>
@@ -129,25 +175,16 @@ function MyTable() {
                         </div>
                     </div>
 
-                    <div className=" table-responsive" style={{ minHeight: '300px', overflowX: 'auto' }}>
+                    <div className=" table-responsive" style={{ maxHeight: '500px', overflowY: 'auto', overflowX: 'auto' }}>
                         <Table className="table text-center table-border table-hover  border-primary table-sm " style={{ position: 'relative' }}>
 
-                            <thead>
+                            <thead className='sticky-top'>
                                 <tr>
                                     <th className="align-middle text-nowrap">STT</th>
                                     <th className="align-middle text-nowrap">Mã SP</th>
                                     <th className="align-middle textColor text-nowrap">TÊN SẢN PHẨM</th>
                                     <th className="align-middle text-nowrap">Hình ảnh</th>
 
-                                    {/* <th className="align-middle  text-nowrap">
-                                        <DropdownButton className="DropdownButtonCSS" title={selectedCategory !== null ? selectedCategory : "Danh mục"} variant="success">
-                                            {totalCategories && totalCategories.length > 0 && totalCategories.map((c, index) => (
-                                                <Dropdown.Item key={`category ${index}`} eventKey={c.categoryName} onClick={(e) => handleCategoryClick(c.categoryName, e)}>{c.categoryName}</Dropdown.Item>
-                                            ))}
-                                        </DropdownButton>
-
-
-                                    </th> */}
                                     <th className="align-middle text-nowrap" style={{ overflow: 'visible' }}>
                                         <Dropdown style={{ position: 'relative' }}>
                                             <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
@@ -190,6 +227,7 @@ function MyTable() {
                                     <th className="align-middle text-nowrap">TỒN KHO</th>
                                     <th className="align-middle text-nowrap">ĐƠN VỊ</th>
                                     <th className="align-middle text-nowrap">NGÀY NHẬP KHO</th>
+                                    <th className='align-middle text-nowrap'>Giá nhập kho</th>
                                     <th className="align-middle text-nowrap">HẠN BẢO HÀNH</th>
                                     <th className="align-middle text-nowrap">BARCODE</th>
                                     <th className="align-middle text-nowrap">TÌNH TRẠNG</th>
@@ -209,8 +247,9 @@ function MyTable() {
                                             <td className="align-middle">{g.categoryName}</td>
                                             <td className="align-middle">{g.inStock}</td>
                                             <td className="align-middle">{g.defaultMeasuredUnit}</td>
-                                            <td className="align-middle">{g.warrantyTime}</td>
-                                            <td className="align-middle">{g.warrantyTime}</td>
+                                            <td className="align-middle">{formatDate(g.warrantyTime)}</td>
+                                            <td className='align-middle'>{g.costPrice}</td>
+                                            <td className="align-middle">{formatDate(g.warrantyTime)}</td>
                                             <td className="align-middle">{g.barcode}</td>
                                             <td className="align-middle">{g.status}</td>
                                             <td className="align-middle " style={{ padding: '10px' }}>
@@ -229,6 +268,28 @@ function MyTable() {
 
                             </tbody>
                         </Table>
+
+                        <div className="d-flex justify-content-center  mt-3">
+                            <ReactPaginate
+                                breakLabel="..."
+                                nextLabel="Sau >"
+                                onPageChange={handlePageClick}
+                                pageRangeDisplayed={5}
+                                pageCount={totalPages}
+                                forcePage={currentPage}
+                                previousLabel="< Trước"
+                                pageClassName="page-item"
+                                pageLinkClassName="page-link"
+                                previousClassName="page-item"
+                                previousLinkClassName="page-link"
+                                nextClassName="page-item"
+                                nextLinkClassName="page-link"
+                                breakClassName="page-item"
+                                breakLinkClassName="page-link"
+                                containerClassName="pagination"
+                                activeClassName="active"
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
