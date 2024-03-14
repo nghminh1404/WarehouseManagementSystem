@@ -19,8 +19,6 @@ public partial class Storage
 
     public virtual ICollection<ImportOrder> ImportOrders { get; } = new List<ImportOrder>();
 
-    public virtual ICollection<Load> Loads { get; } = new List<Load>();
-
     public virtual ICollection<ReturnsOrder> ReturnsOrders { get; } = new List<ReturnsOrder>();
 
     public virtual ICollection<StocktakeNote> StocktakeNotes { get; } = new List<StocktakeNote>();

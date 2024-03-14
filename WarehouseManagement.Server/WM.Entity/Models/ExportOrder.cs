@@ -11,27 +11,27 @@ public partial class ExportOrder
 
     public int UserId { get; set; }
 
-    public int TotalAmount { get; set; }
-
-    public float Total { get; set; }
-
     public float TotalPrice { get; set; }
 
     public string? Note { get; set; }
 
     public int StatusId { get; set; }
 
-    public DateTime Created { get; set; }
+    public DateTime CreatedDate { get; set; }
 
-    public DateTime? Completed { get; set; }
+    public DateTime? ExportedDate { get; set; }
 
     public int StorageId { get; set; }
 
     public int ProjectId { get; set; }
 
-    public DateTime? Denied { get; set; }
+    public DateTime? CancelDate { get; set; }
+
+    public int? DeliveryId { get; set; }
 
     public virtual ICollection<AvailableForReturn> AvailableForReturns { get; } = new List<AvailableForReturn>();
+
+    public virtual Delivery? Delivery { get; set; }
 
     public virtual ICollection<ExportOrderDetail> ExportOrderDetails { get; } = new List<ExportOrderDetail>();
 

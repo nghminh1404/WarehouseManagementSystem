@@ -11,11 +11,13 @@ public partial class ExportOrderDetail
 
     public float Price { get; set; }
 
-    public int? LoadsId { get; set; }
+    public int? GoodsId { get; set; }
 
-    public int? TotalAmount { get; set; }
+    public int? Quantity { get; set; }
 
     public string? Image { get; set; }
 
     public virtual ExportOrder Export { get; set; } = null!;
+
+    public virtual Good? Goods { get; set; }
 }
