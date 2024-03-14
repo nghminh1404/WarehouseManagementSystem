@@ -2,6 +2,11 @@ import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 
 function AddProductForm({ }) {
+
+    const handleCancel = () => {
+        window.history.back();
+    };
+
     return (
         <Form>
             <div className="edit-product-form">
@@ -66,7 +71,7 @@ function AddProductForm({ }) {
                     Thêm sản phẩm
                 </Button>
                 &nbsp;
-                <Button className="cancel-button" variant="light" type="submit">
+                <Button className="cancel-button" variant="light" onClick={handleCancel} >
                     Hủy
                 </Button>
             </div>
