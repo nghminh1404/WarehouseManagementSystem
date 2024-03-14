@@ -15,8 +15,6 @@ public partial class ExportOrderDetail
 
     public int? Quantity { get; set; }
 
-    public string? Image { get; set; }
-
     public virtual ExportOrder Export { get; set; } = null!;
 
     public virtual Good? Goods { get; set; }

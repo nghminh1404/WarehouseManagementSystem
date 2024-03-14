@@ -37,7 +37,7 @@ public partial class Good
 
     public int? MinStock { get; set; }
 
-    public DateTime? CreaterdDate { get; set; }
+    public DateTime? CreatedDate { get; set; }
 
     public virtual ICollection<AvailableForReturn> AvailableForReturns { get; } = new List<AvailableForReturn>();
 

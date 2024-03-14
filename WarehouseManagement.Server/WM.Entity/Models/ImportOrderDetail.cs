@@ -15,8 +15,6 @@ public partial class ImportOrderDetail
 
     public int? Quantity { get; set; }
 
-    public string? Image { get; set; }
-
     public virtual Good? Goods { get; set; }
 
     public virtual ImportOrder Import { get; set; } = null!;

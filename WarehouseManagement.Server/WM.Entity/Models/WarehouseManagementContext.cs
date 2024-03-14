@@ -126,6 +126,9 @@ public partial class WarehouseManagementContext : DbContext
             entity.ToTable("ExportOrder");
 
             entity.Property(e => e.ExportCode).HasMaxLength(50);
+            entity.Property(e => e.Image)
+                .IsUnicode(false)
+                .HasColumnName("image");
             entity.Property(e => e.Note).HasMaxLength(250);
 
             entity.HasOne(d => d.Delivery).WithMany(p => p.ExportOrders)
@@ -154,8 +157,6 @@ public partial class WarehouseManagementContext : DbContext
             entity.HasKey(e => e.DetailId);
 
             entity.ToTable("ExportOrderDetail");
-
-            entity.Property(e => e.Image).HasColumnName("image");
 
             entity.HasOne(d => d.Export).WithMany(p => p.ExportOrderDetails).HasForeignKey(d => d.ExportId);
 
@@ -221,6 +222,9 @@ public partial class WarehouseManagementContext : DbContext
 
             entity.ToTable("ImportOrder");
 
+            entity.Property(e => e.Image)
+                .IsUnicode(false)
+                .HasColumnName("image");
             entity.Property(e => e.ImportCode).HasMaxLength(50);
             entity.Property(e => e.Note).HasMaxLength(250);
 
@@ -230,7 +234,6 @@ public partial class WarehouseManagementContext : DbContext
 
             entity.HasOne(d => d.Project).WithMany(p => p.ImportOrders)
                 .HasForeignKey(d => d.ProjectId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ImportOrder_Project");
 
             entity.HasOne(d => d.Status).WithMany(p => p.ImportOrders)
@@ -254,8 +257,6 @@ public partial class WarehouseManagementContext : DbContext
             entity.HasKey(e => e.DetailId);
 
             entity.ToTable("ImportOrderDetail");
-
-            entity.Property(e => e.Image).HasColumnName("image");
 
             entity.HasOne(d => d.Goods).WithMany(p => p.ImportOrderDetails)
                 .HasForeignKey(d => d.GoodsId)

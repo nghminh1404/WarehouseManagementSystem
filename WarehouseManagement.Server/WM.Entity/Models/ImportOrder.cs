@@ -25,9 +25,13 @@ public partial class ImportOrder
 
     public int StorageId { get; set; }
 
-    public int ProjectId { get; set; }
+    public int? ProjectId { get; set; }
 
     public int? DeliveryId { get; set; }
+
+    public string? Image { get; set; }
+
+    public int? StokekeeperId { get; set; }
 
     public virtual ICollection<AvailableForReturn> AvailableForReturns { get; } = new List<AvailableForReturn>();
 
@@ -35,7 +39,7 @@ public partial class ImportOrder
 
     public virtual ICollection<ImportOrderDetail> ImportOrderDetails { get; } = new List<ImportOrderDetail>();
 
-    public virtual Project Project { get; set; } = null!;
+    public virtual Project? Project { get; set; }
 
     public virtual ICollection<ReturnsOrder> ReturnsOrders { get; } = new List<ReturnsOrder>();
 
