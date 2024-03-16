@@ -27,6 +27,7 @@ builder.Services.AddScoped<ISupplierService, SupplierService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
+builder.Services.AddScoped<IImportOrderService, ImportOrderService>();
 
 var app = builder.Build();
 

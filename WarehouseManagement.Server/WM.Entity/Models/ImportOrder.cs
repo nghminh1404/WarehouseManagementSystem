@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace WM.Entity.Models;
 
@@ -32,22 +33,30 @@ public partial class ImportOrder
     public string? Image { get; set; }
 
     public int? StokekeeperId { get; set; }
-
+    [JsonIgnore]
     public virtual ICollection<AvailableForReturn> AvailableForReturns { get; } = new List<AvailableForReturn>();
+    [JsonIgnore]
 
     public virtual Delivery? Delivery { get; set; }
+    
 
     public virtual ICollection<ImportOrderDetail> ImportOrderDetails { get; } = new List<ImportOrderDetail>();
+    [JsonIgnore]
 
     public virtual Project? Project { get; set; }
+    [JsonIgnore]
 
     public virtual ICollection<ReturnsOrder> ReturnsOrders { get; } = new List<ReturnsOrder>();
+    [JsonIgnore]
 
     public virtual Status Status { get; set; } = null!;
+    [JsonIgnore]
 
     public virtual Storage Storage { get; set; } = null!;
+    [JsonIgnore]
 
     public virtual Supplier Supplier { get; set; } = null!;
+    [JsonIgnore]
 
     public virtual User User { get; set; } = null!;
 }
