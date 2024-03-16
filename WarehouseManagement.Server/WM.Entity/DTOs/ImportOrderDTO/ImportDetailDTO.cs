@@ -12,13 +12,7 @@ namespace WM.Entity.DTOs.ImportOrderDTO
 
         public float CostPrice { get; set; }
 
-        public int DetailId { get; set; }
-
         public int? GoodsId { get; set; }
-
-        public string? GoodsName { get; set; }
-
-        public string? MeasureUnit { get; set; }
 
         public int? Quantity { get; set; }
     }
