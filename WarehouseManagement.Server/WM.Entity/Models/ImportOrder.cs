@@ -40,7 +40,7 @@ public partial class ImportOrder
     public virtual Delivery? Delivery { get; set; }
     
 
-    public virtual ICollection<ImportOrderDetail> ImportOrderDetails { get; } = new List<ImportOrderDetail>();
+    public virtual ICollection<ImportOrderDetail> ImportOrderDetails { get; set; } = new List<ImportOrderDetail>();
     [JsonIgnore]
 
     public virtual Project? Project { get; set; }

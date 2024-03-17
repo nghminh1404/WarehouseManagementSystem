@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -66,7 +66,8 @@ public partial class WarehouseManagementContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var ConnectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("SqlConnection");
+        var ConnectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json")
+            .Build().GetConnectionString("SqlConnection" ?? "server=(local);database=WarehouseManagement;uid=minh;pwd=123456;TrustServerCertificate=True;");
         optionsBuilder.UseSqlServer(ConnectionString);
     }
 

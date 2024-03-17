@@ -35,51 +35,43 @@ namespace WM.Service
         }
         public CreateImportOrderResponse CreateImportOrder(CreateImportOrderRequest i)
         {
-            try
-            {
-                var importOrder = new ImportOrderDTO
-                {
-                    ImportCode = i.ImportCode,
-                    UserId = i.UserId,
-                    //  UserName = i.User.FullName,
-                    SupplierId = i.SupplierId,
-                    //  SupplierName = i.Supplier.SupplierName,
-                    TotalCost = i.TotalCost,
-                    Note = i.Note,
-                    CreatedDate = i.CreatedDate,
-                    ImportedDate = i.ImportedDate,
-                    StatusId = i.StatusId,
-                    // StatusType = i.Status.StatusType,
-                    StorageId = i.StorageId,
-                    // StorageName = i.Storage.StorageName,
-                    ProjectId = i.ProjectId,
-                    // ProjectName = i.Project.ProjectName,
-                    DeliveryId = i.DeliveryId,
-                    //  DeliveryName = i.Delivery.DeliveryName,
-                    Image = i.Image,
-                    StorekeeperId = i.StorekeeperId,
-                    // StorekeeperName = i.User.FullName,
-                    ImportOrderDetails = (List<ImportDetailDTO>)i.ImportOrderDetails
-                        .Select(
-                                i => new ImportDetailDTO
-                                {
-                                    ImportId = i.ImportId,
-                                    DetailId = i.DetailId,
-                                    CostPrice = i.CostPrice,
-                                    GoodsId = i.GoodsId,
-                                    // GoodsName = i.Goods.GoodsName,
-                                    Quantity = i.Quantity,
-                                    // MeasureUnit = i.Goods.MeasuredUnit
-                                })
-                    };
-                _context.Add(importOrder);
-                _context.SaveChanges();
-                return new CreateImportOrderResponse { IsSuccess = true, Message = "Tao don hang nhap vao thanh cong"};
-            }
-            catch (Exception e)
-            {
-                return new CreateImportOrderResponse { IsSuccess = false, Message = $"Tao don hang that bai +{e.Message }" };
-            }
+            //try
+            //{
+            //    var importOrder = new ImportOrder
+            //    {
+            //        //ImportId = i.ImportId,
+            //        ImportCode = i.ImportCode,
+            //        UserId = i.UserId,
+            //        SupplierId = i.SupplierId,
+            //        TotalCost = i.TotalCost,
+            //        Note = i.Note,
+            //        CreatedDate = i.CreatedDate,
+            //        ImportedDate = i.ImportedDate,
+            //        StatusId = i.StatusId,
+            //        StorageId = i.StorageId,
+            //        ProjectId = i.ProjectId,
+            //        DeliveryId = i.DeliveryId,
+            //        Image = i.Image,
+            //        StokekeeperId = i.StokekeeperId,
+            //        ImportOrderDetails = i.ImportOrderDetails
+            //            .Select(
+            //                    i => new ImportOrderDetail
+            //                    {
+            //                        ImportId = i.ImportId,
+            //                        CostPrice = i.CostPrice,
+            //                        GoodsId = i.GoodsId,
+            //                        Quantity = i.Quantity,
+            //                    }).ToList()
+            //    };
+            //    _context.Add(importOrder);
+            //    _context.SaveChanges();
+            //    return new CreateImportOrderResponse { IsSuccess = true, Message = "Tao don hang nhap vao thanh cong" };
+            //}
+            //catch (Exception e)
+            //{
+            //   return new CreateImportOrderResponse { IsSuccess = false, Message = $"Tao don hang that bai \n + {e.Message}" };
+            // }
+            return null;
         }
 
         public List<ImportOrderDTO> GetAllImportOrder()
@@ -113,14 +105,14 @@ namespace WM.Service
                         StorekeeperName = i.User.FullName,
                         ImportOrderDetails = (List<ImportDetailDTO>)i.ImportOrderDetails
                         .Select(
-                                i => new ImportDetailDTO {
+                                i => new ImportDetailDTO { 
                                 ImportId = i.ImportId,
-                                DetailId = i.DetailId,
+                               // DetailId = i.DetailId,
                                 CostPrice = i.CostPrice,
                                 GoodsId = i.GoodsId,
-                                GoodsName = i.Goods.GoodsName,
+                                //GoodsName = i.Goods.GoodsName ?? null,
                                 Quantity = i.Quantity,
-                                MeasureUnit = i.Goods.MeasuredUnit
+                               // MeasureUnit = i.Goods.MeasuredUnit
                                 })
                     })
                     .ToList();
@@ -208,7 +200,7 @@ namespace WM.Service
                                              StorekeeperName = i.User.FullName,
                                              ImportOrderDetails = (List<ImportDetailDTO>)i.ImportOrderDetails
                         .Select(
-                                i => new ImportDetailDTO
+                                i => new 
                                 {
                                     ImportId = i.ImportId,
                                     DetailId = i.DetailId,
@@ -231,54 +223,55 @@ namespace WM.Service
 
         public UpdateImportOrderResponse UpdateOrder(ImportOrderDTO i)
         {
-            try
-            {
+            //    try
+            //    {
 
 
-                var importOrder = new ImportOrderDTO
-                {
-                    ImportId = i.ImportId,
-                    ImportCode = i.ImportCode,
-                    UserId = i.UserId,
-                    //  UserName = i.User.FullName,
-                    SupplierId = i.SupplierId,
-                    //  SupplierName = i.Supplier.SupplierName,
-                    TotalCost = i.TotalCost,
-                    Note = i.Note,
-                    CreatedDate = i.CreatedDate,
-                    ImportedDate = i.ImportedDate,
-                    StatusId = i.StatusId,
-                    // StatusType = i.Status.StatusType,
-                    StorageId = i.StorageId,
-                    // StorageName = i.Storage.StorageName,
-                    ProjectId = i.ProjectId,
-                    // ProjectName = i.Project.ProjectName,
-                    DeliveryId = i.DeliveryId,
-                    //  DeliveryName = i.Delivery.DeliveryName,
-                    Image = i.Image,
-                    StorekeeperId = i.StorekeeperId,
-                    // StorekeeperName = i.User.FullName,
-                    ImportOrderDetails = (List<ImportDetailDTO>)i.ImportOrderDetails
-                            .Select(
-                                    i => new ImportDetailDTO
-                                    {
-                                        ImportId = i.ImportId,
-                                        DetailId = i.DetailId,
-                                        CostPrice = i.CostPrice,
-                                        GoodsId = i.GoodsId,
-                                        // GoodsName = i.Goods.GoodsName,
-                                        Quantity = i.Quantity,
-                                        // MeasureUnit = i.Goods.MeasuredUnit
-                                    })
-                };
-                _context.Update(importOrder);
-                _context.SaveChanges();
-                return new UpdateImportOrderResponse { IsSuccess = true, Message = "Cap nhap don hang nhap vao thanh cong" };
-            }
-            catch (Exception e)
-            {
-                return new UpdateImportOrderResponse { IsSuccess = false, Message = $"Cap nhap don hang that bai +{e.Message}" };
-            }
+            //        var importOrder = new ImportOrderDTO
+            //        {
+            //            ImportId = i.ImportId,
+            //            ImportCode = i.ImportCode,
+            //            UserId = i.UserId,
+            //            //  UserName = i.User.FullName,
+            //            SupplierId = i.SupplierId,
+            //            //  SupplierName = i.Supplier.SupplierName,
+            //            TotalCost = i.TotalCost,
+            //            Note = i.Note,
+            //            CreatedDate = i.CreatedDate,
+            //            ImportedDate = i.ImportedDate,
+            //            StatusId = i.StatusId,
+            //            // StatusType = i.Status.StatusType,
+            //            StorageId = i.StorageId,
+            //            // StorageName = i.Storage.StorageName,
+            //            ProjectId = i.ProjectId,
+            //            // ProjectName = i.Project.ProjectName,
+            //            DeliveryId = i.DeliveryId,
+            //            //  DeliveryName = i.Delivery.DeliveryName,
+            //            Image = i.Image,
+            //            StorekeeperId = i.StorekeeperId,
+            //            // StorekeeperName = i.User.FullName,
+            //            ImportOrderDetails = (List<ImportDetailDTO>)i.ImportOrderDetails
+            //                    .Select(
+            //                            i => new ImportDetailDTO
+            //                            {
+            //                                ImportId = i.ImportId,
+            //                               // DetailId = i.DetailId,
+            //                                CostPrice = i.CostPrice,
+            //                                GoodsId = i.GoodsId,
+            //                                // GoodsName = i.Goods.GoodsName,
+            //                                Quantity = i.Quantity,
+            //                                // MeasureUnit = i.Goods.MeasuredUnit
+            //                            })
+            //        };
+            //        _context.Update(importOrder);
+            //        _context.SaveChanges();
+            //        return new UpdateImportOrderResponse { IsSuccess = true, Message = "Cap nhap don hang nhap vao thanh cong" };
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        return new UpdateImportOrderResponse { IsSuccess = false, Message = $"Cap nhap don hang that bai +{e.Message}" };
+            //    }
+            return null;
         }
     }
 }
