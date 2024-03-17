@@ -175,7 +175,7 @@ function MyTable() {
                         </div>
                     </div>
 
-                    <div className=" table-responsive" style={{ maxHeight: '500px', overflowY: 'auto', overflowX: 'auto' }}>
+                    <div className=" table-responsive" style={{ height: '300px', overflowY: 'auto', overflowX: 'auto' }}>
                         <Table className="table text-center table-border table-hover  border-primary table-sm " style={{ position: 'relative' }}>
 
                             <thead className='sticky-top'>
@@ -247,7 +247,7 @@ function MyTable() {
                                             <td className="align-middle">{g.categoryName}</td>
                                             <td className="align-middle">{g.inStock}</td>
                                             <td className="align-middle">{g.defaultMeasuredUnit}</td>
-                                            <td className="align-middle">{formatDate(g.warrantyTime)}</td>
+                                            <td className="align-middle">{formatDate(g.createdDate)}</td>
                                             <td className='align-middle'>{g.costPrice}</td>
                                             <td className="align-middle">{formatDate(g.warrantyTime)}</td>
                                             <td className="align-middle">{g.barcode}</td>
@@ -269,27 +269,28 @@ function MyTable() {
                             </tbody>
                         </Table>
 
-                        <div className="d-flex justify-content-center  mt-3">
-                            <ReactPaginate
-                                breakLabel="..."
-                                nextLabel="Sau >"
-                                onPageChange={handlePageClick}
-                                pageRangeDisplayed={5}
-                                pageCount={totalPages}
-                                forcePage={currentPage}
-                                previousLabel="< Trước"
-                                pageClassName="page-item"
-                                pageLinkClassName="page-link"
-                                previousClassName="page-item"
-                                previousLinkClassName="page-link"
-                                nextClassName="page-item"
-                                nextLinkClassName="page-link"
-                                breakClassName="page-item"
-                                breakLinkClassName="page-link"
-                                containerClassName="pagination"
-                                activeClassName="active"
-                            />
-                        </div>
+
+                    </div>
+                    <div className="d-flex justify-content-center  mt-3">
+                        <ReactPaginate
+                            breakLabel="..."
+                            nextLabel="Sau >"
+                            onPageChange={handlePageClick}
+                            pageRangeDisplayed={5}
+                            pageCount={totalPages}
+                            forcePage={currentPage}
+                            previousLabel="< Trước"
+                            pageClassName="page-item"
+                            pageLinkClassName="page-link"
+                            previousClassName="page-item"
+                            previousLinkClassName="page-link"
+                            nextClassName="page-item"
+                            nextLinkClassName="page-link"
+                            breakClassName="page-item"
+                            breakLinkClassName="page-link"
+                            containerClassName="pagination"
+                            activeClassName="active"
+                        />
                     </div>
                 </div>
             </div>
