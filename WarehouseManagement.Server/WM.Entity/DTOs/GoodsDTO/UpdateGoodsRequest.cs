@@ -30,6 +30,7 @@ namespace WM.Entity.DTOs.GoodsDTO
 
         public float StockPrice { get; set; }
 
+
         public DateTime WarrantyTime { get; set; }
 
         public string? Barcode { get; set; }

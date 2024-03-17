@@ -15,7 +15,7 @@ namespace WM.Service
     public interface IGoodsService
     {
         GoodsFilterPaging GetGoodsByKeyword(int page, int? storageId, int? categoryId, int? supplierId, int? sortPriece, string? keyword = "");
-       Task <List<Good>?> GetAllGoods();
+        Task<List<Good>?> GetAllGoods();
         Good GetGoodsById(int id);
         CreateGoodsResponse AddGoods(CreateGoodsRequest goods);
         UpdateGoodsResponse UpdateGoods(UpdateGoodsRequest goods);
@@ -46,12 +46,13 @@ namespace WM.Service
                     Image = goods.Image,
                     StatusId = goods.StatusId,
                     StockPrice = goods.StockPrice,
+                    CreatedDate = goods.CreatedDate,
                     WarrantyTime = DateTime.Now,
                     Barcode = goods.Barcode,
                     StorageId = goods.StorageId,
                     MaxStock = goods.MaxStock,
                     MinStock = goods.MinStock
-                    
+
                 };
                 _context.Goods.Add(requestGoods);
                 _context.SaveChanges();
@@ -89,7 +90,7 @@ namespace WM.Service
             }
         }
 
-        public GoodsFilterPaging? GetGoodsByKeyword(int page, int? storageId, int? categoryId, int? supplierId,int? sortPrice, string? keyword = "")
+        public GoodsFilterPaging? GetGoodsByKeyword(int page, int? storageId, int? categoryId, int? supplierId, int? sortPrice, string? keyword = "")
         {
             try
             {
@@ -131,6 +132,7 @@ namespace WM.Service
                         MeasuredUnit = g.MeasuredUnit,
                         InStock = g.InStock,
                         Image = g.Image,
+                        CreatedDate = g.CreatedDate,
                         WarrantyTime = g.WarrantyTime,
                         Barcode = g.Barcode,
                         MinStock = g.MinStock,
@@ -145,7 +147,7 @@ namespace WM.Service
 
                 var count = goods.Count();
                 var res = goods.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-                
+
                 var totalPages = Math.Ceiling((double)count / pageSize);
                 return new GoodsFilterPaging { TotalPages = (int)totalPages, PageSize = pageSize, Data = res };
 
@@ -198,7 +200,7 @@ namespace WM.Service
                 {
                     return false;
                 }
-                 user.StatusId = StatusId;
+                user.StatusId = StatusId;
                 _context.Update(user);
                 _context.SaveChanges();
                 return true;

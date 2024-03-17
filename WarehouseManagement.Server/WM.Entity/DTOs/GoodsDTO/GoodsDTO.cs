@@ -32,6 +32,8 @@ namespace WM.Entity.DTOs.GoodsDTO
         public int? StatusId { get; set; }
 
         public float StockPrice { get; set; }
+        public DateTime? CreatedDate { get; set; }
+
 
         public DateTime WarrantyTime { get; set; }
 
