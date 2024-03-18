@@ -36,26 +36,26 @@ namespace WM.API.Controllers
         }
 
         [HttpGet("get-import-orders")]
-        public IActionResult GetOrdersByKeyword(int page, string? keyword, int? user = 0, int? storage = 0,
+        public IActionResult ImportOrderFilterPaging(int page, string? keyword = "", int? user = 0, int? storage = 0,
                                                 int? project = 0, int? storekeeper = 0, int? status = 0)
         {
             var reult = _importService.ImportOrderFilterPaging(page,keyword,user,storage,project,storekeeper,status);
             return Ok(reult);
         }
-        //[HttpPost("add-import-order")]
-        //public IActionResult AddImportOrder(CreateImportOrderRequest i)
-        //{
-        //    var result = _importService.CreateImportOrder(i);
-        //    return Ok(result);
-        //}
+        [HttpPost("add-import-order")]
+        public IActionResult AddImportOrder(CreateImportOrderRequest i)
+        {
+            var result = _importService.CreateImportOrder(i);
+            return Ok(result);
+        }
 
-        //// PUT api/<UserController>/5
-        //[HttpPut("update-import-order")]
-        //public IActionResult UpdateImportOrder(ImportOrderDTO i)
-        //{
-        //    var result = _importService.UpdateOrder(i);
-        //    return Ok(result);
-        //}
+         
+        [HttpPut("update-import-order")]
+        public IActionResult UpdateImportOrder(ImportOrderDTO i)
+        {
+           var result = _importService.UpdateOrder(i);
+           return Ok(result);
+        }
        
         [HttpPost("Import")]
         public async Task<IActionResult> Import(int importid)
