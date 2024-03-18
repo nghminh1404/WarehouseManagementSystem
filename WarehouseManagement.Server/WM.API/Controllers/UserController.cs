@@ -25,7 +25,7 @@ namespace WM.API.Controllers
         }
 
         [HttpGet("get-users")]
-        public IActionResult GetUserByKeyword(int pageNum, string? keyword, int? role = 0, int? statusId = 0, int? storageId = 0) 
+        public IActionResult GetUserByKeyword(int pageNum, string? keyword="", int? role = 0, int? statusId = 0, int? storageId = 0) 
         {
         var reult = _userService.GetUsersByKeyword(pageNum,keyword,role,statusId,storageId);
         return Ok(reult);

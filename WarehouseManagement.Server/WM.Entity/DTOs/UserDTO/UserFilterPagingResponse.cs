@@ -7,7 +7,7 @@ using WM.Entity.Models;
 
 namespace WM.Entity.DTOs.UserDTO
 {
-    public class UserFilterPagingResponse: ResponseData<User>
+    public class UserFilterPagingResponse: ResponseData<UserDTO>
     {
     }
 }

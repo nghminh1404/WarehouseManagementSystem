@@ -31,7 +31,7 @@ namespace WM.API.Controllers
         }
 
         // GET api/<ImportOrderDetailController>/5
-        [HttpGet("get-import-order-details/{id}")]
+        [HttpGet("get-import-order-details")]
         public IActionResult GetOrderDetailsByOrderID(int oid)
         {
             var order = _orderDetailService.GetOrderDetailsByOrderID(oid);

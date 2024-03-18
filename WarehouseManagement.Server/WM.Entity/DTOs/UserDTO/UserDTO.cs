@@ -8,26 +8,33 @@ namespace WM.Entity.DTOs.UserDTO
 {
     public class UserDTO
     {
-        public int UserId { get; set; }
-        public string? UserName { get; set; }
-        public string? UserCode { get; set; }
-        public string? FullName { get; set; }
+         public int UserId { get; set; }
+
         public string? Email { get; set; }
 
         public string Password { get; set; } = null!;
 
         public string? Phone { get; set; }
 
-        public string Role { get; set; }
+        public int RoleId { get; set; }
+        public string? RoleName { get; set; }
 
+        public int StatusId { get; set; }
         public string Status { get; set; }
 
-        public string Storage { get; set; }
+        public string? UserName { get; set; }
+
+        public int StorageId { get; set; }
+        public string StorageName { get; set; }
+
+        public string? UserCode { get; set; }
 
         public string? Address { get; set; }
 
         public string? Image { get; set; }
 
-       
+        public string? FullName { get; set; }
+
+
     }
 }
