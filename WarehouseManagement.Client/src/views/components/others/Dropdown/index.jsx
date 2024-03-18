@@ -57,7 +57,7 @@ const CustomMenu = React.forwardRef(
             >
                 <Form.Control
                     autoFocus
-                    className="mx-3 my-2 w-auto"
+                    className="mx-3 my-2 w-auto inputCSS"
                     placeholder="Tìm kiếm"
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
