@@ -67,7 +67,7 @@ public partial class WarehouseManagementContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var ConnectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("SqlConnection");
-        optionsBuilder.UseSqlServer(ConnectionString);
+        optionsBuilder.UseSqlServer("server = ADMIN; database = WarehouseManagement; uid=sa; pwd=123; TrustServerCertificate=True");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
