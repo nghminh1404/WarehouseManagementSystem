@@ -47,7 +47,7 @@ public partial class Good
 
     public virtual ICollection<GoodsHistory> GoodsHistories { get; } = new List<GoodsHistory>();
 
-    public virtual ICollection<ImportOrderDetail> ImportOrderDetails { get; set; } = new List<ImportOrderDetail>();
+    public virtual ICollection<ImportOrderDetail> ImportOrderDetails { get; } = new List<ImportOrderDetail>();
 
     public virtual ICollection<ReturnsOrderDetail> ReturnsOrderDetails { get; } = new List<ReturnsOrderDetail>();
 

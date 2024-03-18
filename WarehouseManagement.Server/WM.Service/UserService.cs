@@ -81,10 +81,10 @@ namespace WM.Service
                     Email = u.Email,
                     Address = u.Address,
                     Phone = u.Phone,
-                    Role = u.Role.RoleName,
+                    RoleName = u.Role.RoleName,
                     Password = u.Password,
                     Status = u.Status.StatusType,
-                    Storage = u.Storage.StorageName,
+                    StorageName = u.Storage.StorageName,
                     Image = u.Image
                 })
                     .ToList();
@@ -125,39 +125,49 @@ namespace WM.Service
         //    throw new NotImplementedException();
         //}
 
-        public UserFilterPagingResponse GetUsersByKeyword(int pageNum, string? keyword, int? role = 0, int? statusId = 0, int? storageId = 0)
+        public UserFilterPagingResponse GetUsersByKeyword(int pageNum, string? keyword = "", int? role = 0, int? statusId = 0, int? storageId = 0)
         {
             try
             {
                 var pageSize = 10;
                 if (pageNum <= 0) pageNum = 1;
-                var users = _context.Users.Where(s => s.UserCode.ToLower().Contains(keyword.ToLower())
+                var users = _context.Users
+                    .Include(s=> s.Status).Include(s => s.Storage).Include(s => s.Role)
+                    .Where(s => s.UserCode.ToLower().Contains(keyword.ToLower())
                                                       || s.UserName.ToLower().Contains(keyword.ToLower())
                                                       || s.Email.ToLower().Contains(keyword.ToLower())
                                                       && (s.RoleId == role || role == 0)
                                                       && (s.StatusId == statusId || statusId == 0)
                                                       && (s.StorageId == storageId || storageId == 0))
-                                                .OrderBy(s => s.UserId).OrderBy(s => s.StatusId).ToList();
+                                               
+                                                .OrderBy(s => s.UserId).OrderBy(s => s.StatusId);
+                                                
                 var count = users.Count();
-                var res = users.Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
+                var userDTo = users.Select(u => new UserDTO
+                {
+                    UserId = u.UserId,
+                    UserCode = u.UserCode,
+                    UserName = u.UserName,
+                    FullName = u.FullName,
+                    Email = u.Email,
+                    Address = u.Address,
+                    Phone = u.Phone,
+                    RoleId = u.RoleId,
+                    RoleName = u.Role.RoleName,
+                    Password = u.Password,
+                    StatusId = u.StatusId,
+                    Status = u.Status.StatusType,
+                    StorageName = u.Storage.StorageName,
+                    Image = u.Image
+                });
+                var res = userDTo.Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
                 var totalPages = Math.Ceiling((double)count / pageSize);
-                return new UserFilterPagingResponse { Data = ((List<User>)(from u in res 
-                                                             select new UserDTO
-                                                             {
-                                                                 UserId = u.UserId,
-                                                                 UserCode = u.UserCode,
-                                                                 UserName = u.UserName,
-                                                                 FullName = u.FullName,
-                                                                 Email = u.Email,
-                                                                 Address = u.Address,
-                                                                 Phone = u.Phone,
-                                                                 Role = u.Role.RoleName,
-                                                                 Password = u.Password,
-                                                                 Status = u.Status.StatusType,
-                                                                 Storage = u.Storage.StorageName,
-                                                                 Image = u.Image
-                                                             })),
-                    PageSize = pageSize, TotalPages = (int)totalPages };
+                return new UserFilterPagingResponse
+                {
+                   
+                    PageSize = pageSize, TotalPages = (int)totalPages,
+                    Data = res,
+                };
             }
             catch (Exception e)
             {
@@ -285,10 +295,27 @@ namespace WM.Service
             {
                 var pageSize = 10;
                 if (pageNum <= 0) pageNum = 1;
-                var users = _context.Users.Where(s => s.RoleId == roleId)
+                var users = _context.Users.Where(s => s.RoleId == roleId || roleId == 0)
                                                 .OrderBy(s => s.UserId).ToList();
                 var count = users.Count();
-                var res = users.Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
+                var userDTo = users.Select(u => new UserDTO
+                {
+                    UserId = u.UserId,
+                    UserCode = u.UserCode,
+                    UserName = u.UserName,
+                    FullName = u.FullName,
+                    Email = u.Email,
+                    Address = u.Address,
+                    Phone = u.Phone,
+                    RoleId = u.RoleId,
+                    RoleName = u.Role.RoleName,
+                    Password = u.Password,
+                    StatusId = u.StatusId,
+                    Status = u.Status.StatusType,
+                    StorageName = u.Storage.StorageName,
+                    Image = u.Image
+                });
+                var res = userDTo.Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
                 var totalPages = Math.Ceiling((double)count / pageSize);
                 return new UserFilterPagingResponse { Data = res, PageSize = pageSize, TotalPages = (int)totalPages };
             }

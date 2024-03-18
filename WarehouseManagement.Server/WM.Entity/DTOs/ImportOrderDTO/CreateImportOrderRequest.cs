@@ -8,7 +8,7 @@ namespace WM.Entity.DTOs.ImportOrderDTO
 {
     public class CreateImportOrderRequest
     {
-        public int ImportId { get; set; }
+       //ublic int ImportId { get; set; }
         public int UserId { get; set; }
 
         public int SupplierId { get; set; }
@@ -34,7 +34,7 @@ namespace WM.Entity.DTOs.ImportOrderDTO
         public string? Image { get; set; }
 
         public int? StokekeeperId { get; set; }
-        public List<ImportDetailDTO> ImportOrderDetails { get; set; }
+      //public List<ImportDetailDTO> ImportOrderDetails { get; set; }
 
     }
 }

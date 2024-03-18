@@ -35,51 +35,45 @@ namespace WM.Service
         }
         public CreateImportOrderResponse CreateImportOrder(CreateImportOrderRequest i)
         {
-            //try
-            //{
-            //    var importOrder = new ImportOrder
-            //    {
-            //        //ImportId = i.ImportId,
-            //        ImportCode = i.ImportCode,
-            //        UserId = i.UserId,
-            //        SupplierId = i.SupplierId,
-            //        TotalCost = i.TotalCost,
-            //        Note = i.Note,
-            //        CreatedDate = i.CreatedDate,
-            //        ImportedDate = i.ImportedDate,
-            //        StatusId = i.StatusId,
-            //        StorageId = i.StorageId,
-            //        ProjectId = i.ProjectId,
-            //        DeliveryId = i.DeliveryId,
-            //        Image = i.Image,
-            //        StokekeeperId = i.StokekeeperId,
-            //        ImportOrderDetails = i.ImportOrderDetails
-            //            .Select(
-            //                    i => new ImportOrderDetail
-            //                    {
-            //                        ImportId = i.ImportId,
-            //                        CostPrice = i.CostPrice,
-            //                        GoodsId = i.GoodsId,
-            //                        Quantity = i.Quantity,
-            //                    }).ToList()
-            //    };
-            //    _context.Add(importOrder);
-            //    _context.SaveChanges();
-            //    return new CreateImportOrderResponse { IsSuccess = true, Message = "Tao don hang nhap vao thanh cong" };
-            //}
-            //catch (Exception e)
-            //{
-            //   return new CreateImportOrderResponse { IsSuccess = false, Message = $"Tao don hang that bai \n + {e.Message}" };
-            // }
-            return null;
+            try
+            {
+                var importOrder = new ImportOrder
+                {
+                    //ImportId = i.ImportId,
+                    ImportCode = i.ImportCode,
+                    UserId = i.UserId,
+                    SupplierId = i.SupplierId,
+                    TotalCost = i.TotalCost,
+                    Note = i.Note,
+                    CreatedDate = DateTime.Now,
+                    ImportedDate = i.ImportedDate,
+                    StatusId = i.StatusId,
+                    StorageId = i.StorageId,
+                    ProjectId = i.ProjectId,
+                    DeliveryId = i.DeliveryId,
+                    Image = i.Image,
+                    StorekeeperId = i.StokekeeperId,                   
+                };
+                _context.Add(importOrder);
+                _context.SaveChanges();
+                return new CreateImportOrderResponse { IsSuccess = true, Message = "Tao don hang nhap vao thanh cong" };
+            }
+            catch (Exception e)
+            {
+               return new CreateImportOrderResponse { IsSuccess = false, Message = $"Tao don hang that bai \n + {e.Message}" };
+             }
+           
         }
 
         public List<ImportOrderDTO> GetAllImportOrder()
         {
             try
             {
+              //  var storeKeeperId = _context.ImportOrders.;
+                //var storeKeeperName = _context.Users.Include(s => s.ImportOrders)
+                //    .FirstOrDefault(u => u.UserId == s.StorekeeperId);
                 var importOrder = _context.ImportOrders
-                    .Include(i => i.Status).Include(i => i.User).Include(i => i.Storage).Include(i => i.Storage).Include(i=> i.Project)
+                   // .Include(i => i.Status).Include(i => i.User).Include(i => i.Storage).Include(i => i.Storage).Include(i=> i.Project)
                     .Select( i=> new ImportOrderDTO
                     {
                         ImportId = i.ImportId,
@@ -101,8 +95,8 @@ namespace WM.Service
                         DeliveryId = i.DeliveryId,
                         DeliveryName = i.Delivery.DeliveryName,
                         Image = i.Image,
-                        StorekeeperId = i.StokekeeperId,
-                        StorekeeperName = i.User.FullName,
+                        StorekeeperId = i.StorekeeperId,
+                      //  StorekeeperName = i.User.FullName,
                         ImportOrderDetails = (List<ImportDetailDTO>)i.ImportOrderDetails
                         .Select(
                                 i => new ImportDetailDTO { 
@@ -154,63 +148,68 @@ namespace WM.Service
             }
         }
 
-        public ImportOrderFilterPaging ImportOrderFilterPaging(int page, string? keyword, int? user = 0, int? storage = 0,
+        public ImportOrderFilterPaging ImportOrderFilterPaging(int page, string? keyword ="", int? user = 0, int? storage = 0,
                                                         int? project = 0, int? storekeeper = 0, int? status = 0)
         {
             try
             {
                 var pageSize = 10;
                 if (page <= 0) page = 1;
-                var users = _context.ImportOrders.Where(s => s.ImportCode.ToLower().Contains(keyword.ToLower())
+                var users = _context.ImportOrders
+                    
+                    //.Include(s => s.User).Include(s => s.Storage).Include(s => s.Status).Include( s => s.Supplier).Include(s => s.Project)
+                    .Where(s => s.ImportCode.ToLower().Contains(keyword.ToLower())
                                                       || s.Supplier.SupplierName.ToLower().Contains(keyword.ToLower())                                                    
                                                       && (s.UserId == user || user == 0)
-                                                      && (s.StokekeeperId == storekeeper || storekeeper == 0)
+                                                      && (s.StorekeeperId == storekeeper || storekeeper == 0)
                                                       && (s.StatusId == status|| status == 0)
                                                       && (s.StorageId == storage || storage == 0)
                                                       && (s.ProjectId ==project || project == 0))
-                                                .OrderBy(s => s.UserId).OrderBy(s => s.StatusId).ToList();
+                                                .OrderBy(s => s.UserId).OrderBy(s => s.StatusId)
+                                                ;
                 var count = users.Count();
-                var res = users.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                var importOrder = users.Select(i => new ImportOrderDTO
+                {
+                    ImportId = i.ImportId,
+                    ImportCode = i.ImportCode,
+                    UserId = i.UserId,
+                    UserName = i.User.FullName,
+                    SupplierId = i.SupplierId,
+                    SupplierName = i.Supplier.SupplierName,
+                    TotalCost = i.TotalCost,
+                    Note = i.Note,
+                    CreatedDate = i.CreatedDate,
+                    ImportedDate = i.ImportedDate,
+                    StatusId = i.StatusId,
+                    StatusType = i.Status.StatusType,
+                    StorageId = i.StorageId,
+                    StorageName = i.Storage.StorageName,
+                    ProjectId = i.ProjectId,
+                    ProjectName = i.Project.ProjectName,
+                    DeliveryId = i.DeliveryId,
+                    DeliveryName = i.Delivery.DeliveryName,
+                    Image = i.Image,
+                    StorekeeperId = i.StorekeeperId,
+                   // StorekeeperName = i.User.FullName,
+                    ImportOrderDetails = (List<ImportDetailDTO>)i.ImportOrderDetails
+                        .Select(
+                                i => new ImportDetailDTO
+                                {
+                                    ImportId = i.ImportId,
+                                    // DetailId = i.DetailId,
+                                    CostPrice = i.CostPrice,
+                                    GoodsId = i.GoodsId,
+                                    //GoodsName = i.Goods.GoodsName ?? null,
+                                    Quantity = i.Quantity,
+                                    // MeasureUnit = i.Goods.MeasuredUnit
+                                })
+
+                });
+                var res = importOrder.Skip((page - 1) * pageSize).Take(pageSize).ToList();
                 var totalPages = Math.Ceiling((double)count / pageSize);
                 return new ImportOrderFilterPaging
                 {
-                    Data = ((List<ImportOrderDTO>)(from i in res
-                                         select new ImportOrderDTO
-                                         {
-                                             ImportId = i.ImportId,
-                                             ImportCode = i.ImportCode,
-                                             UserId = i.UserId,
-                                             UserName = i.User.FullName,
-                                             SupplierId = i.SupplierId,
-                                             SupplierName = i.Supplier.SupplierName,
-                                             TotalCost = i.TotalCost,
-                                             Note = i.Note,
-                                             CreatedDate = i.CreatedDate,
-                                             ImportedDate = i.ImportedDate,
-                                             StatusId = i.StatusId,
-                                             StatusType = i.Status.StatusType,
-                                             StorageId = i.StorageId,
-                                             StorageName = i.Storage.StorageName,
-                                             ProjectId = i.ProjectId,
-                                             ProjectName = i.Project.ProjectName,
-                                             DeliveryId = i.DeliveryId,
-                                             DeliveryName = i.Delivery.DeliveryName,
-                                             Image = i.Image,
-                                             StorekeeperId = i.StokekeeperId,
-                                             StorekeeperName = i.User.FullName,
-                                             ImportOrderDetails = (List<ImportDetailDTO>)i.ImportOrderDetails
-                        .Select(
-                                i => new 
-                                {
-                                    ImportId = i.ImportId,
-                                    DetailId = i.DetailId,
-                                    CostPrice = i.CostPrice,
-                                    GoodsId = i.GoodsId,
-                                    GoodsName = i.Goods.GoodsName,
-                                    Quantity = i.Quantity,
-                                    MeasureUnit = i.Goods.MeasuredUnit
-                                })                                      
-                                         })),
+                    Data = res,
                     PageSize = pageSize,
                     TotalPages = (int)totalPages
                 };
@@ -223,55 +222,36 @@ namespace WM.Service
 
         public UpdateImportOrderResponse UpdateOrder(ImportOrderDTO i)
         {
-            //    try
-            //    {
+                try
+                {
 
 
-            //        var importOrder = new ImportOrderDTO
-            //        {
-            //            ImportId = i.ImportId,
-            //            ImportCode = i.ImportCode,
-            //            UserId = i.UserId,
-            //            //  UserName = i.User.FullName,
-            //            SupplierId = i.SupplierId,
-            //            //  SupplierName = i.Supplier.SupplierName,
-            //            TotalCost = i.TotalCost,
-            //            Note = i.Note,
-            //            CreatedDate = i.CreatedDate,
-            //            ImportedDate = i.ImportedDate,
-            //            StatusId = i.StatusId,
-            //            // StatusType = i.Status.StatusType,
-            //            StorageId = i.StorageId,
-            //            // StorageName = i.Storage.StorageName,
-            //            ProjectId = i.ProjectId,
-            //            // ProjectName = i.Project.ProjectName,
-            //            DeliveryId = i.DeliveryId,
-            //            //  DeliveryName = i.Delivery.DeliveryName,
-            //            Image = i.Image,
-            //            StorekeeperId = i.StorekeeperId,
-            //            // StorekeeperName = i.User.FullName,
-            //            ImportOrderDetails = (List<ImportDetailDTO>)i.ImportOrderDetails
-            //                    .Select(
-            //                            i => new ImportDetailDTO
-            //                            {
-            //                                ImportId = i.ImportId,
-            //                               // DetailId = i.DetailId,
-            //                                CostPrice = i.CostPrice,
-            //                                GoodsId = i.GoodsId,
-            //                                // GoodsName = i.Goods.GoodsName,
-            //                                Quantity = i.Quantity,
-            //                                // MeasureUnit = i.Goods.MeasuredUnit
-            //                            })
-            //        };
-            //        _context.Update(importOrder);
-            //        _context.SaveChanges();
-            //        return new UpdateImportOrderResponse { IsSuccess = true, Message = "Cap nhap don hang nhap vao thanh cong" };
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        return new UpdateImportOrderResponse { IsSuccess = false, Message = $"Cap nhap don hang that bai +{e.Message}" };
-            //    }
-            return null;
+                    var importOrder = new ImportOrderDTO
+                    {
+                        ImportId = i.ImportId,
+                        ImportCode = i.ImportCode,
+                        UserId = i.UserId,                        
+                        SupplierId = i.SupplierId,                         
+                        TotalCost = i.TotalCost,
+                        Note = i.Note,
+                        CreatedDate = i.CreatedDate,
+                        ImportedDate = i.ImportedDate,
+                        StatusId = i.StatusId,                      
+                        StorageId = i.StorageId,                        
+                        ProjectId = i.ProjectId,                        
+                        DeliveryId = i.DeliveryId,                     
+                        Image = i.Image,
+                        StorekeeperId = i.StorekeeperId,                        
+                    };
+                    _context.Update(importOrder);
+                    _context.SaveChanges();
+                    return new UpdateImportOrderResponse { IsSuccess = true, Message = "Cap nhap don hang nhap vao thanh cong" };
+                }
+                catch (Exception e)
+                {
+                    return new UpdateImportOrderResponse { IsSuccess = false, Message = $"Cap nhap don hang that bai +{e.Message}" };
+                }
+            
         }
     }
 }

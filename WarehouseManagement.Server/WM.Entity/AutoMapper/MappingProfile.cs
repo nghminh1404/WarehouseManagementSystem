@@ -12,7 +12,7 @@ namespace WM.Entity.AutoMapper
     public class MappingProfile: Profile
     {
         public MappingProfile() {
-            CreateMap<ImportOrderDTO, ImportDTOMapper>();
+          //  CreateMap<ImportOrderDTO, ImportDTOMapper>();
             CreateMap<ImportDetailDTO, ImportOrderDetail>();
         }
     }

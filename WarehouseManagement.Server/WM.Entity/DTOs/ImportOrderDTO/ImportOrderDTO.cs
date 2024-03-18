@@ -26,7 +26,7 @@ namespace WM.Entity.DTOs.ImportOrderDTO
 
         public int StatusId { get; set; }
         public string? StatusType { get; set; }
-        public string ImportCode { get; set; } = null!;
+        public string? ImportCode { get; set; } 
 
         public int StorageId { get; set; }
         public string? StorageName { get; set; }
