@@ -68,7 +68,7 @@ namespace WM.Service
                 throw new Exception(ex.Message);
             }
         }
-            public List<ImportOrderDetail> GetAllOrderDetails()
+        public List<ImportOrderDetail> GetAllOrderDetails()
         {
             try
             {
