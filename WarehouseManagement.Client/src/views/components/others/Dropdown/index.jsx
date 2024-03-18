@@ -14,11 +14,11 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
             }}
             style={{
                 display: 'inline-block',
-                padding: '8px 12px',
+                padding: '6px 12px',
                 backgroundColor: '#24cbc7',
                 color: '#fff',
                 border: '1px solid #24cbc7',
-                borderRadius: '4px',
+                borderRadius: '8px',
                 textDecoration: 'none',
                 cursor: 'pointer',
                 textAlign: 'center',

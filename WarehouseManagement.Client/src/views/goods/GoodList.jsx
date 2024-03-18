@@ -247,9 +247,9 @@ function MyTable() {
                                             <td className="align-middle">{g.categoryName}</td>
                                             <td className="align-middle">{g.inStock}</td>
                                             <td className="align-middle">{g.defaultMeasuredUnit}</td>
-                                            <td className="align-middle">{formatDate(g.createdDate)}</td>
+                                            <td className="align-middle">{formatDate(g.createdDate ? g.createdDate : "2024-03-18T04:10:59.041Z")}</td>
                                             <td className='align-middle'>{g.costPrice}</td>
-                                            <td className="align-middle">{formatDate(g.warrantyTime)}</td>
+                                            <td className="align-middle">{formatDate(g.warrantyTime ? g.warrantyTime : "2024-03-18T04:10:59.041Z")}</td>
                                             <td className="align-middle">{g.barcode}</td>
                                             <td className="align-middle">{g.status}</td>
                                             <td className="align-middle " style={{ padding: '10px' }}>
