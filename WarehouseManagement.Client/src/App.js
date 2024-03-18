@@ -10,6 +10,7 @@ import DeleteProduct from './views/goods/DeleteProduct';
 import SupplierList from './views/suppliers/SuppliersList';
 import StorageList from './views/storages/StorageList';
 import CategoryList from './views/categories/CategoryList';
+import ImportOrderList from './views/importOrders/ImportOrdersList';
 import Sidebar from './views/components/Sidebar';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
@@ -156,6 +157,22 @@ function App() {
                             </Container>
                         }
                     />
+                    <Route
+                        path="/cac-lo-hang-nhap"
+                        element={
+                            <Container fluid>
+                                <Row className="flex-nowrap">
+                                    <Sidebar />
+
+                                    <Col className="py-3 background-primary">
+                                        <NavbarCom />
+                                        <ImportOrderList />
+                                    </Col>
+                                </Row>
+                            </Container>
+                        }
+                    />
+
                 </Routes>
 
 
