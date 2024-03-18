@@ -1,29 +1,33 @@
 import { useEffect, useState } from "react";
+import React from 'react';
 import { Modal, Button, Row, Col, DropdownButton, Dropdown } from "react-bootstrap"
 import { toast } from 'react-toastify';
 import { CustomToggle, CustomMenu } from '../components/others/Dropdown';
 import { fetchAllSuppliers } from '~/services/SupplierServices';
+import { fetchAllCategories } from "~/services/CategoryServices";
 
 
 import { fetchAllStorages } from '~/services/StorageServices';
 
 const ModelAddImportOrder = ({ isShow, handleClose }) => {
-    const [storageName, setStorageName] = useState("");
-    const [storageAddress, setStorageAddress] = useState("");
-    const [storagePhone, setStoragePhone] = useState("");
+
 
     const [totalStorages, setTotalStorages] = useState([]);
     const [selectedStorage, setSelectedStorage] = useState(null);
     const [selectedStorageId, setSelectedStorageId] = useState(null);
 
+
+
     const [totalSuppliers, setTotalSuppliers] = useState([]);
     const [selectedSupplier, setSelectedSupplier] = useState(null);
     const [selectedSupplierId, setSelectedSupplierId] = useState(null);
 
+    const [rowsData, setRowsData] = useState([]);
+    const [dataImportOrder, setDataImportOrder] = useState([]);
+
     useEffect(() => {
         getAllStorages();
         getAllSuppliers();
-
     }, [])
 
     const getAllStorages = async () => {
@@ -49,16 +53,114 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
     }
 
 
+
+
     const handleReset = () => {
-        setStorageName("");
-        setStoragePhone("");
-        setStorageAddress("");
+        setRowsData([]);
     }
 
     const handleCloseModal = () => {
         handleReset();
         handleClose();
     }
+
+    const addRowDataImportOrder = () => {
+        setRowsData(rowsData => {
+            const updatedRowsData = [...rowsData, <RowDataImportOrder />];
+            return updatedRowsData;
+        });
+
+        console.log(dataImportOrder);
+
+    }
+
+
+    const RowDataImportOrder = () => {
+        const [storageName, setStorageName] = useState("");
+        const [storageAddress, setStorageAddress] = useState("");
+        const [storagePhone, setStoragePhone] = useState("");
+
+
+        const [totalCategories, setTotalCategories] = useState([]);
+        const [selectedCategory, setSelectedCategory] = useState(null);
+        const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
+        const [dataRowImport, setDataRowImport] = useState({});
+
+
+        useEffect(() => {
+            getAllCategories();
+        }, [])
+
+        useEffect(() => {
+            setDataRowImport({
+                category: { selectedCategory }
+            })
+
+            setDataImportOrder([...dataImportOrder, dataRowImport]);
+        }, [selectedCategory])
+
+        const getAllCategories = async () => {
+            let res = await fetchAllCategories();
+            setTotalCategories(res);
+        }
+
+        const handleCategoryClick = (category, event) => {
+            setSelectedCategory(category.categoryName);
+            setSelectedCategoryId(category.categoryId);
+        }
+
+        return (<Row>
+            <Col md={3}>
+                <label>Danh mục</label>
+                <div>
+                    <Dropdown style={{ position: 'relative' }}>
+                        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+                            <span style={{ color: 'white' }}>{selectedCategory !== null ? selectedCategory : "Danh mục"}</span>
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu as={CustomMenu} style={{ position: 'absolute', zIndex: '9999' }}>
+                            {totalCategories && totalCategories.length > 0 && totalCategories.map((c, index) => (
+                                <Dropdown.Item key={`category ${index}`} eventKey={c.categoryName} onClick={(e) => handleCategoryClick(c, e)}>
+                                    {c.categoryName}
+                                </Dropdown.Item>
+                            ))}
+                        </Dropdown.Menu>
+                    </Dropdown>
+
+                </div>
+            </Col>
+            <Col md={2}>
+                <div className="form-group mb-3">
+                    <label >Tên hàng hóa</label>
+                    <input type="text" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
+                </div>
+            </Col>
+            <Col md={2}>
+                <div className="form-group mb-3">
+                    <label >Mã hàng hóa</label>
+                    <input type="text" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
+                </div>
+            </Col>
+            <Col md={2}>
+                <div className="form-group mb-3">
+                    <label >Số lượng</label>
+                    <input type="number" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
+                </div>
+            </Col>
+
+            <Col md={2}>
+                <div className="form-group mb-3">
+                    <label >Hạn bảo hành</label>
+                    <input type="date" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
+                </div>
+            </Col>
+
+
+
+        </Row>)
+    }
+
 
     return (<>
         <Modal show={isShow} onHide={handleCloseModal} size="lg">
@@ -94,34 +196,29 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
                             </div>
                         </Col>
 
-                    </Row>
-                    <Row>
                         <Col md={3}>
-                            <div className="form-group mb-3">
-                                <label >Tên Kho hàng</label>
-                                <input type="text" className="form-control inputCSS" required aria-describedby="emailHelp" value={storageName} onChange={(event) => setStorageName(event.target.value)} />
-                            </div>
-                        </Col>
-                        <Col md={3}>
-                            <div className="form-group mb-3">
-                                <label >Địa chỉ</label>
-                                <input type="text" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
-                            </div>
-                        </Col>
-                        <Col md={3}>
-                            <div className="form-group mb-3">
-                                <label >Địa chỉ</label>
-                                <input type="text" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
-                            </div>
-                        </Col>
-                        <Col md={3}>
-                            <div className="form-group mb-3">
-                                <label >Địa chỉ</label>
-                                <input type="text" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
+                            <div className="ButtonCSSDropdown">
+                                <button
+                                    className="btn btn-success border-left-0 rounded"
+                                    type="button"
+                                    onClick={addRowDataImportOrder}
+                                ><i className="fa-solid fa-plus"></i>
+                                    &nbsp;
+                                    Thêm sản phẩm
+                                </button>
                             </div>
                         </Col>
 
+
+
                     </Row>
+
+                    {rowsData.map((row, index) => (
+                        <div key={`rowData${index}`}>
+                            {row && React.isValidElement(row) ? React.cloneElement(row, {
+                            }) : null}
+                        </div>
+                    ))}
 
 
 

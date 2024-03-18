@@ -49,7 +49,7 @@ namespace WM.Service
                     ImportedDate = i.ImportedDate,
                     StatusId = i.StatusId,
                     StorageId = i.StorageId,
-                    ProjectId = i.ProjectId,
+                    ProjectId = i.ProjectId == 0 ? null : i.ProjectId,
                     DeliveryId = i.DeliveryId,
                     Image = i.Image,
                     StorekeeperId = i.StokekeeperId,                   
