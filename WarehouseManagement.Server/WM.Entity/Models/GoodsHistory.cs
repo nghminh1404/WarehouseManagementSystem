@@ -17,13 +17,9 @@ public partial class GoodsHistory
 
     public string? CostPriceDifferential { get; set; }
 
-    public float? Price { get; set; }
+    public int? Quantity { get; set; }
 
-    public string? PriceDifferential { get; set; }
-
-    public int? Amount { get; set; }
-
-    public string? AmountDifferential { get; set; }
+    public string? QuantityDifferential { get; set; }
 
     public string? Note { get; set; }
 

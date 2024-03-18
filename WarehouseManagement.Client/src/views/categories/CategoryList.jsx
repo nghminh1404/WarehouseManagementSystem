@@ -3,6 +3,7 @@ import { Table } from 'react-bootstrap';
 import { fetchCategoriesWithKeyword } from '~/services/CategoryServices';
 import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
+import { removeWhiteSpace } from '~/validate';
 import ModelAddCategory from './AddCategory';
 import ModelEditCategory from './EditCategory';
 
@@ -21,25 +22,12 @@ function CategoryList() {
 
     useEffect(() => {
         getCategory(1);
-        setCurrentPage(0);
-
 
     }, [])
 
-    useEffect(() => {
-        const fetchData = async () => {
-            let res = await getCategory(1, keywordSearch.trim());
-            if (res.data.length == 0) {
-                toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
-            }
-        };
-
-        fetchData();
-    }, [keywordSearch])
 
     const getCategory = async (page, keyword) => {
-        let res = await fetchCategoriesWithKeyword(page, keyword);
-        console.log(res);
+        let res = await fetchCategoriesWithKeyword(page, removeWhiteSpace(keyword ? keyword : ""));
         if (res) {
             setListCategory(res.data);
             setTotalPages(res.totalPages);
@@ -49,18 +37,30 @@ function CategoryList() {
     }
 
     const handlePageClick = (event) => {
-        console.log(event);
         setCurrentPage(+event.selected);
         getCategory(+event.selected + 1, keywordSearch);
     }
 
     const updateTableCategory = () => {
-        getCategory(currentPage + 1);
+        getCategory(currentPage + 1, keywordSearch);
     }
 
     const showModelEditCategory = (c) => {
         setIsShowModelEdit(true);
         setDataUpdateCategory(c);
+    }
+
+    const handleSearch = () => {
+        setCurrentPage(0);
+        const fetchData = async () => {
+            let res = await getCategory(1, keywordSearch);
+            console.log(res);
+            if (res.data.length == 0) {
+                toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
+            }
+        };
+
+        fetchData();
     }
 
     return (
@@ -87,7 +87,7 @@ function CategoryList() {
                                         <button
                                             className="btn btn-outline-secondary border-left-0 rounded-0 rounded-right"
                                             type="button"
-                                            disabled
+                                            onClick={handleSearch}
                                         >
                                             <i className="fa-solid fa-magnifying-glass"></i>
                                         </button>

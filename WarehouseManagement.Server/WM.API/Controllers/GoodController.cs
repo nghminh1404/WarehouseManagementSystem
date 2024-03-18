@@ -27,9 +27,9 @@ namespace WM.API.Controllers
 
         [HttpGet("get-goods")]
         // GET: GoodsController/Details/5
-        public IActionResult GetGoodsByKeyword(int page, string? keyword = "")
+        public IActionResult GetGoodsByKeyword(int page, int? storageId, int? categoryId, int? supplierId, int? sortPrice, string? keyword = "")
         {
-            var result = _goodsService.GetGoodsByKeyword(page, keyword);
+            var result = _goodsService.GetGoodsByKeyword(page, storageId, categoryId, supplierId, sortPrice, keyword);
             return Ok(result);
         }
         [HttpPost("add-goods")]

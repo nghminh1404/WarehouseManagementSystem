@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap"
 import { toast } from 'react-toastify';
 import { updateSupplier } from "~/services/SupplierServices";
-import { validateEmail, validatePhone, validateText, validateTextRequired } from "~/validate";
+import { validateEmail, validatePhone, validateText, validateTextRequired, removeWhiteSpace } from "~/validate";
 
 
 const ModelEditSupplier = ({ isShow, handleClose, dataUpdateSupplier, updateTableSupplier }) => {
@@ -13,10 +13,10 @@ const ModelEditSupplier = ({ isShow, handleClose, dataUpdateSupplier, updateTabl
     const [noteSupplier, setNoteSupplier] = useState("");
 
     useEffect(() => {
-        setNameSupplier(dataUpdateSupplier.supplierName);
-        setPhoneSupplier(dataUpdateSupplier.supplierPhone);
-        setEmailSupplier(dataUpdateSupplier.supplierEmail);
-        setNoteSupplier(dataUpdateSupplier.note);
+        setNameSupplier(dataUpdateSupplier.supplierName ? dataUpdateSupplier.supplierName : "");
+        setPhoneSupplier(dataUpdateSupplier.supplierPhone ? dataUpdateSupplier.supplierPhone : "");
+        setEmailSupplier(dataUpdateSupplier.supplierEmail ? dataUpdateSupplier.supplierEmail : "");
+        setNoteSupplier(dataUpdateSupplier.note ? dataUpdateSupplier.note : "");
     }, [dataUpdateSupplier])
 
     const handleSave = async () => {
@@ -29,7 +29,8 @@ const ModelEditSupplier = ({ isShow, handleClose, dataUpdateSupplier, updateTabl
         } else if (!validateText.test(noteSupplier)) {
             toast.error("Lưu ý không được chứa ký tự đặc biệt");
         } else {
-            let res = await updateSupplier(dataUpdateSupplier.supplierId, nameSupplier, phoneSupplier, 1, emailSupplier, noteSupplier);
+            let res = await updateSupplier(dataUpdateSupplier.supplierId, removeWhiteSpace(nameSupplier), phoneSupplier, dataUpdateSupplier.statusId, removeWhiteSpace(emailSupplier), removeWhiteSpace(noteSupplier));
+            console.log(res);
             if (res) {
                 toast.success("Sửa thông tin nhà cung cấp thành công", {
                     className: 'toast-success',
@@ -48,8 +49,8 @@ const ModelEditSupplier = ({ isShow, handleClose, dataUpdateSupplier, updateTabl
     const handleReset = () => {
         setNameSupplier(dataUpdateSupplier.supplierName);
         setPhoneSupplier(dataUpdateSupplier.supplierPhone);
-        setEmailSupplier(dataUpdateSupplier.supplierEmail);
-        setNoteSupplier(dataUpdateSupplier.note);
+        setEmailSupplier(dataUpdateSupplier.supplierEmail ? dataUpdateSupplier.supplierEmail : "");
+        setNoteSupplier(dataUpdateSupplier.note ? dataUpdateSupplier.note : "");
     }
 
     return (<>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap"
 import { toast } from 'react-toastify';
 import { EditStorage } from "~/services/StorageServices";
-import { validatePhone, validateText, validateTextRequired } from "~/validate";
+import { validatePhone, validateText, validateTextRequired, removeWhiteSpace } from "~/validate";
 
 
 const ModelEditStorage = ({ isShow, handleClose, dataUpdateStorage, updateTableStorage }) => {
@@ -16,17 +16,21 @@ const ModelEditStorage = ({ isShow, handleClose, dataUpdateStorage, updateTableS
             setStoragePhone(dataUpdateStorage.storagePhone);
         }
     }, [dataUpdateStorage])
+
     const handleSave = async () => {
-        if (!validatePhone.test(storagePhone)) {
+
+        if (!validatePhone.test(storagePhone.trim())) {
             toast.error("Định dạng số điện thoại sai");
-        } else if (!validateTextRequired.test(storageName)) {
+        }
+
+        else if (!validateTextRequired.test(storageName)) {
             toast.error("Tên không được trống và chứa ký tự đặc biệt");
         } else if (!validateText.test(storageAddress)) {
             toast.error("Địa chỉ không được chứa ký tự đặc biệt");
         }
 
         else {
-            let res = await EditStorage(dataUpdateStorage.storageId, storageName, storageAddress, storagePhone);
+            let res = await EditStorage(dataUpdateStorage.storageId, removeWhiteSpace(storageName), removeWhiteSpace(storageAddress), storagePhone);
             toast.success("Sửa thông tin nhà cung cấp thành công", {
                 className: 'toast-success',
             });
@@ -38,8 +42,8 @@ const ModelEditStorage = ({ isShow, handleClose, dataUpdateStorage, updateTableS
     const handleReset = () => {
 
         setStorageName(dataUpdateStorage.storageName);
-        setStorageAddress(dataUpdateStorage.storageAddress);
-        setStoragePhone(dataUpdateStorage.storagePhone);
+        setStorageAddress(dataUpdateStorage.storageAddress ? dataUpdateStorage.storageAddress : "");
+        setStoragePhone(dataUpdateStorage.storagePhone ? dataUpdateStorage.storagePhone : "");
 
     }
 

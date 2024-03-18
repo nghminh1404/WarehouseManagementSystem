@@ -17,9 +17,7 @@ public partial class Good
 
     public int SupplierId { get; set; }
 
-    public float CostPrice { get; set; }
-
-    public string? DefaultMeasuredUnit { get; set; }
+    public string? MeasuredUnit { get; set; }
 
     public int InStock { get; set; }
 
@@ -39,13 +37,17 @@ public partial class Good
 
     public int? MinStock { get; set; }
 
+    public DateTime? CreatedDate { get; set; }
+
     public virtual ICollection<AvailableForReturn> AvailableForReturns { get; } = new List<AvailableForReturn>();
 
     public virtual Category Category { get; set; } = null!;
 
+    public virtual ICollection<ExportOrderDetail> ExportOrderDetails { get; } = new List<ExportOrderDetail>();
+
     public virtual ICollection<GoodsHistory> GoodsHistories { get; } = new List<GoodsHistory>();
 
-    public virtual ICollection<MeasuredUnit> MeasuredUnits { get; } = new List<MeasuredUnit>();
+    public virtual ICollection<ImportOrderDetail> ImportOrderDetails { get; } = new List<ImportOrderDetail>();
 
     public virtual ICollection<ReturnsOrderDetail> ReturnsOrderDetails { get; } = new List<ReturnsOrderDetail>();
 
@@ -56,6 +58,4 @@ public partial class Good
     public virtual Storage Storage { get; set; } = null!;
 
     public virtual Supplier Supplier { get; set; } = null!;
-
-    public virtual ICollection<Load> Loads { get; } = new List<Load>();
 }

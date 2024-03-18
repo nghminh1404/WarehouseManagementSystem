@@ -59,7 +59,7 @@ const Sidebar = () => {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="mb-2">
-                        <Nav.Link
+                        <Nav.Link as={Link} to="/cac-lo-hang-nhap"
                             className="align-middle sidebar-item text-sidebar px-0 d-flex justify-content-between"
                             style={{ width: 180 }}
                         >

@@ -3,13 +3,14 @@ import ForgotPassword from './views/pages/authentication/ForgotPassword';
 import ResetPassword from './views/pages/authentication/ResetPassword';
 import { Routes, Route } from 'react-router-dom';
 import NavbarCom from './views/components/NavbarCom';
-import GoodList from './views/product/GoodList';
-import AddProduct from './views/product/AddProduct';
-import EditProduct from './views/product/EditProduct';
-import DeleteProduct from './views/product/DeleteProduct';
+import GoodList from './views/goods/GoodList';
+import AddProduct from './views/goods/AddProduct';
+import EditProduct from './views/goods/EditProduct';
+import DeleteProduct from './views/goods/DeleteProduct';
 import SupplierList from './views/suppliers/SuppliersList';
 import StorageList from './views/storages/StorageList';
 import CategoryList from './views/categories/CategoryList';
+import ImportOrderList from './views/importOrders/ImportOrdersList';
 import Sidebar from './views/components/Sidebar';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
@@ -156,6 +157,22 @@ function App() {
                             </Container>
                         }
                     />
+                    <Route
+                        path="/cac-lo-hang-nhap"
+                        element={
+                            <Container fluid>
+                                <Row className="flex-nowrap">
+                                    <Sidebar />
+
+                                    <Col className="py-3 background-primary">
+                                        <NavbarCom />
+                                        <ImportOrderList />
+                                    </Col>
+                                </Row>
+                            </Container>
+                        }
+                    />
+
                 </Routes>
 
 

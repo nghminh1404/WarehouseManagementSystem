@@ -40,8 +40,6 @@ public partial class WarehouseManagementContext : DbContext
 
     public virtual DbSet<ImportOrderDetail> ImportOrderDetails { get; set; }
 
-    public virtual DbSet<Load> Loads { get; set; }
-
     public virtual DbSet<MeasuredUnit> MeasuredUnits { get; set; }
 
     public virtual DbSet<Project> Projects { get; set; }
@@ -67,9 +65,10 @@ public partial class WarehouseManagementContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
     {
         var ConnectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("SqlConnection");
-        optionsBuilder.UseSqlServer(ConnectionString);
+        optionsBuilder.UseSqlServer("server = ADMIN; database = WarehouseManagement; uid=sa; pwd=123; TrustServerCertificate=True");
     }
 
 
@@ -132,7 +131,14 @@ public partial class WarehouseManagementContext : DbContext
             entity.ToTable("ExportOrder");
 
             entity.Property(e => e.ExportCode).HasMaxLength(50);
+            entity.Property(e => e.Image)
+                .IsUnicode(false)
+                .HasColumnName("image");
             entity.Property(e => e.Note).HasMaxLength(250);
+
+            entity.HasOne(d => d.Delivery).WithMany(p => p.ExportOrders)
+                .HasForeignKey(d => d.DeliveryId)
+                .HasConstraintName("FK_ExportOrder_Delivery");
 
             entity.HasOne(d => d.Project).WithMany(p => p.ExportOrders)
                 .HasForeignKey(d => d.ProjectId)
@@ -157,9 +163,11 @@ public partial class WarehouseManagementContext : DbContext
 
             entity.ToTable("ExportOrderDetail");
 
-            entity.Property(e => e.Image).HasColumnName("image");
-
             entity.HasOne(d => d.Export).WithMany(p => p.ExportOrderDetails).HasForeignKey(d => d.ExportId);
+
+            entity.HasOne(d => d.Goods).WithMany(p => p.ExportOrderDetails)
+                .HasForeignKey(d => d.GoodsId)
+                .HasConstraintName("FK_ExportOrderDetail_Goods");
         });
 
         modelBuilder.Entity<Feature>(entity =>
@@ -176,10 +184,10 @@ public partial class WarehouseManagementContext : DbContext
             entity.HasKey(e => e.GoodsId);
 
             entity.Property(e => e.Barcode).HasMaxLength(24);
-            entity.Property(e => e.DefaultMeasuredUnit).HasMaxLength(100);
             entity.Property(e => e.Description).HasMaxLength(250);
             entity.Property(e => e.GoodsCode).HasMaxLength(24);
             entity.Property(e => e.GoodsName).HasMaxLength(100);
+            entity.Property(e => e.MeasuredUnit).HasMaxLength(100);
             entity.Property(e => e.WarrantyTime).HasDefaultValueSql("('0001-01-01T00:00:00.0000000')");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Goods).HasForeignKey(d => d.CategoryId);
@@ -202,10 +210,9 @@ public partial class WarehouseManagementContext : DbContext
             entity.ToTable("GoodsHistory");
 
             entity.Property(e => e.ActionCode).HasMaxLength(50);
-            entity.Property(e => e.AmountDifferential).HasMaxLength(11);
             entity.Property(e => e.CostPriceDifferential).HasMaxLength(50);
             entity.Property(e => e.Note).HasMaxLength(250);
-            entity.Property(e => e.PriceDifferential).HasMaxLength(50);
+            entity.Property(e => e.QuantityDifferential).HasMaxLength(11);
 
             entity.HasOne(d => d.Action).WithMany(p => p.GoodsHistories).HasForeignKey(d => d.ActionId);
 
@@ -220,12 +227,18 @@ public partial class WarehouseManagementContext : DbContext
 
             entity.ToTable("ImportOrder");
 
+            entity.Property(e => e.Image)
+                .IsUnicode(false)
+                .HasColumnName("image");
             entity.Property(e => e.ImportCode).HasMaxLength(50);
             entity.Property(e => e.Note).HasMaxLength(250);
 
+            entity.HasOne(d => d.Delivery).WithMany(p => p.ImportOrders)
+                .HasForeignKey(d => d.DeliveryId)
+                .HasConstraintName("FK_ImportOrder_Delivery");
+
             entity.HasOne(d => d.Project).WithMany(p => p.ImportOrders)
                 .HasForeignKey(d => d.ProjectId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ImportOrder_Project");
 
             entity.HasOne(d => d.Status).WithMany(p => p.ImportOrders)
@@ -250,56 +263,11 @@ public partial class WarehouseManagementContext : DbContext
 
             entity.ToTable("ImportOrderDetail");
 
-            entity.Property(e => e.Imagee).HasColumnName("imagee");
+            entity.HasOne(d => d.Goods).WithMany(p => p.ImportOrderDetails)
+                .HasForeignKey(d => d.GoodsId)
+                .HasConstraintName("FK_ImportOrderDetail_Goods");
 
             entity.HasOne(d => d.Import).WithMany(p => p.ImportOrderDetails).HasForeignKey(d => d.ImportId);
-        });
-
-        modelBuilder.Entity<Load>(entity =>
-        {
-            entity.HasKey(e => e.LoadsId);
-
-            entity.Property(e => e.Image)
-                .HasMaxLength(100)
-                .HasColumnName("image");
-            entity.Property(e => e.IsPaid).HasColumnName("isPaid");
-            entity.Property(e => e.LoadsCode).HasMaxLength(100);
-            entity.Property(e => e.StatusId).HasColumnName("statusId");
-
-            entity.HasOne(d => d.Delivery).WithMany(p => p.Loads)
-                .HasForeignKey(d => d.DeliveryId)
-                .HasConstraintName("FK_Loads_Delivery");
-
-            entity.HasOne(d => d.Status).WithMany(p => p.Loads)
-                .HasForeignKey(d => d.StatusId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Loads_Status");
-
-            entity.HasOne(d => d.Storage).WithMany(p => p.Loads)
-                .HasForeignKey(d => d.StorageId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Loads_Storage");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Loads)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Loads_User");
-
-            entity.HasMany(d => d.Goods).WithMany(p => p.Loads)
-                .UsingEntity<Dictionary<string, object>>(
-                    "LoadsGood",
-                    r => r.HasOne<Good>().WithMany()
-                        .HasForeignKey("GoodsId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_LoadsGoods_Goods"),
-                    l => l.HasOne<Load>().WithMany()
-                        .HasForeignKey("LoadsId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_LoadsGoods_Loads"),
-                    j =>
-                    {
-                        j.HasKey("LoadsId", "GoodsId");
-                    });
         });
 
         modelBuilder.Entity<MeasuredUnit>(entity =>
@@ -307,8 +275,6 @@ public partial class WarehouseManagementContext : DbContext
             entity.ToTable("MeasuredUnit");
 
             entity.Property(e => e.MeasuredUnitName).HasMaxLength(100);
-
-            entity.HasOne(d => d.Goods).WithMany(p => p.MeasuredUnits).HasForeignKey(d => d.GoodsId);
         });
 
         modelBuilder.Entity<Project>(entity =>
@@ -342,7 +308,7 @@ public partial class WarehouseManagementContext : DbContext
 
             entity.ToTable("ReturnsOrder");
 
-            entity.Property(e => e.Created).HasDefaultValueSql("('0001-01-01T00:00:00.0000000')");
+            entity.Property(e => e.CreatedDate).HasDefaultValueSql("('0001-01-01T00:00:00.0000000')");
             entity.Property(e => e.Image).HasColumnName("image");
             entity.Property(e => e.Note).HasMaxLength(250);
             entity.Property(e => e.ReturnsCode).HasMaxLength(50);
@@ -351,8 +317,8 @@ public partial class WarehouseManagementContext : DbContext
 
             entity.HasOne(d => d.Import).WithMany(p => p.ReturnsOrders).HasForeignKey(d => d.ImportId);
 
-            entity.HasOne(d => d.StateNavigation).WithMany(p => p.ReturnsOrders)
-                .HasForeignKey(d => d.State)
+            entity.HasOne(d => d.Status).WithMany(p => p.ReturnsOrders)
+                .HasForeignKey(d => d.StatusId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_ReturnsOrder_Status");
 
@@ -370,8 +336,6 @@ public partial class WarehouseManagementContext : DbContext
             entity.ToTable("ReturnsOrderDetail");
 
             entity.HasOne(d => d.Goods).WithMany(p => p.ReturnsOrderDetails).HasForeignKey(d => d.GoodsId);
-
-            entity.HasOne(d => d.MeasuredUnit).WithMany(p => p.ReturnsOrderDetails).HasForeignKey(d => d.MeasuredUnitId);
 
             entity.HasOne(d => d.Returns).WithMany(p => p.ReturnsOrderDetails).HasForeignKey(d => d.ReturnsId);
         });

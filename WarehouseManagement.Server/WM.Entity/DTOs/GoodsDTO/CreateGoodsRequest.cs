@@ -22,7 +22,7 @@ namespace WM.Entity.DTOs.GoodsDTO
 
         public float CostPrice { get; set; }
 
-        public string? DefaultMeasuredUnit { get; set; }
+        public string? MeasuredUnit { get; set; }
 
         public int InStock { get; set; }
 
@@ -31,6 +31,8 @@ namespace WM.Entity.DTOs.GoodsDTO
         public int? StatusId { get; set; }
 
         public float StockPrice { get; set; }
+
+        public DateTime CreatedDate { get; set; }
 
         public DateTime WarrantyTime { get; set; }
 

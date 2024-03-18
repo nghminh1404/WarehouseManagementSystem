@@ -106,6 +106,7 @@ namespace WM.Service
             SupplierName = s.SupplierName,
             SupplierEmail = s.SupplierEmail,
             SupplierPhone = s.SupplierPhone,
+            StatusId = s.StatusId,
             Status = s.Status.StatusType,
             Note = s.Note
 

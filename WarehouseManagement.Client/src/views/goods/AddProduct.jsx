@@ -1,11 +1,16 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 
-function EditProductForm({ }) {
+function AddProductForm({ }) {
+
+    const handleCancel = () => {
+        window.history.back();
+    };
+
     return (
         <Form>
             <div className="edit-product-form">
-                <h4>Chỉnh sửa sản phẩm</h4>
+                <h4>Thêm sản phẩm</h4>
                 <div className="image-section">
                     <i className="fa-regular fa-file-image"></i>
                     <div>
@@ -63,10 +68,10 @@ function EditProductForm({ }) {
                     </div>
                 </div>
                 <Button className="update-button ButtonCSS" variant="info" type="submit">
-                    Cập nhật sản phẩm
+                    Thêm sản phẩm
                 </Button>
                 &nbsp;
-                <Button className="cancel-button" variant="light" type="submit">
+                <Button className="cancel-button" variant="light" onClick={handleCancel} >
                     Hủy
                 </Button>
             </div>
@@ -74,4 +79,4 @@ function EditProductForm({ }) {
     );
 }
 
-export default EditProductForm;
+export default AddProductForm;

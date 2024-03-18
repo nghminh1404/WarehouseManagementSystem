@@ -5,6 +5,7 @@ import ModelEditSupplier from './EditSupplier';
 import ModalConfirm from '../components/others/Modal/ModalConfirm';
 import SwitchButton from '../components/others/SwitchButton';
 import { fetchSuppliersWithKeyword, updateStatusSupplier } from '~/services/SupplierServices';
+import { removeWhiteSpace } from '~/validate';
 import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 
@@ -27,12 +28,13 @@ function SupplierList() {
 
     useEffect(() => {
         getSuppliers(1);
+
     }, [])
 
     useEffect(() => {
         setcurrentPage(0);
         const fetchData = async () => {
-            let res = await getSuppliers(1, selectOption, keywordSearch.trim());
+            let res = await getSuppliers(1, selectOption, keywordSearch);
             console.log(res);
 
             if (res.data.length == 0) {
@@ -41,10 +43,10 @@ function SupplierList() {
         };
 
         fetchData();
-    }, [selectOption, keywordSearch]);
+    }, [selectOption]);
 
     const getSuppliers = async (page, statusId, keyword) => {
-        let res = await fetchSuppliersWithKeyword(page, statusId, keyword);
+        let res = await fetchSuppliersWithKeyword(page, statusId, removeWhiteSpace(keyword ? keyword : ""));
         if (res) {
             setListSuppliers(res.data);
             setTotalPages(res.totalPages);
@@ -56,7 +58,7 @@ function SupplierList() {
     const handlePageClick = (event) => {
         setcurrentPage(+event.selected);
         if (keywordSearch) {
-            getSuppliers(+event.selected + 1, selectOption, keywordSearch.trim());
+            getSuppliers(+event.selected + 1, selectOption, keywordSearch);
         } else {
             getSuppliers(+event.selected + 1, selectOption);
         }
@@ -74,7 +76,7 @@ function SupplierList() {
     }
 
     const updateTableSupplier = async () => {
-        await getSuppliers(currentPage + 1);
+        await getSuppliers(currentPage + 1, selectOption, keywordSearch);
     }
 
     const ShowModelEditSupplier = (supplier) => {
@@ -86,8 +88,22 @@ function SupplierList() {
     const confirmChangeStatus = async (confirm) => {
         if (confirm) {
             await updateStatusSupplier(dataUpdateStatus.supplierId);
-            getSuppliers(currentPage + 1);
+            getSuppliers(currentPage + 1, selectOption, keywordSearch);
         }
+    }
+
+    const handleSearch = () => {
+        setcurrentPage(0);
+        const fetchData = async () => {
+            let res = await getSuppliers(1, selectOption, keywordSearch);
+            console.log(res);
+
+            if (res.data.length == 0) {
+                toast.warning("Vui lòng nhập từ khóa tìm kiếm khác");
+            }
+        };
+
+        fetchData();
     }
 
     return (
@@ -122,7 +138,7 @@ function SupplierList() {
                                         <button
                                             className="btn btn-outline-secondary border-left-0 rounded-0 rounded-right"
                                             type="button"
-                                            disabled={true}
+                                            onClick={handleSearch}
                                         >
                                             <i className="fa-solid fa-magnifying-glass"></i>
                                         </button>

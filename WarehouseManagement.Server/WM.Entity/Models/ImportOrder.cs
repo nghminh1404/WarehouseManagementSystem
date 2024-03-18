@@ -11,17 +11,13 @@ public partial class ImportOrder
 
     public int SupplierId { get; set; }
 
-    public int TotalAmount { get; set; }
-
-    public float Total { get; set; }
-
     public float TotalCost { get; set; }
 
     public string? Note { get; set; }
 
-    public DateTime Created { get; set; }
+    public DateTime CreatedDate { get; set; }
 
-    public DateTime? Completed { get; set; }
+    public DateTime? ImportedDate { get; set; }
 
     public int StatusId { get; set; }
 
@@ -29,13 +25,21 @@ public partial class ImportOrder
 
     public int StorageId { get; set; }
 
-    public int ProjectId { get; set; }
+    public int? ProjectId { get; set; }
+
+    public int? DeliveryId { get; set; }
+
+    public string? Image { get; set; }
+
+    public int? StorekeeperId { get; set; }
 
     public virtual ICollection<AvailableForReturn> AvailableForReturns { get; } = new List<AvailableForReturn>();
 
-    public virtual ICollection<ImportOrderDetail> ImportOrderDetails { get; } = new List<ImportOrderDetail>();
+    public virtual Delivery? Delivery { get; set; }
 
-    public virtual Project Project { get; set; } = null!;
+    public virtual ICollection<ImportOrderDetail> ImportOrderDetails { get; set; } = new List<ImportOrderDetail>();
+
+    public virtual Project? Project { get; set; }
 
     public virtual ICollection<ReturnsOrder> ReturnsOrders { get; } = new List<ReturnsOrder>();
 
