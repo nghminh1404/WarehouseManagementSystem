@@ -29,7 +29,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IImportOrderService, ImportOrderService>();
 builder.Services.AddScoped<IImportOrderDetailService, ImportOrderDetailService>();
-
+builder.Services.AddScoped<IExportOrderService, ExportOrderService>();
+builder.Services.AddScoped<IExportOrderDetailService, ExportOrderDetailService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
