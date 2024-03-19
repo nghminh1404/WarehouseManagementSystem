@@ -117,13 +117,13 @@ function MyTable() {
         getGoods(1, selectedStorageId, selectedCategoryId, selectedSupplierId, sort.idSort, keywordSearch);
     }
     return (
-        <div className="container">
+        <div className="container" style={{ maxWidth: "1600px" }}>
             <div className="row justify-content-center">
                 <div className="col-sm-12">
                     <h5 style={{ color: '#a5a2ad' }}>Trang chủ/Quản lý hàng hóa</h5>
                     <div className="row no-gutters my-3 ">
                         <div className="col-2">
-                            <DropdownButton className="DropdownButtonCSS" title={selectedStorage !== null ? selectedStorage : "Tất cả Kho"} variant="success" style={{ zIndex: 9999 }}>
+                            <DropdownButton className="DropdownButtonCSS ButtonCSSDropdown" title={selectedStorage !== null ? selectedStorage : "Tất cả Kho"} variant="success" style={{ zIndex: 9999 }}>
                                 <Dropdown.Item eventKey="" onClick={() => handleStorageClickTotal()}>Tất cả kho</Dropdown.Item>
                                 {totalStorages && totalStorages.length > 0 && totalStorages.map((c, index) => (
                                     <Dropdown.Item key={`storage ${index}`} eventKey={c.storageName} onClick={(e) => handleStorageClick(c, e)}>{c.storageName}</Dropdown.Item>
@@ -132,7 +132,7 @@ function MyTable() {
                         </div>
 
                         <div className="col">
-                            <DropdownButton className="DropdownButtonCSS" title={sortedByPriceName ? sortedByPriceName : "Giá"} variant="success" style={{ zIndex: 9999 }}>
+                            <DropdownButton className="DropdownButtonCSS ButtonCSSDropdown" title={sortedByPriceName ? sortedByPriceName : "Giá"} variant="success" style={{ zIndex: 9999 }}>
                                 {sortOptions.map((s, index) => (
                                     <Dropdown.Item key={`sort ${index}`} eventKey={s.nameSort} onClick={(e) => handleSortPirceClick(s, e)}>{s.nameSort}</Dropdown.Item>
                                 ))}
@@ -175,8 +175,8 @@ function MyTable() {
                         </div>
                     </div>
 
-                    <div className=" table-responsive" style={{ height: '300px', overflowY: 'auto', overflowX: 'auto' }}>
-                        <Table className="table text-center table-border table-hover  border-primary table-sm " style={{ position: 'relative' }}>
+                    <div className=" table-responsive" style={{ overflowY: 'auto', overflowX: 'auto' }}>
+                        <Table className="table text-center table-border table-hover  border-primary table-sm " >
 
                             <thead className='sticky-top'>
                                 <tr>
@@ -185,7 +185,7 @@ function MyTable() {
                                     <th className="align-middle textColor text-nowrap">TÊN SẢN PHẨM</th>
                                     <th className="align-middle text-nowrap">Hình ảnh</th>
 
-                                    <th className="align-middle text-nowrap" style={{ overflow: 'visible' }}>
+                                    <th className="align-middle text-nowrap " style={{ overflow: 'visible' }}>
                                         <Dropdown style={{ position: 'relative' }}>
                                             <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
                                                 <span style={{ color: 'white' }}>{selectedSupplier !== null ? selectedSupplier : "Nhà cung cấp"}</span>
@@ -226,8 +226,8 @@ function MyTable() {
 
                                     <th className="align-middle text-nowrap">TỒN KHO</th>
                                     <th className="align-middle text-nowrap">ĐƠN VỊ</th>
-                                    <th className="align-middle text-nowrap">NGÀY NHẬP KHO</th>
-                                    <th className='align-middle text-nowrap'>Giá nhập kho</th>
+                                    <th className="align-middle text-nowrap">NGÀY NHẬP</th>
+                                    <th className='align-middle text-nowrap'>GIÁ NHẬP</th>
                                     <th className="align-middle text-nowrap">HẠN BẢO HÀNH</th>
                                     <th className="align-middle text-nowrap">BARCODE</th>
                                     <th className="align-middle text-nowrap">TÌNH TRẠNG</th>
@@ -248,7 +248,7 @@ function MyTable() {
                                             <td className="align-middle">{g.inStock}</td>
                                             <td className="align-middle">{g.defaultMeasuredUnit}</td>
                                             <td className="align-middle">{formatDate(g.createdDate ? g.createdDate : "2024-03-18T04:10:59.041Z")}</td>
-                                            <td className='align-middle'>{g.costPrice}</td>
+                                            <td className='align-middle'>{g.stockPrice}</td>
                                             <td className="align-middle">{formatDate(g.warrantyTime ? g.warrantyTime : "2024-03-18T04:10:59.041Z")}</td>
                                             <td className="align-middle">{g.barcode}</td>
                                             <td className="align-middle">{g.status}</td>
