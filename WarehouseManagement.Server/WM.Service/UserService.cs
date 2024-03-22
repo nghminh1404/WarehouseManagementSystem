@@ -8,6 +8,9 @@ using WM.Entity.DTOs.UserDTO;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography.X509Certificates;
 using WM.Entity.DTOs;
+using WM.Shared.Helpers;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
 
 namespace WM.Service
 {
@@ -29,10 +32,13 @@ namespace WM.Service
     public class UserService : IUserService
     {
         private readonly WarehouseManagementContext _context;
+        public IConfiguration _configuration;
 
-        public UserService(WarehouseManagementContext context)
+
+        public UserService(WarehouseManagementContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
         List<UserDTO> userDTOs = new List<UserDTO>();
         public CreateUserResponse AddUser(CreateUserRequest user)
@@ -41,7 +47,11 @@ namespace WM.Service
 
             try
             {
-                var password = "123456";
+                var password = string.Empty;
+                //if (user.Password is not null)
+                //{
+                //    password = HashHelper.Encrypt(user.Password, _configuration)(;
+                //}
 
                 var requestUser = new User
                 {
@@ -52,7 +62,7 @@ namespace WM.Service
                     Address = user.Address,
                     Phone = user.Phone,
                     RoleId = user.RoleId,
-                    Password = password,
+                    Password = user.Password,
                     StatusId = user.StatusId,
                     StorageId = user.StorageId,
                     Image = user.Image

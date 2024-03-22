@@ -8,6 +8,6 @@ namespace WM.Shared.Constants
 {
     public class UrlConstant
     {
-        public const string ApiBaseUrl = "https://localhost:7033";
+        public static readonly string ApiBaseUrl = "https://localhost:7033";
     }
 }
