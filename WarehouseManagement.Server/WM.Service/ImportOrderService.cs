@@ -15,6 +15,8 @@ namespace WM.Service
     public interface IImportOrderService
     {
         UpdateImportOrderResponse UpdateOrder(ImportOrderDTO i);
+
+        int GetImportOrderNewest();
         List<ImportOrderDTO> GetAllImportOrder();
         ImportOrder? GetImportOrderById(int id);
         ImportOrder? GetImportOrderByOrderCode(string code);
@@ -62,6 +64,17 @@ namespace WM.Service
             {
                return new CreateImportOrderResponse { IsSuccess = false, Message = $"Tao don hang that bai \n + {e.Message}" };
              }
+           
+        }
+
+        public int GetImportOrderNewest()
+        {
+            var importOrderNewest = _context.ImportOrders.OrderByDescending(i => i.ImportId).FirstOrDefault();
+            if(importOrderNewest != null)
+            {
+                return importOrderNewest.ImportId;
+            }
+            return 0;
            
         }
 

@@ -35,6 +35,13 @@ namespace WM.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("get-newest-import-order")]
+        public IActionResult GetNewestImportOrder()
+        {
+            var result = _importService.GetImportOrderNewest();
+            return Ok(result);
+        }
+
         [HttpGet("get-import-orders")]
         public IActionResult ImportOrderFilterPaging(int page, string? keyword = "", int? user = 0, int? storage = 0,
                                                 int? project = 0, int? storekeeper = 0, int? status = 0)
