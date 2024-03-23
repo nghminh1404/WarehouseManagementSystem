@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import React from 'react';
 import { Modal, Button, Row, Col, DropdownButton, Dropdown } from "react-bootstrap"
-import { toast } from 'react-toastify';
 import { CustomToggle, CustomMenu } from '../components/others/Dropdown';
 import { fetchAllSuppliers } from '~/services/SupplierServices';
 import { fetchAllCategories } from "~/services/CategoryServices";
-
-
 import { fetchAllStorages } from '~/services/StorageServices';
+import { addNewImportOrder } from "~/services/ImportOrderServices";
+
+import RowDataImportOrder from "./RowDataImport";
 
 const ModelAddImportOrder = ({ isShow, handleClose }) => {
 
@@ -64,102 +64,27 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
         handleClose();
     }
 
-    const addRowDataImportOrder = () => {
-        setRowsData(rowsData => {
-            const updatedRowsData = [...rowsData, <RowDataImportOrder />];
-            return updatedRowsData;
-        });
+    const addRowDataImportOrder = (index, importData) => {
+        const updateDataImport = [...rowsData];
+        updateDataImport[index] = importData;
+        setRowsData(updateDataImport);
+    }
 
-        console.log(dataImportOrder);
+    const renderImportData = () => {
+        return rowsData.map((data, index) => (
+            <RowDataImportOrder key={index} onChange={(importData) => addRowDataImportOrder(index, importData)} />
+        ))
+    }
 
+    const handleAddImportOrder = async () => {
+        let res = await addNewImportOrder(1, selectedSupplierId, 200000, "", "2024-03-23T07:11:43.161Z", "2024-03-23T07:11:43.161Z", 1, "", selectedStorageId, 1, 1, "", 1);
+        console.log(res);
+        handleCloseModal();
     }
 
 
-    const RowDataImportOrder = () => {
-        const [storageName, setStorageName] = useState("");
-        const [storageAddress, setStorageAddress] = useState("");
-        const [storagePhone, setStoragePhone] = useState("");
 
 
-        const [totalCategories, setTotalCategories] = useState([]);
-        const [selectedCategory, setSelectedCategory] = useState(null);
-        const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-
-        const [dataRowImport, setDataRowImport] = useState({});
-
-
-        useEffect(() => {
-            getAllCategories();
-        }, [])
-
-        useEffect(() => {
-            setDataRowImport({
-                category: { selectedCategory }
-            })
-
-            setDataImportOrder([...dataImportOrder, dataRowImport]);
-        }, [selectedCategory])
-
-        const getAllCategories = async () => {
-            let res = await fetchAllCategories();
-            setTotalCategories(res);
-        }
-
-        const handleCategoryClick = (category, event) => {
-            setSelectedCategory(category.categoryName);
-            setSelectedCategoryId(category.categoryId);
-        }
-
-        return (<Row>
-            <Col md={3}>
-                <label>Danh mục</label>
-                <div>
-                    <Dropdown style={{ position: 'relative' }}>
-                        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-                            <span style={{ color: 'white' }}>{selectedCategory !== null ? selectedCategory : "Danh mục"}</span>
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu as={CustomMenu} style={{ position: 'absolute', zIndex: '9999' }}>
-                            {totalCategories && totalCategories.length > 0 && totalCategories.map((c, index) => (
-                                <Dropdown.Item key={`category ${index}`} eventKey={c.categoryName} onClick={(e) => handleCategoryClick(c, e)}>
-                                    {c.categoryName}
-                                </Dropdown.Item>
-                            ))}
-                        </Dropdown.Menu>
-                    </Dropdown>
-
-                </div>
-            </Col>
-            <Col md={2}>
-                <div className="form-group mb-3">
-                    <label >Tên hàng hóa</label>
-                    <input type="text" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
-                </div>
-            </Col>
-            <Col md={2}>
-                <div className="form-group mb-3">
-                    <label >Mã hàng hóa</label>
-                    <input type="text" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
-                </div>
-            </Col>
-            <Col md={2}>
-                <div className="form-group mb-3">
-                    <label >Số lượng</label>
-                    <input type="number" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
-                </div>
-            </Col>
-
-            <Col md={2}>
-                <div className="form-group mb-3">
-                    <label >Hạn bảo hành</label>
-                    <input type="date" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
-                </div>
-            </Col>
-
-
-
-        </Row>)
-    }
 
 
     return (<>
@@ -201,7 +126,7 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
                                 <button
                                     className="btn btn-success border-left-0 rounded"
                                     type="button"
-                                    onClick={addRowDataImportOrder}
+                                    onClick={() => setRowsData([...rowsData, {}])}
                                 ><i className="fa-solid fa-plus"></i>
                                     &nbsp;
                                     Thêm sản phẩm
@@ -213,12 +138,8 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
 
                     </Row>
 
-                    {rowsData.map((row, index) => (
-                        <div key={`rowData${index}`}>
-                            {row && React.isValidElement(row) ? React.cloneElement(row, {
-                            }) : null}
-                        </div>
-                    ))}
+                    {renderImportData()}
+                    <button onClick={() => console.log(rowsData)}>xem duwx lieu</button>
 
 
 
@@ -230,7 +151,7 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
                 <Button variant="secondary" onClick={handleReset}>
                     Xóa thông tin thay đổi
                 </Button>
-                <Button variant="primary" className="ButtonCSS">
+                <Button variant="primary" className="ButtonCSS" onClick={handleAddImportOrder}>
                     Lưu
                 </Button>
             </Modal.Footer>
