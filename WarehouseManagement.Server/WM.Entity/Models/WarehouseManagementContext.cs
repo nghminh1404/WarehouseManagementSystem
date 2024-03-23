@@ -68,7 +68,9 @@ public partial class WarehouseManagementContext : DbContext
 
     {
         var ConnectionString = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("SqlConnection");
+
         optionsBuilder.UseSqlServer(ConnectionString);
+
     }
 
 
