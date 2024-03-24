@@ -3,11 +3,13 @@ import React from 'react';
 import { Modal, Button, Row, Col, DropdownButton, Dropdown } from "react-bootstrap"
 import { CustomToggle, CustomMenu } from '../components/others/Dropdown';
 import { fetchAllSuppliers } from '~/services/SupplierServices';
-import { fetchAllCategories } from "~/services/CategoryServices";
 import { fetchAllStorages } from '~/services/StorageServices';
-import { addNewImportOrder } from "~/services/ImportOrderServices";
+import { addNewImportOrder, fetchImportOrderNewest } from "~/services/ImportOrderServices";
+import { createNewImportOrderDetail } from "~/services/ImportOrderDetailServices";
+import { formatDateImport } from "~/validate";
 
 import RowDataImportOrder from "./RowDataImport";
+import { toast } from "react-toastify";
 
 const ModelAddImportOrder = ({ isShow, handleClose }) => {
 
@@ -23,12 +25,19 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
     const [selectedSupplierId, setSelectedSupplierId] = useState(null);
 
     const [rowsData, setRowsData] = useState([]);
-    const [dataImportOrder, setDataImportOrder] = useState([]);
+
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    const [selectedDate, setSelectedDate] = useState('');
 
     useEffect(() => {
         getAllStorages();
         getAllSuppliers();
     }, [])
+
+    useEffect(() => {
+        setRowsData([]);
+    }, [selectedStorageId, selectedSupplierId])
 
     const getAllStorages = async () => {
         let res = await fetchAllStorages();
@@ -53,10 +62,21 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
     }
 
 
+    const handleDateChange = (event) => {
+        setSelectedDate(event.target.value);
+    };
+
+
+
 
 
     const handleReset = () => {
         setRowsData([]);
+        setSelectedStorage(null);
+        setSelectedStorageId(null);
+        setSelectedSupplier(null);
+        setSelectedSupplierId(null);
+        setTotalPrice(0);
     }
 
     const handleCloseModal = () => {
@@ -64,21 +84,37 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
         handleClose();
     }
 
-    const addRowDataImportOrder = (index, importData) => {
+    const takeRowDataImportOrder = (index, importData) => {
         const updateDataImport = [...rowsData];
         updateDataImport[index] = importData;
         setRowsData(updateDataImport);
+        setTotalPrice(x => x + importData.aaa);
+    }
+
+    const handleAddRowDataImport = () => {
+        if (selectedStorageId && selectedSupplierId) {
+            setRowsData([...rowsData, {}])
+        } else {
+            toast.info("Vui lòng điền kho hoặc nhà cung cấp")
+        }
     }
 
     const renderImportData = () => {
         return rowsData.map((data, index) => (
-            <RowDataImportOrder key={index} onChange={(importData) => addRowDataImportOrder(index, importData)} />
+            <RowDataImportOrder key={index} onChange={(importData) => takeRowDataImportOrder(index, importData)} selectedSupplierId={selectedSupplierId} selectedStorageId={selectedStorageId} />
         ))
+
+
     }
 
     const handleAddImportOrder = async () => {
-        let res = await addNewImportOrder(1, selectedSupplierId, 200000, "", "2024-03-23T07:11:43.161Z", "2024-03-23T07:11:43.161Z", 1, "", selectedStorageId, 1, 1, "", 1);
-        console.log(res);
+        let res = await addNewImportOrder(1, selectedSupplierId, totalPrice, "", "2024-03-24T08:47:56.243Z", formatDateImport(selectedDate), 1, "", selectedStorageId, 1, 1, "", 1);
+        let resImportId = await fetchImportOrderNewest();
+        if (rowsData && rowsData.length > 0) {
+            await Promise.all(rowsData.map(async (data, index) => {
+                await createNewImportOrderDetail(resImportId, data.aaa, data.goodsId, data.quantity);
+            }));
+        }
         handleCloseModal();
     }
 
@@ -122,11 +158,17 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
                         </Col>
 
                         <Col md={3}>
+                            <div>
+                                <input type="date" value={selectedDate} onChange={handleDateChange} />
+                            </div>
+                        </Col>
+
+                        <Col md={3}>
                             <div className="ButtonCSSDropdown">
                                 <button
                                     className="btn btn-success border-left-0 rounded"
                                     type="button"
-                                    onClick={() => setRowsData([...rowsData, {}])}
+                                    onClick={handleAddRowDataImport}
                                 ><i className="fa-solid fa-plus"></i>
                                     &nbsp;
                                     Thêm sản phẩm
@@ -140,6 +182,7 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
 
                     {renderImportData()}
                     <button onClick={() => console.log(rowsData)}>xem duwx lieu</button>
+                    <button>{totalPrice}</button>
 
 
 
@@ -148,9 +191,6 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleReset}>
-                    Xóa thông tin thay đổi
-                </Button>
                 <Button variant="primary" className="ButtonCSS" onClick={handleAddImportOrder}>
                     Lưu
                 </Button>
