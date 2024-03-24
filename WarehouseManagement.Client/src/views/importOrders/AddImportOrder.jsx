@@ -27,6 +27,7 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
     const [rowsData, setRowsData] = useState([]);
 
     const [totalPrice, setTotalPrice] = useState(0);
+    const [price, setPrice] = useState([]);
 
     const [selectedDate, setSelectedDate] = useState('');
 
@@ -39,6 +40,14 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
         setRowsData([]);
     }, [selectedStorageId, selectedSupplierId])
 
+
+    useEffect(() => {
+        setTotalPrice(0);
+
+        price && price.length > 0 && (price.map((p, index) => {
+            setTotalPrice(x => x + p);
+        }))
+    }, price)
     const getAllStorages = async () => {
         let res = await fetchAllStorages();
         setTotalStorages(res);
@@ -76,6 +85,8 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
         setSelectedStorageId(null);
         setSelectedSupplier(null);
         setSelectedSupplierId(null);
+        setSelectedDate('');
+        setPrice([]);
         setTotalPrice(0);
     }
 
@@ -88,7 +99,10 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
         const updateDataImport = [...rowsData];
         updateDataImport[index] = importData;
         setRowsData(updateDataImport);
-        setTotalPrice(x => x + importData.aaa);
+
+        const updatePrice = [...price];
+        updatePrice[index] = importData.aaa;
+        setPrice(updatePrice);
     }
 
     const handleAddRowDataImport = () => {
