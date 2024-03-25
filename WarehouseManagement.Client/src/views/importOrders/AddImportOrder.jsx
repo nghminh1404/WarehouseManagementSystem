@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import React from 'react';
 import { Modal, Button, Row, Col, DropdownButton, Dropdown } from "react-bootstrap"
-import { toast } from 'react-toastify';
 import { CustomToggle, CustomMenu } from '../components/others/Dropdown';
 import { fetchAllSuppliers } from '~/services/SupplierServices';
-import { fetchAllCategories } from "~/services/CategoryServices";
-
-
 import { fetchAllStorages } from '~/services/StorageServices';
+import { addNewImportOrder, fetchImportOrderNewest } from "~/services/ImportOrderServices";
+import { createNewImportOrderDetail } from "~/services/ImportOrderDetailServices";
+import { formatDateImport } from "~/validate";
 
-const ModelAddImportOrder = ({ isShow, handleClose }) => {
+import RowDataImportOrder from "./RowDataImport";
+import { toast } from "react-toastify";
+
+const ModelAddImportOrder = ({ isShow, handleClose, updateTable }) => {
 
 
     const [totalStorages, setTotalStorages] = useState([]);
@@ -23,13 +25,29 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
     const [selectedSupplierId, setSelectedSupplierId] = useState(null);
 
     const [rowsData, setRowsData] = useState([]);
-    const [dataImportOrder, setDataImportOrder] = useState([]);
+
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [price, setPrice] = useState([]);
+
+    const [selectedDate, setSelectedDate] = useState('');
 
     useEffect(() => {
         getAllStorages();
         getAllSuppliers();
     }, [])
 
+    useEffect(() => {
+        setRowsData([]);
+    }, [selectedStorageId, selectedSupplierId])
+
+
+    useEffect(() => {
+        setTotalPrice(0);
+
+        price && price.length > 0 && (price.map((p, index) => {
+            setTotalPrice(x => x + p);
+        }))
+    }, price)
     const getAllStorages = async () => {
         let res = await fetchAllStorages();
         setTotalStorages(res);
@@ -53,10 +71,21 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
     }
 
 
+    const handleDateChange = (event) => {
+        setSelectedDate(event.target.value);
+    };
+
 
 
     const handleReset = () => {
         setRowsData([]);
+        setSelectedStorage(null);
+        setSelectedStorageId(null);
+        setSelectedSupplier(null);
+        setSelectedSupplierId(null);
+        setSelectedDate('');
+        setPrice([]);
+        setTotalPrice(0);
     }
 
     const handleCloseModal = () => {
@@ -64,102 +93,48 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
         handleClose();
     }
 
-    const addRowDataImportOrder = () => {
-        setRowsData(rowsData => {
-            const updatedRowsData = [...rowsData, <RowDataImportOrder />];
-            return updatedRowsData;
-        });
+    const takeRowDataImportOrder = (index, importData) => {
+        const updateDataImport = [...rowsData];
+        updateDataImport[index] = importData;
+        setRowsData(updateDataImport);
 
-        console.log(dataImportOrder);
+        const updatePrice = [...price];
+        updatePrice[index] = importData.totalOneGoodPrice;
+        setPrice(updatePrice);
+    }
+
+    const handleAddRowDataImport = () => {
+        if (selectedStorageId && selectedSupplierId) {
+            setRowsData([...rowsData, {}])
+        } else {
+            toast.info("Vui lòng điền kho hoặc nhà cung cấp")
+        }
+    }
+
+    const renderImportData = () => {
+        return rowsData.map((data, index) => (
+            <RowDataImportOrder key={index} onChange={(importData) => takeRowDataImportOrder(index, importData)} selectedSupplierId={selectedSupplierId} selectedStorageId={selectedStorageId} />
+        ))
+
 
     }
 
-
-    const RowDataImportOrder = () => {
-        const [storageName, setStorageName] = useState("");
-        const [storageAddress, setStorageAddress] = useState("");
-        const [storagePhone, setStoragePhone] = useState("");
-
-
-        const [totalCategories, setTotalCategories] = useState([]);
-        const [selectedCategory, setSelectedCategory] = useState(null);
-        const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-
-        const [dataRowImport, setDataRowImport] = useState({});
-
-
-        useEffect(() => {
-            getAllCategories();
-        }, [])
-
-        useEffect(() => {
-            setDataRowImport({
-                category: { selectedCategory }
-            })
-
-            setDataImportOrder([...dataImportOrder, dataRowImport]);
-        }, [selectedCategory])
-
-        const getAllCategories = async () => {
-            let res = await fetchAllCategories();
-            setTotalCategories(res);
+    const handleAddImportOrder = async () => {
+        let res = await addNewImportOrder(1, selectedSupplierId, totalPrice, "", "2024-03-24T08:47:56.243Z", formatDateImport(selectedDate), 3, "", selectedStorageId, 1, 1, "", 1);
+        let resImportId = await fetchImportOrderNewest();
+        if (rowsData && rowsData.length > 0) {
+            await Promise.all(rowsData.map(async (data, index) => {
+                await createNewImportOrderDetail(resImportId, data.costPrice, data.goodsId, data.quantity);
+            }));
         }
-
-        const handleCategoryClick = (category, event) => {
-            setSelectedCategory(category.categoryName);
-            setSelectedCategoryId(category.categoryId);
-        }
-
-        return (<Row>
-            <Col md={3}>
-                <label>Danh mục</label>
-                <div>
-                    <Dropdown style={{ position: 'relative' }}>
-                        <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-                            <span style={{ color: 'white' }}>{selectedCategory !== null ? selectedCategory : "Danh mục"}</span>
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu as={CustomMenu} style={{ position: 'absolute', zIndex: '9999' }}>
-                            {totalCategories && totalCategories.length > 0 && totalCategories.map((c, index) => (
-                                <Dropdown.Item key={`category ${index}`} eventKey={c.categoryName} onClick={(e) => handleCategoryClick(c, e)}>
-                                    {c.categoryName}
-                                </Dropdown.Item>
-                            ))}
-                        </Dropdown.Menu>
-                    </Dropdown>
-
-                </div>
-            </Col>
-            <Col md={2}>
-                <div className="form-group mb-3">
-                    <label >Tên hàng hóa</label>
-                    <input type="text" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
-                </div>
-            </Col>
-            <Col md={2}>
-                <div className="form-group mb-3">
-                    <label >Mã hàng hóa</label>
-                    <input type="text" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
-                </div>
-            </Col>
-            <Col md={2}>
-                <div className="form-group mb-3">
-                    <label >Số lượng</label>
-                    <input type="number" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
-                </div>
-            </Col>
-
-            <Col md={2}>
-                <div className="form-group mb-3">
-                    <label >Hạn bảo hành</label>
-                    <input type="date" className="form-control inputCSS" value={storageAddress} onChange={(event) => setStorageAddress(event.target.value)} />
-                </div>
-            </Col>
-
-
-
-        </Row>)
+        toast.success("Thêm lô hàng nhập thành công");
+        updateTable();
+        handleCloseModal();
     }
+
+
+
+
 
 
     return (<>
@@ -197,11 +172,17 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
                         </Col>
 
                         <Col md={3}>
+                            <div>
+                                <input type="date" value={selectedDate} onChange={handleDateChange} />
+                            </div>
+                        </Col>
+
+                        <Col md={3}>
                             <div className="ButtonCSSDropdown">
                                 <button
                                     className="btn btn-success border-left-0 rounded"
                                     type="button"
-                                    onClick={addRowDataImportOrder}
+                                    onClick={handleAddRowDataImport}
                                 ><i className="fa-solid fa-plus"></i>
                                     &nbsp;
                                     Thêm sản phẩm
@@ -213,12 +194,8 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
 
                     </Row>
 
-                    {rowsData.map((row, index) => (
-                        <div key={`rowData${index}`}>
-                            {row && React.isValidElement(row) ? React.cloneElement(row, {
-                            }) : null}
-                        </div>
-                    ))}
+                    {renderImportData()}
+                    <button>{totalPrice}</button>
 
 
 
@@ -227,10 +204,7 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleReset}>
-                    Xóa thông tin thay đổi
-                </Button>
-                <Button variant="primary" className="ButtonCSS">
+                <Button variant="primary" className="ButtonCSS" onClick={handleAddImportOrder}>
                     Lưu
                 </Button>
             </Modal.Footer>
