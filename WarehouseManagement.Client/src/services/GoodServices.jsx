@@ -6,4 +6,12 @@ const fetchGoodsWithFilter = (page, storageId, categoryId, supplierId, sortPrice
     ${keyword ? `&keyword=${keyword}` : ''}`);
 }
 
-export { fetchGoodsWithFilter }
+const fetchAllGoods = () => {
+    return axios.get(`api/goods/get-all-goods`);
+}
+
+const fetchGoodsWithStorageAndSupplier = (storageId, supplierId) => {
+    return axios.get(`api/goods/get-goods-with-storage-supplier?storageId=${storageId}&supplierId=${supplierId}`)
+}
+
+export { fetchGoodsWithFilter, fetchAllGoods, fetchGoodsWithStorageAndSupplier }

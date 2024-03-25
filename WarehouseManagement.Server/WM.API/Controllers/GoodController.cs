@@ -25,6 +25,15 @@ namespace WM.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("get-goods-with-storage-supplier")]
+        public async Task<IActionResult> GetAllGoodsWithStorageAndSupplier(int storageId, int supplierId)
+        {
+            var result = await _goodsService.GetAllGoodsWithStorageAndSupplier(storageId, supplierId);
+
+            return Ok(result);
+        }
+
+
         [HttpGet("get-goods")]
         // GET: GoodsController/Details/5
         public IActionResult GetGoodsByKeyword(int page, int? storageId, int? categoryId, int? supplierId, int? sortPrice, string? keyword = "")

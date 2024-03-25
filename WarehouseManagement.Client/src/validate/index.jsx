@@ -12,8 +12,15 @@ const validateEmail = /^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})?$/;
 const removeWhiteSpace = (x) => { return x.trim().replace(/\s+/g, ' ') };
 
 const formatDate = (date) => {
-    let formattedDate = format(date, 'dd/MM/yyyy HH:mm:ss');
+    let formattedDate = format(date, 'dd/MM/yyyy');
     return formattedDate;
 }
 
-export { validatePhone, validateTextRequired, validateText, validateEmail, removeWhiteSpace, formatDate };
+const formatDateImport = (date) => {
+    let formattedDate = format(date, 'yyyy-MM-dd');
+    return formattedDate;
+}
+
+const formattedAmount = (amount) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+
+export { validatePhone, validateTextRequired, validateText, validateEmail, removeWhiteSpace, formatDate, formatDateImport, formattedAmount };
