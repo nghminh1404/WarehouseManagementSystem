@@ -70,7 +70,7 @@ namespace WM.API.Controllers
             try
             {
                 var result = await _context.ImportOrders.Include(a => a.ImportOrderDetails).SingleOrDefaultAsync(x => x.ImportId == importid);
-                if (result != null && result.StatusId == 1)
+                if (result != null && result.StatusId == 3)
                 {
                     result.StatusId = 4;
                     result.ImportedDate = DateTime.Now;
