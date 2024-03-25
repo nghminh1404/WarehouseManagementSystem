@@ -11,7 +11,7 @@ import { formatDateImport } from "~/validate";
 import RowDataImportOrder from "./RowDataImport";
 import { toast } from "react-toastify";
 
-const ModelAddImportOrder = ({ isShow, handleClose }) => {
+const ModelAddImportOrder = ({ isShow, handleClose, updateTable }) => {
 
 
     const [totalStorages, setTotalStorages] = useState([]);
@@ -77,8 +77,6 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
 
 
 
-
-
     const handleReset = () => {
         setRowsData([]);
         setSelectedStorage(null);
@@ -101,7 +99,7 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
         setRowsData(updateDataImport);
 
         const updatePrice = [...price];
-        updatePrice[index] = importData.aaa;
+        updatePrice[index] = importData.totalOneGoodPrice;
         setPrice(updatePrice);
     }
 
@@ -126,9 +124,11 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
         let resImportId = await fetchImportOrderNewest();
         if (rowsData && rowsData.length > 0) {
             await Promise.all(rowsData.map(async (data, index) => {
-                await createNewImportOrderDetail(resImportId, data.aaa, data.goodsId, data.quantity);
+                await createNewImportOrderDetail(resImportId, data.costPrice, data.goodsId, data.quantity);
             }));
         }
+        toast.success("Thêm lô hàng nhập thành công");
+        updateTable();
         handleCloseModal();
     }
 
@@ -195,7 +195,6 @@ const ModelAddImportOrder = ({ isShow, handleClose }) => {
                     </Row>
 
                     {renderImportData()}
-                    <button onClick={() => console.log(rowsData)}>xem duwx lieu</button>
                     <button>{totalPrice}</button>
 
 

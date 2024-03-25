@@ -8,4 +8,8 @@ const fetchImportOrderNewest = () => {
     return axios.get(`api/ImportOrder/get-newest-import-order`);
 }
 
-export { addNewImportOrder, fetchImportOrderNewest }
+const fetchImportOrdersWithfilter = (page, keyword, user, storage, project, storekeeper, status) => {
+    return axios.get(`api/ImportOrder/get-import-orders?page=${page}${keyword ? `&keyword=${keyword}` : ''}${user ? `&user=${user}` : ''}${storage ? `&storage=${storage}` : ''}${project ? `&project=${project}` : ''}${storekeeper ? `&storekeeper=${storekeeper}` : ''}${status ? `&status=${status}` : ''}`);
+}
+
+export { addNewImportOrder, fetchImportOrderNewest, fetchImportOrdersWithfilter }
