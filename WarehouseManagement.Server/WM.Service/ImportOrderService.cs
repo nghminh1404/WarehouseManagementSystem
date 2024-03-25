@@ -178,7 +178,7 @@ namespace WM.Service
                                                       && (s.StatusId == status|| status == 0)
                                                       && (s.StorageId == storage || storage == 0)
                                                       && (s.ProjectId ==project || project == 0))
-                                                .OrderBy(s => s.UserId).OrderBy(s => s.StatusId)
+                                                
                                                 ;
                 var count = users.Count();
                 var importOrder = users.Select(i => new ImportOrderDTO

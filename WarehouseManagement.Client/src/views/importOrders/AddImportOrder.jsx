@@ -120,7 +120,7 @@ const ModelAddImportOrder = ({ isShow, handleClose, updateTable }) => {
     }
 
     const handleAddImportOrder = async () => {
-        let res = await addNewImportOrder(1, selectedSupplierId, totalPrice, "", "2024-03-24T08:47:56.243Z", formatDateImport(selectedDate), 1, "", selectedStorageId, 1, 1, "", 1);
+        let res = await addNewImportOrder(1, selectedSupplierId, totalPrice, "", "2024-03-24T08:47:56.243Z", formatDateImport(selectedDate), 3, "", selectedStorageId, 1, 1, "", 1);
         let resImportId = await fetchImportOrderNewest();
         if (rowsData && rowsData.length > 0) {
             await Promise.all(rowsData.map(async (data, index) => {

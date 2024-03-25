@@ -175,7 +175,7 @@ function MyTable() {
                         </div>
                     </div>
 
-                    <div className=" table-responsive" style={{ overflowY: 'auto', overflowX: 'auto' }}>
+                    <div className=" table-responsive" style={{ overflowY: 'auto', overflowX: 'auto', minHeight: '400px' }}>
                         <Table className="table text-center table-border table-hover  border-primary table-sm " >
 
                             <thead className='sticky-top'>
@@ -235,7 +235,7 @@ function MyTable() {
                                 </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody >
                                 {listGoods && listGoods.length > 0 &&
                                     listGoods.map((g, index) => (
                                         <tr key={`goods${index}`}>

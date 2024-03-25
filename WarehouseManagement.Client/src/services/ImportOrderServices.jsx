@@ -12,4 +12,8 @@ const fetchImportOrdersWithfilter = (page, keyword, user, storage, project, stor
     return axios.get(`api/ImportOrder/get-import-orders?page=${page}${keyword ? `&keyword=${keyword}` : ''}${user ? `&user=${user}` : ''}${storage ? `&storage=${storage}` : ''}${project ? `&project=${project}` : ''}${storekeeper ? `&storekeeper=${storekeeper}` : ''}${status ? `&status=${status}` : ''}`);
 }
 
-export { addNewImportOrder, fetchImportOrderNewest, fetchImportOrdersWithfilter }
+const addSuccessFullImportOrder = (importId) => {
+    return axios.post(`api/ImportOrder/Import?importid=${importId}`)
+}
+
+export { addNewImportOrder, fetchImportOrderNewest, fetchImportOrdersWithfilter, addSuccessFullImportOrder }
