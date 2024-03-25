@@ -166,7 +166,7 @@ namespace WM.Service
         {
             try
             {
-                var pageSize = 10;
+                var pageSize = 6;
                 if (page <= 0) page = 1;
                 var users = _context.ImportOrders
                     
@@ -203,7 +203,7 @@ namespace WM.Service
                     DeliveryName = i.Delivery.DeliveryName,
                     Image = i.Image,
                     StorekeeperId = i.StorekeeperId,
-                   // StorekeeperName = i.User.FullName,
+                    StorekeeperName = i.User.FullName,
                     ImportOrderDetails = (List<ImportDetailDTO>)i.ImportOrderDetails
                         .Select(
                                 i => new ImportDetailDTO

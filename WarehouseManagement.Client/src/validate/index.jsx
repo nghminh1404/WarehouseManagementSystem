@@ -21,4 +21,6 @@ const formatDateImport = (date) => {
     return formattedDate;
 }
 
-export { validatePhone, validateTextRequired, validateText, validateEmail, removeWhiteSpace, formatDate, formatDateImport };
+const formattedAmount = (amount) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+
+export { validatePhone, validateTextRequired, validateText, validateEmail, removeWhiteSpace, formatDate, formatDateImport, formattedAmount };

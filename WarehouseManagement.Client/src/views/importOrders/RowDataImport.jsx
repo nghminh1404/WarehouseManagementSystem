@@ -13,12 +13,14 @@ const RowDataImportOrder = ({ onChange, selectedSupplierId, selectedStorageId })
     const [selectedGoodId, setSelectedGoodId] = useState(0);
 
 
+    const formattedAmount = (amount) => new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+
     useEffect(() => {
         getAllGoods();
     }, [])
 
     useEffect(() => {
-        onChange({ aaa: costPrice * quantity, quantity: quantity, goodsId: selectedGoodId })
+        onChange({ costPrice: costPrice, quantity: quantity, goodsId: selectedGoodId, totalOneGoodPrice: costPrice * quantity })
     }, [costPrice, quantity, selectedGoodId])
 
 
@@ -79,6 +81,13 @@ const RowDataImportOrder = ({ onChange, selectedSupplierId, selectedStorageId })
             <div className="form-group mb-3">
                 <label >Giá tiền</label>
                 <input type="number" className="form-control inputCSS" value={costPrice} onChange={handleChangePrice} />
+            </div>
+        </Col>
+
+        <Col md={2}>
+            <div className="form-group mb-3">
+                <label >Tổng giá tiền</label>
+                <input type="number" className="form-control inputCSS" value={costPrice * quantity} disabled />
             </div>
         </Col>
 
