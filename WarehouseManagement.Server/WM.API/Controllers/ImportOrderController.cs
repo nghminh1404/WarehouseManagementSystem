@@ -35,6 +35,13 @@ namespace WM.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("get-newest-import-order")]
+        public IActionResult GetNewestImportOrder()
+        {
+            var result = _importService.GetImportOrderNewest();
+            return Ok(result);
+        }
+
         [HttpGet("get-import-orders")]
         public IActionResult ImportOrderFilterPaging(int page, string? keyword = "", int? user = 0, int? storage = 0,
                                                 int? project = 0, int? storekeeper = 0, int? status = 0)
@@ -63,7 +70,7 @@ namespace WM.API.Controllers
             try
             {
                 var result = await _context.ImportOrders.Include(a => a.ImportOrderDetails).SingleOrDefaultAsync(x => x.ImportId == importid);
-                if (result != null && result.StatusId == 1)
+                if (result != null && result.StatusId == 3)
                 {
                     result.StatusId = 4;
                     result.ImportedDate = DateTime.Now;

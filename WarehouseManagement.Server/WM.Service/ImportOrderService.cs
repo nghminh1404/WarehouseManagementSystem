@@ -15,6 +15,8 @@ namespace WM.Service
     public interface IImportOrderService
     {
         UpdateImportOrderResponse UpdateOrder(ImportOrderDTO i);
+
+        int GetImportOrderNewest();
         List<ImportOrderDTO> GetAllImportOrder();
         ImportOrder? GetImportOrderById(int id);
         ImportOrder? GetImportOrderByOrderCode(string code);
@@ -62,6 +64,17 @@ namespace WM.Service
             {
                return new CreateImportOrderResponse { IsSuccess = false, Message = $"Tao don hang that bai \n + {e.Message}" };
              }
+           
+        }
+
+        public int GetImportOrderNewest()
+        {
+            var importOrderNewest = _context.ImportOrders.OrderByDescending(i => i.ImportId).FirstOrDefault();
+            if(importOrderNewest != null)
+            {
+                return importOrderNewest.ImportId;
+            }
+            return 0;
            
         }
 
@@ -153,7 +166,7 @@ namespace WM.Service
         {
             try
             {
-                var pageSize = 10;
+                var pageSize = 6;
                 if (page <= 0) page = 1;
                 var users = _context.ImportOrders
                     
@@ -165,7 +178,7 @@ namespace WM.Service
                                                       && (s.StatusId == status|| status == 0)
                                                       && (s.StorageId == storage || storage == 0)
                                                       && (s.ProjectId ==project || project == 0))
-                                                .OrderBy(s => s.UserId).OrderBy(s => s.StatusId)
+                                                
                                                 ;
                 var count = users.Count();
                 var importOrder = users.Select(i => new ImportOrderDTO
@@ -190,7 +203,7 @@ namespace WM.Service
                     DeliveryName = i.Delivery.DeliveryName,
                     Image = i.Image,
                     StorekeeperId = i.StorekeeperId,
-                   // StorekeeperName = i.User.FullName,
+                    StorekeeperName = i.User.FullName,
                     ImportOrderDetails = (List<ImportDetailDTO>)i.ImportOrderDetails
                         .Select(
                                 i => new ImportDetailDTO

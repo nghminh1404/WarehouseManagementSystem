@@ -164,7 +164,7 @@ function App() {
                                 <Row className="flex-nowrap">
                                     <Sidebar />
 
-                                    <Col className="py-3 background-primary">
+                                    <Col className="py-3 background-primary overflow-auto">
                                         <NavbarCom />
                                         <ImportOrderList />
                                     </Col>

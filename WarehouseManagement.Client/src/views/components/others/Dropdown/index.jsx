@@ -14,7 +14,7 @@ const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
             }}
             style={{
                 display: 'inline-block',
-                padding: '6px 12px',
+                padding: '5px 12px',
                 backgroundColor: '#24cbc7',
                 color: '#fff',
                 border: '1px solid #24cbc7',
